@@ -18,7 +18,7 @@
     </delete>
     <insert id="insert" parameterType="com.salary.model.ErrorRec">
         insert into error_rec (date, user_id, error_id,
-                               `before`, after, check_time,
+                               before, after, check_time,
                                error_flag)
         values (#{date,jdbcType=DATE}, #{userId,jdbcType=VARCHAR}, #{errorId,jdbcType=INTEGER},
                 #{before,jdbcType=DOUBLE}, #{after,jdbcType=DOUBLE}, #{checkTime,jdbcType=TIME},
@@ -27,7 +27,7 @@
     <update id="updateByPrimaryKey" parameterType="com.salary.model.ErrorRec">
         update error_rec
         set error_id   = #{errorId,jdbcType=INTEGER},
-            `before`     = #{before,jdbcType=DOUBLE},
+            before     = #{before,jdbcType=DOUBLE},
             after      = #{after,jdbcType=DOUBLE},
             check_time = #{checkTime,jdbcType=TIME},
             error_flag = #{errorFlag,jdbcType=INTEGER}
@@ -35,13 +35,13 @@
           and user_id = #{userId,jdbcType=VARCHAR}
     </update>
     <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
-        select date, user_id, error_id, `before`, after, check_time, error_flag
+        select date, user_id, error_id, before, after, check_time, error_flag
         from error_rec
         where date = #{date,jdbcType=DATE}
           and user_id = #{userId,jdbcType=VARCHAR}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
-        select date, user_id, error_id, `before`, after, check_time, error_flag
+        select date, user_id, error_id, before, after, check_time, error_flag
         from error_rec
     </select>
 </mapper>

@@ -5,11 +5,11 @@ import com.salary.model.Error;
 import java.util.List;
 
 public interface ErrorMapper {
-    int deleteByPrimaryKey(Integer errorId);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(Error record);
 
-    Error selectByPrimaryKey(Integer errorId);
+    Error selectByPrimaryKey(Integer id);
 
     List<Error> selectAll();
 

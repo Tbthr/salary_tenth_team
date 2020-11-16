@@ -2,45 +2,65 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.salary.mapper.UserMapper">
     <resultMap id="BaseResultMap" type="com.salary.model.User">
-        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="depart_id" jdbcType="VARCHAR" property="departId"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="phone" jdbcType="CHAR" property="phone"/>
         <result column="psd" jdbcType="VARCHAR" property="psd"/>
         <result column="work_year" jdbcType="INTEGER" property="workYear"/>
         <result column="user_flag" jdbcType="INTEGER" property="userFlag"/>
-        <result column="gender" jdbcType="VARCHAR" property="gender"/>
+        <result column="gender" jdbcType="CHAR" property="gender"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from user
-    where user_id = #{userId,jdbcType=VARCHAR}
-  </delete>
+        delete
+        from user
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
     <insert id="insert" parameterType="com.salary.model.User">
-    insert into user (user_id, depart_id, name, 
-      email, psd, work_year, 
-      user_flag, gender)
-    values (#{userId,jdbcType=VARCHAR}, #{departId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{psd,jdbcType=VARCHAR}, #{workYear,jdbcType=INTEGER}, 
-      #{userFlag,jdbcType=INTEGER}, #{gender,jdbcType=VARCHAR})
-  </insert>
+        insert into user (id, depart_id, name,
+                          email, phone, psd, work_year,
+                          user_flag, gender)
+        values (#{id,jdbcType=VARCHAR}, #{departId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+                #{email,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR}, #{psd,jdbcType=VARCHAR},
+                #{workYear,jdbcType=INTEGER},
+                #{userFlag,jdbcType=INTEGER}, #{gender,jdbcType=CHAR})
+    </insert>
     <update id="updateByPrimaryKey" parameterType="com.salary.model.User">
-    update user
-    set depart_id = #{departId,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      psd = #{psd,jdbcType=VARCHAR},
-      work_year = #{workYear,jdbcType=INTEGER},
-      user_flag = #{userFlag,jdbcType=INTEGER},
-      gender = #{gender,jdbcType=VARCHAR}
-    where user_id = #{userId,jdbcType=VARCHAR}
-  </update>
+        update user
+        set depart_id = #{departId,jdbcType=VARCHAR},
+            name      = #{name,jdbcType=VARCHAR},
+            email     = #{email,jdbcType=VARCHAR},
+            phone     = #{phone,jdbcType=CHAR},
+            psd       = #{psd,jdbcType=VARCHAR},
+            work_year = #{workYear,jdbcType=INTEGER},
+            user_flag = #{userFlag,jdbcType=INTEGER},
+            gender    = #{gender,jdbcType=CHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select user_id, depart_id, name, email, psd, work_year, user_flag, gender
-    from user
-    where user_id = #{userId,jdbcType=VARCHAR}
-  </select>
+        select id,
+               depart_id,
+               name,
+               email,
+               phone,
+               psd,
+               work_year,
+               user_flag,
+               gender
+        from user
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
     <select id="selectAll" resultMap="BaseResultMap">
-    select user_id, depart_id, name, email, psd, work_year, user_flag, gender
-    from user
-  </select>
+        select id,
+               depart_id,
+               name,
+               email,
+               phone,
+               psd,
+               work_year,
+               user_flag,
+               gender
+        from user
+    </select>
 </mapper>

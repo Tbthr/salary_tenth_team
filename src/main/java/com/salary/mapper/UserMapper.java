@@ -5,11 +5,11 @@ import com.salary.model.User;
 import java.util.List;
 
 public interface UserMapper {
-    int deleteByPrimaryKey(String userId);
+    int deleteByPrimaryKey(String id);
 
     int insert(User record);
 
-    User selectByPrimaryKey(String userId);
+    User selectByPrimaryKey(String id);
 
     List<User> selectAll();
 

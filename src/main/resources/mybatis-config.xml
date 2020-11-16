@@ -22,17 +22,17 @@
     </typeAliases>
 
     <!--插件配置-->
-    <plugins>
-        <!-- com.github.pagehelper为PageHelper类所在包名 -->
-        <plugin interceptor="com.github.pagehelper.PageInterceptor">
-            <!-- 使用下面的方式配置参数-->
-            <property name="helperDialect" value="mysql"/>
-            <property name="reasonable" value="true"/>
-            <property name="supportMethodsArguments" value="true"/>
-            <!--默认值为pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero-->
-            <!--<property name="params" value="pageNum=page;pageSize=rows;"/>-->
-        </plugin>
-    </plugins>
+<!--    <plugins>-->
+<!--        &lt;!&ndash; com.github.pagehelper为PageHelper类所在包名 &ndash;&gt;-->
+<!--        <plugin interceptor="com.github.pagehelper.PageInterceptor">-->
+<!--            &lt;!&ndash; 使用下面的方式配置参数&ndash;&gt;-->
+<!--            <property name="helperDialect" value="mysql"/>-->
+<!--            <property name="reasonable" value="true"/>-->
+<!--            <property name="supportMethodsArguments" value="true"/>-->
+<!--            &lt;!&ndash;默认值为pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero&ndash;&gt;-->
+<!--            &lt;!&ndash;<property name="params" value="pageNum=page;pageSize=rows;"/>&ndash;&gt;-->
+<!--        </plugin>-->
+<!--    </plugins>-->
 
     <!--多环境配置-->
     <environments default="development">

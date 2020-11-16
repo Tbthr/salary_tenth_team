@@ -3,8 +3,10 @@ package com.salary.model;
 import lombok.Data;
 
 @Data
-public class Error {
+public class Role {
     private Integer id;
 
-    private String errorItem;
+    private String name;
+
+    private String nameZh;
 }
