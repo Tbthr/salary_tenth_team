@@ -9,15 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
 
-    @RequestMapping("/test")
-    @PreAuthorize("hasPermission('/test','')")
-    public  String test(){
-        return "Yes,test";
+    @RequestMapping("/test1")
+    public  String test1(){
+        return "超级管理员";
     }
 
-    @RequestMapping("/test/error")
-    @PreAuthorize("hasPermission('/test/error','')")
-    public  String errortest(){
-        return "No,test";
+    @RequestMapping("/test2")
+    public  String test2(){
+        return "管理员";
+    }
+    @RequestMapping("/test3")
+    public  String test3(){
+        return "用户";
     }
 }

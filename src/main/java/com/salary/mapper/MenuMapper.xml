@@ -74,8 +74,8 @@
         from menu
     </select>
     <select id="selectRoleByMenu" resultType="com.salary.model.Role">
-        select id,name,nameZhc from role where id in(
-        select id from menu_role
+        select * from role where id in(
+        select role_id from menu_role
         where menu_id=#{Menuid,jdbcType=INTEGER}
         )
     </select>
