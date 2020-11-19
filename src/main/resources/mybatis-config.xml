@@ -49,7 +49,7 @@
     </environments>
 
     <!--将包内的映射器接口实现全部注册为映射器，需要配置文件名称和接口名称一致，并且位于同一目录下-->
-    <mappers>
-        <package name="com.salary.mapper"/>
-    </mappers>
+<!--    <mappers>-->
+<!--        <package name="com.salary.mapper"/>-->
+<!--    </mappers>-->
 </configuration>

@@ -1,7 +1,9 @@
 package com.salary.service;
 
+import com.salary.mapper.RoleMapper;
 import com.salary.mapper.UserMapper;
 import com.salary.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,8 +13,11 @@ import javax.annotation.Resource;
 
 @Service
 public class UserService implements UserDetailsService {
-    @Resource
+    @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
@@ -20,6 +25,9 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("工号不存在！");
         }
-        return user;
+        else{
+            user.setRoles(roleMapper.selectAllByUid(user.getId()));
+            return user;
+        }
     }
 }

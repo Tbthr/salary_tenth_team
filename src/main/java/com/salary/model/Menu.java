@@ -2,6 +2,8 @@ package com.salary.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Menu {
     private Integer id;
@@ -23,4 +25,5 @@ public class Menu {
     private Integer parentId;
 
     private Boolean enabled;
+
 }

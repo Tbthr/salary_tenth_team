@@ -5,7 +5,9 @@ import com.salary.model.Bill;
 import java.util.Date;
 import java.util.List;
 
+import lombok.Data;
 import org.apache.ibatis.annotations.Param;
+
 
 public interface BillMapper {
     int deleteByPrimaryKey(@Param("date") Date date, @Param("userId") String userId);

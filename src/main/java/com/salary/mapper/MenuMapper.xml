@@ -68,4 +68,15 @@
                enabled
         from menu
     </select>
+    <select id="selectMenubyRole" resultType="com.salary.model.Menu">
+        select id,url,path,component,name,icon_cls,
+        keep_alive,require_auth,parent_id,enabled
+        from menu
+    </select>
+    <select id="selectRoleByMenu" resultType="com.salary.model.Role">
+        select id,name,nameZhc from role where id in(
+        select id from menu_role
+        where menu_id=#{Menuid,jdbcType=INTEGER}
+        )
+    </select>
 </mapper>
