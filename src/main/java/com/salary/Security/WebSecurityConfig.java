@@ -8,12 +8,22 @@ import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -31,12 +41,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private MySecurityMetadataSource mySecurityMetadataSource;
     @Autowired
     private MyAccessDeniedHandler myAccessDeniedHandler;
-
+    @Autowired
+    private TokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
                 .passwordEncoder(new BCryptPasswordEncoder());
+    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/forget","/sendmail");
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -50,9 +65,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     }
                 })
                 // 如果有允许匿名的url，填在下面
-//                .antMatchers().permitAll()
+//                .antMatchers("/forget","/sendmail").permitAll()//允许所有人
                 .anyRequest().authenticated()
                 .and()
+                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .httpBasic().and()//认证
                 // 设置登陆页
                 .formLogin()
 //                .loginPage("/login")
@@ -64,6 +81,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 自定义登陆用户名和密码参数，默认为username和password
                 .usernameParameter("id")
                 .passwordParameter("psd")
+                .and()//跨域
+                .cors()
                 .and()
                 .logout().permitAll();
 
@@ -77,5 +96,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        handler.setPermissionEvaluator(new UserPermissionEvaluator());
 //        return handler;
 //    }
-
+        @Bean
+        CorsConfigurationSource corsConfigurationSource(){
+            return httpServletRequest -> {
+                CorsConfiguration cfg = new CorsConfiguration();
+                cfg.addAllowedHeader("*");
+                cfg.addAllowedMethod("*");
+                cfg.addAllowedOrigin("http://localhost:8081");
+                cfg.setAllowCredentials(true);
+                cfg.checkOrigin("http://localhost:8081");
+                return cfg;
+            };
+        }
 }

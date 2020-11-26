@@ -30,4 +30,9 @@ public class UserService implements UserDetailsService {
             return user;
         }
     }
+
+    public String getmailaddress(String id){
+        User user = userMapper.selectByPrimaryKey(id);
+        return user.getEmail();
+    }
 }

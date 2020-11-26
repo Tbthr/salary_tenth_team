@@ -23,4 +23,10 @@ public interface MenuMapper {
 
     @Select("select * from menu where id in(select menu_id from menu_role where role_id = #{id} )")
     List<Menu> selectallbyrid(Integer id);
+
+    @Select("select * from menu where id in(select menu_id from menu_role where role_id = #{id} and parent_id=1)")
+    List<Menu> selectmainbyrid(Integer id);
+
+    @Select("select * from menu where parent_id=#{id}")
+    List<Menu> selectMenubypid(Integer id);
 }
