@@ -10,6 +10,7 @@ public class ApiResult {
     private Integer code;
     private String msg;
     private Object data;
+    private String token;
 
     private ApiResult() {}
 

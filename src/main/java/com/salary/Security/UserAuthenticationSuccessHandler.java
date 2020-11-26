@@ -1,8 +1,11 @@
 package com.salary.Security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.salary.mapper.DepartmentMapper;
+import com.salary.model.Department;
 import com.salary.model.User;
 import com.salary.service.UserService;
+import com.salary.service.indexService;
 import com.salary.util.JWTtoken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,6 +23,10 @@ import java.io.PrintWriter;
 public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Autowired
     UserService userService;
+    @Autowired
+    indexService indexService;
+    @Autowired
+    DepartmentMapper departmentMapper;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
@@ -27,26 +34,23 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         PrintWriter out = httpServletResponse.getWriter();
         //获取token
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Department department = departmentMapper.selectByPrimaryKey(user.getDepartId());
         String token = JWTtoken.setToken(user.getId());
-//        String s ="登录成功";
-//        Msgformat msgformat = new Msgformat(200,s,null);
-//        out.write(msgformat.toString());
-        String s ="{" +
-                "    \"data\": {" +
-                "        \"id\": 500," +
-                "        \"rid\": 0," +
-                "        \"userid\": \"2018110420\"," +
-                "        \"password\": \"123456\"," +
-                "        \"username\": \"廖晨玥\"," +
-                "        \"department\": \"计算机科学学院\"," +
-                "        \"email\": \"123@qq.com\"," +
-                "        \"token\": \""+token+"\""+
-                "    }," +
-                "    \"meta\": {" +
-                "        \"msg\": \"登录成功\"," +
-                "        \"code\": 200" +
-                "    }" +
-                "}";
+        String s ="{\n" +
+                "    \"data\": {\n" +
+                "        \"id\":\""+user.getId()+"\",\n" +
+                "        \"name\": \""+user.getName()+"\",\n" +
+                "        \"depart_id\": \""+department.getId()+"\",\n" +
+                "        \"email\": \""+user.getEmail()+"\",\n" +
+                "        \"gender\":\""+user.getGender()+"\",\n" +
+                "        \"work_year\":"+user.getWorkYear()+"\n" +
+                "    },\n" +
+                "    \"msg\": \"登录成功\",\n" +
+                "    \"code\": 200,\n" +
+                "    \"token\": \""+token+"\",\n" +
+                "    \"index\":";
+        String menuSet = indexService.getall(user.getId());
+        s+=menuSet+"}";
         out.write(s);
         out.flush();
         out.close();

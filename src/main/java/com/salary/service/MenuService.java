@@ -3,12 +3,9 @@ package com.salary.service;
 import com.salary.mapper.MenuMapper;
 import com.salary.model.Menu;
 import com.salary.model.Role;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.management.relation.Relation;
 import java.util.List;
 
 @Service

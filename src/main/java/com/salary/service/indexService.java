@@ -2,12 +2,9 @@ package com.salary.service;
 
 import com.salary.mapper.MenuMapper;
 import com.salary.mapper.RoleMapper;
-import com.salary.mapper.UserMapper;
 import com.salary.model.Menu;
 import com.salary.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

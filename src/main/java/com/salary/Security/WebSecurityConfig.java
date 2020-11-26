@@ -102,9 +102,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 CorsConfiguration cfg = new CorsConfiguration();
                 cfg.addAllowedHeader("*");
                 cfg.addAllowedMethod("*");
-                cfg.addAllowedOrigin("http://localhost:8081");
+                cfg.addAllowedOrigin("http://localhost:8080");
                 cfg.setAllowCredentials(true);
-                cfg.checkOrigin("http://localhost:8081");
+                cfg.checkOrigin("http://localhost:8080");
                 return cfg;
             };
         }

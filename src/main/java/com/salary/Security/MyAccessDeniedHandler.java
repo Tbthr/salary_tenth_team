@@ -21,6 +21,12 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        String s ="{\n" +
+                "    \"msg\": \"没有权限\",\n" +
+                "    \"code\": 403,\n" +
+                "    \"data\":null\n" +
+                "}";
+        out.write(s);
         out.flush();
         out.close();
     }

@@ -1,79 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.salary.mapper.MenuMapper">
-    <resultMap id="BaseResultMap" type="com.salary.model.Menu">
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="url" jdbcType="VARCHAR" property="url"/>
-        <result column="path" jdbcType="VARCHAR" property="path"/>
-        <result column="component" jdbcType="VARCHAR" property="component"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="icon_cls" jdbcType="VARCHAR" property="iconCls"/>
-        <result column="keep_alive" jdbcType="BIT" property="keepAlive"/>
-        <result column="require_auth" jdbcType="BIT" property="requireAuth"/>
-        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
-        <result column="enabled" jdbcType="BIT" property="enabled"/>
-    </resultMap>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete
-        from menu
-        where id = #{id,jdbcType=INTEGER}
-    </delete>
-    <insert id="insert" parameterType="com.salary.model.Menu">
-        insert into menu (id, url, path,
-                          component, name, icon_cls,
-                          keep_alive, require_auth, parent_id,
-                          enabled)
-        values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR},
-                #{component,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{iconCls,jdbcType=VARCHAR},
-                #{keepAlive,jdbcType=BIT}, #{requireAuth,jdbcType=BIT}, #{parentId,jdbcType=INTEGER},
-                #{enabled,jdbcType=BIT})
-    </insert>
-    <update id="updateByPrimaryKey" parameterType="com.salary.model.Menu">
-        update menu
-        set url          = #{url,jdbcType=VARCHAR},
-            path         = #{path,jdbcType=VARCHAR},
-            component    = #{component,jdbcType=VARCHAR},
-            name         = #{name,jdbcType=VARCHAR},
-            icon_cls     = #{iconCls,jdbcType=VARCHAR},
-            keep_alive   = #{keepAlive,jdbcType=BIT},
-            require_auth = #{requireAuth,jdbcType=BIT},
-            parent_id    = #{parentId,jdbcType=INTEGER},
-            enabled      = #{enabled,jdbcType=BIT}
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select id,
-               url,
-               path,
-               component,
-               name,
-               icon_cls,
-               keep_alive,
-               require_auth,
-               parent_id,
-               enabled
-        from menu
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <select id="selectAll" resultMap="BaseResultMap">
-        select id,
-               url,
-               path,
-               component,
-               name,
-               icon_cls,
-               keep_alive,
-               require_auth,
-               parent_id,
-               enabled
+  <resultMap id="BaseResultMap" type="com.salary.model.Menu">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="enabled" jdbcType="BIT" property="enabled" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from menu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.salary.model.Menu">
+    insert into menu (id, url, path, 
+      name, parent_id, enabled
+      )
+    values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{enabled,jdbcType=BIT}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.salary.model.Menu">
+    update menu
+    set url = #{url,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      enabled = #{enabled,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, url, path, name, parent_id, enabled
+    from menu
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+        select id, url, path, name, parent_id, enabled
         from menu order by url desc
     </select>
-    <select id="selectMenubyRole" resultType="com.salary.model.Menu">
+  <select id="selectMenubyRole" resultType="com.salary.model.Menu">
         select id,url,path,component,name,icon_cls,
         keep_alive,require_auth,parent_id,enabled
         from menu order by url desc
     </select>
-    <select id="selectRoleByMenu" resultType="com.salary.model.Role">
+  <select id="selectRoleByMenu" resultType="com.salary.model.Role">
         select * from role where id in(
         select role_id from menu_role
         where menu_id=#{Menuid,jdbcType=INTEGER}

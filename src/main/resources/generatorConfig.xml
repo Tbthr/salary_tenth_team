@@ -48,8 +48,8 @@
 <!--        <table schema="salary" tableName="department" domainObjectName="Department"/>-->
 <!--        <table schema="salary" tableName="error" domainObjectName="Error"/>-->
 <!--        <table schema="salary" tableName="error_rec" domainObjectName="ErrorRec"/>-->
-<!--        <table schema="salary" tableName="menu" domainObjectName="Menu"/>-->
+        <table schema="salary" tableName="menu" domainObjectName="Menu"/>
 <!--        <table schema="salary" tableName="role" domainObjectName="Role"/>-->
-        <table schema="salary" tableName="_user" domainObjectName="User"/>
+<!--        <table schema="salary" tableName="_user" domainObjectName="User"/>-->
     </context>
 </generatorConfiguration>
