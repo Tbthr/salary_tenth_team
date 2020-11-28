@@ -1,6 +1,6 @@
 package com.salary.mapper;
 
-import com.salary.model.Bill;
+import com.salary.model.Confirm;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,14 +8,14 @@ import java.util.Date;
 import java.util.List;
 
 @Transactional
-public interface BillMapper {
+public interface ConfirmMapper {
     int deleteByPrimaryKey(@Param("date") Date date, @Param("userId") String userId);
 
-    int insert(Bill record);
+    int insert(Confirm record);
 
-    Bill selectByPrimaryKey(@Param("date") Date date, @Param("userId") String userId);
+    Confirm selectByPrimaryKey(@Param("date") Date date, @Param("userId") String userId);
 
-    List<Bill> selectAll();
+    List<Confirm> selectAll();
 
-    int updateByPrimaryKey(Bill record);
+    int updateByPrimaryKey(Confirm record);
 }

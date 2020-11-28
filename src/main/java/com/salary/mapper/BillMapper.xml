@@ -4,18 +4,8 @@
     <resultMap id="BaseResultMap" type="com.salary.model.Bill">
         <id column="date" jdbcType="DATE" property="date"/>
         <id column="user_id" jdbcType="VARCHAR" property="userId"/>
-        <result column="basic_pay" jdbcType="DOUBLE" property="basicPay"/>
-        <result column="position_pay" jdbcType="DOUBLE" property="positionPay"/>
-        <result column="seniority_pay" jdbcType="DOUBLE" property="seniorityPay"/>
-        <result column="traffic_allowance" jdbcType="DOUBLE" property="trafficAllowance"/>
-        <result column="other_allowance" jdbcType="DOUBLE" property="otherAllowance"/>
-        <result column="FIOF" jdbcType="DOUBLE" property="fiof"/>
-        <result column="should_pay" jdbcType="DOUBLE" property="shouldPay"/>
-        <result column="other_cutpay" jdbcType="DOUBLE" property="otherCutpay"/>
-        <result column="tax" jdbcType="DOUBLE" property="tax"/>
-        <result column="pay" jdbcType="DOUBLE" property="pay"/>
-        <result column="confirm_date" jdbcType="DATE" property="confirmDate"/>
-        <result column="confirm_flag" jdbcType="INTEGER" property="confirmFlag"/>
+        <result column="item_id" jdbcType="INTEGER" property="itemId"/>
+        <result column="money" jdbcType="INTEGER" property="money"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="map">
         delete
@@ -24,68 +14,26 @@
           and user_id = #{userId,jdbcType=VARCHAR}
     </delete>
     <insert id="insert" parameterType="com.salary.model.Bill">
-        insert into bill (date, user_id, basic_pay,
-                          position_pay, seniority_pay, traffic_allowance,
-                          other_allowance, fiof, should_pay,
-                          other_cutpay, tax, pay,
-                          confirm_date, confirm_flag)
-        values (#{date,jdbcType=DATE}, #{userId,jdbcType=VARCHAR}, #{basicPay,jdbcType=DOUBLE},
-                #{positionPay,jdbcType=DOUBLE}, #{seniorityPay,jdbcType=DOUBLE}, #{trafficAllowance,jdbcType=DOUBLE},
-                #{otherAllowance,jdbcType=DOUBLE}, #{fiof,jdbcType=DOUBLE}, #{shouldPay,jdbcType=DOUBLE},
-                #{otherCutpay,jdbcType=DOUBLE}, #{tax,jdbcType=DOUBLE}, #{pay,jdbcType=DOUBLE},
-                #{confirmDate,jdbcType=DATE}, #{confirmFlag,jdbcType=INTEGER})
+        insert into bill (date, user_id, item_id,
+                          money)
+        values (#{date,jdbcType=DATE}, #{userId,jdbcType=VARCHAR}, #{itemId,jdbcType=INTEGER},
+                #{money,jdbcType=INTEGER})
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.salary.model.Bill">
         update bill
-        set basic_pay         = #{basicPay,jdbcType=DOUBLE},
-            position_pay      = #{positionPay,jdbcType=DOUBLE},
-            seniority_pay     = #{seniorityPay,jdbcType=DOUBLE},
-            traffic_allowance = #{trafficAllowance,jdbcType=DOUBLE},
-            other_allowance   = #{otherAllowance,jdbcType=DOUBLE},
-            fiof              = #{fiof,jdbcType=DOUBLE},
-            should_pay        = #{shouldPay,jdbcType=DOUBLE},
-            other_cutpay      = #{otherCutpay,jdbcType=DOUBLE},
-            tax               = #{tax,jdbcType=DOUBLE},
-            pay               = #{pay,jdbcType=DOUBLE},
-            confirm_date      = #{confirmDate,jdbcType=DATE},
-            confirm_flag      = #{confirmFlag,jdbcType=INTEGER}
+        set item_id = #{itemId,jdbcType=INTEGER},
+            money   = #{money,jdbcType=INTEGER}
         where date = #{date,jdbcType=DATE}
           and user_id = #{userId,jdbcType=VARCHAR}
     </update>
     <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
-        select date,
-               user_id,
-               basic_pay,
-               position_pay,
-               seniority_pay,
-               traffic_allowance,
-               other_allowance,
-               fiof,
-               should_pay,
-               other_cutpay,
-               tax,
-               pay,
-               confirm_date,
-               confirm_flag
+        select date, user_id, item_id, money
         from bill
         where date = #{date,jdbcType=DATE}
           and user_id = #{userId,jdbcType=VARCHAR}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
-        select date,
-               user_id,
-               basic_pay,
-               position_pay,
-               seniority_pay,
-               traffic_allowance,
-               other_allowance,
-               fiof,
-               should_pay,
-               other_cutpay,
-               tax,
-               pay,
-               confirm_date,
-               confirm_flag
+        select date, user_id, item_id, money
         from bill
     </select>
 </mapper>

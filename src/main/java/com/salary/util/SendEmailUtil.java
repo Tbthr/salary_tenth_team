@@ -9,17 +9,13 @@ import java.security.GeneralSecurityException;
 import java.util.Properties;
 import java.util.Random;
 
-public class SendEmailUtil{
+public class SendEmailUtil {
     public static String send(String addr) throws MessagingException, GeneralSecurityException {
         //创建一个配置文件并保存
-
         Properties properties = new Properties();
-        properties.setProperty("mail.host","smtp.qq.com");
-
-        properties.setProperty("mail.transport.protocol","smtp");
-
-        properties.setProperty("mail.smtp.auth","true");
-
+        properties.setProperty("mail.host", "smtp.qq.com");
+        properties.setProperty("mail.transport.protocol", "smtp");
+        properties.setProperty("mail.smtp.auth", "true");
 
         //QQ存在一个特性设置SSL加密
         MailSSLSocketFactory sf = new MailSSLSocketFactory();
@@ -31,7 +27,7 @@ public class SendEmailUtil{
         Session session = Session.getDefaultInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("1976907019@qq.com","hfojplngsmgndhea");
+                return new PasswordAuthentication("1976907019@qq.com", "hfojplngsmgndhea");
             }
         });
 
@@ -42,7 +38,7 @@ public class SendEmailUtil{
         Transport transport = session.getTransport();
 
         //连接服务器
-        transport.connect("smtp.qq.com","1965907019@qq.com","hfojplngsmgndhea");
+        transport.connect("smtp.qq.com", "1965907019@qq.com", "hfojplngsmgndhea");
 
         //创建邮件对象
         MimeMessage mimeMessage = new MimeMessage(session);
@@ -51,32 +47,31 @@ public class SendEmailUtil{
         mimeMessage.setFrom(new InternetAddress("1965907019@qq.com"));
 
         //邮件接收人
-        mimeMessage.setRecipient(Message.RecipientType.TO,new InternetAddress(addr));
+        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(addr));
 
         //邮件标题
         mimeMessage.setSubject("工资管理系统");
         //邮件内容
         String code = getcode();
-        String mes = "您的验证码是："+code+"。请于10分钟内填写。如非本人操作，请忽略本条邮件！";
-        mimeMessage.setContent(mes,"text/html;charset=UTF-8");
+        String mes = "您的验证码是：" + code + "。请于10分钟内填写。如非本人操作，请忽略本条邮件！";
+        mimeMessage.setContent(mes, "text/html;charset=UTF-8");
 
         //发送邮件
-        transport.sendMessage(mimeMessage,mimeMessage.getAllRecipients());
+        transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
 
         //关闭连接
         transport.close();
         return code;
     }
 
-    private static String getcode(){
+    private static String getcode() {
         Random random = new Random(System.currentTimeMillis());
         String s = "123TMXCVBNt4sdfASDFGHJyug56kYU7iOPKLopwcvbnm678zxQW3Z2l7890erjIah18ER1290q34545690";
-        String code = "";
-        for(int i=0; i<6;i++){
+        StringBuilder code = new StringBuilder();
+        for (int i = 0; i < 6; i++) {
             int p = random.nextInt(72);
-            System.out.println(p);
-            code+=s.charAt(p);
+            code.append(s.charAt(p));
         }
-        return code;
+        return code.toString();
     }
 }

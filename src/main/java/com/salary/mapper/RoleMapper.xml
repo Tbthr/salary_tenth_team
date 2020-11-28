@@ -26,6 +26,15 @@
         from role
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="selectRoleByMenuId" resultType="com.salary.model.Role">
+        select *
+        from role
+        where id in (
+            select role_id
+            from menu_role
+            where menu_id = #{Menuid,jdbcType=INTEGER}
+        )
+    </select>
     <select id="selectAll" resultMap="BaseResultMap">
         select id, name, nameZh
         from role

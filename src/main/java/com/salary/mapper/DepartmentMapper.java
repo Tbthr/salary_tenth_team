@@ -1,9 +1,11 @@
 package com.salary.mapper;
 
 import com.salary.model.Department;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 public interface DepartmentMapper {
     int deleteByPrimaryKey(String id);
 

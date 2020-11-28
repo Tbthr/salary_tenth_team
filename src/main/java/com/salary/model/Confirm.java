@@ -5,12 +5,12 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Bill {
+public class Confirm {
     private Date date;
 
     private String userId;
 
-    private Integer itemId;
+    private Date confirmDate;
 
-    private Integer money;
+    private Integer confirmFlag;
 }

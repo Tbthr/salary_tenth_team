@@ -15,6 +15,8 @@ public class User implements UserDetails {
 
     private String departId;
 
+    private String position;
+
     private String name;
 
     private String email;
@@ -29,12 +31,14 @@ public class User implements UserDetails {
 
     private String gender;
 
+    private Department department;
+
     private List<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if(roles == null){
+        if (roles == null) {
             return null;
         }
         for (Role role : roles) {

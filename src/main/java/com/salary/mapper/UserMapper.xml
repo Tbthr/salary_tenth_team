@@ -2,15 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.salary.mapper.UserMapper">
     <resultMap id="BaseResultMap" type="com.salary.model.User">
-        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <id column="uid" jdbcType="VARCHAR" property="id"/>
+        <result column="did" property="departId"/>
         <result column="depart_id" jdbcType="VARCHAR" property="departId"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="position" jdbcType="VARCHAR" property="position"/>
+        <result column="uname" jdbcType="VARCHAR" property="name"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="phone" jdbcType="CHAR" property="phone"/>
         <result column="psd" jdbcType="VARCHAR" property="psd"/>
         <result column="work_year" jdbcType="INTEGER" property="workYear"/>
         <result column="user_flag" jdbcType="INTEGER" property="userFlag"/>
         <result column="gender" jdbcType="CHAR" property="gender"/>
+        <association property="department" javaType="department">
+            <id column="did" property="id"/>
+            <result column="depart_name" property="departName"/>
+        </association>
+        <collection property="roles" ofType="Role">
+            <id column="rid" property="id"/>
+            <result column="rname" property="name"/>
+            <result column="rnameZh" property="nameZh"/>
+        </collection>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete
@@ -18,10 +29,11 @@
         where id = #{id,jdbcType=VARCHAR}
     </delete>
     <insert id="insert" parameterType="com.salary.model.User">
-        insert into user (id, depart_id, name,
+        insert into user (id, depart_id, position, name,
                           email, phone, psd, work_year,
                           user_flag, gender)
-        values (#{id,jdbcType=VARCHAR}, #{departId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+        values (#{id,jdbcType=VARCHAR}, #{departId,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR},
+                #{name,jdbcType=VARCHAR},
                 #{email,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR}, #{psd,jdbcType=VARCHAR},
                 #{workYear,jdbcType=INTEGER},
                 #{userFlag,jdbcType=INTEGER}, #{gender,jdbcType=CHAR})
@@ -29,6 +41,7 @@
     <update id="updateByPrimaryKey" parameterType="com.salary.model.User">
         update user
         set depart_id = #{departId,jdbcType=VARCHAR},
+            position  = #{position,jdbcType=VARCHAR},
             name      = #{name,jdbcType=VARCHAR},
             email     = #{email,jdbcType=VARCHAR},
             phone     = #{phone,jdbcType=CHAR},
@@ -39,28 +52,50 @@
         where id = #{id,jdbcType=VARCHAR}
     </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select id,
-               depart_id,
-               name,
+        select u.id     uid,
+               d.id     did,
+               depart_name,
+               r.id     rid,
+               r.name   rname,
+               r.nameZh rnameZh,
+               position,
+               u.name uname,
                email,
                phone,
                psd,
                work_year,
                user_flag,
                gender
-        from user
-        where id = #{id,jdbcType=VARCHAR}
+        from user u,
+             department d,
+             user_role ur,
+             role r
+        where u.id = #{id,jdbcType=VARCHAR}
+          and u.depart_id = d.id
+          and u.id = ur.user_id
+          and ur.role_id = r.id
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
-        select id,
-               depart_id,
-               name,
+        select u.id     uid,
+               d.id     did,
+               depart_name,
+               r.id     rid,
+               r.name   rname,
+               r.nameZh rnameZh,
+               position,
+               u.name uname,
                email,
                phone,
                psd,
                work_year,
                user_flag,
                gender
-        from user
+        from user u,
+             department d,
+             user_role ur,
+             role r
+        where u.depart_id = d.id
+          and u.id = ur.user_id
+          and ur.role_id = r.id
     </select>
 </mapper>

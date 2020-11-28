@@ -1,9 +1,9 @@
-package com.salary.Security;
+package com.salary.security;
 
 import com.salary.mapper.MenuMapper;
+import com.salary.mapper.RoleMapper;
 import com.salary.model.Menu;
 import com.salary.model.Role;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -11,14 +11,17 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 
 @Component
 public class MySecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
-    @Autowired
+    @Resource
     private MenuMapper menuMapper;
-    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+    @Resource
+    private RoleMapper roleMapper;
+    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
 
     @Override
@@ -28,10 +31,10 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
         //获取当前请求需要的角色信息，拿url去menu表中匹配，查看是访问的那个menu下的资源，根据menuId 获取到role信息
         List<Menu> menuList = menuMapper.selectAll();
         for (Menu menu : menuList) {
+            List<Role> roles = roleMapper.selectRoleByMenuId(menu.getId());
+            int size = roles.size();
             //如果请求的路径包含在某个menu的url中，且能访问该资源的角色信息存在
-            if (antPathMatcher.match(menu.getUrl(),requestUrl) && menuMapper.selectRoleByMenu(menu.getId()).size() > 0) {
-                List<Role> roles = menuMapper.selectRoleByMenu(menu.getId());
-                int size = roles.size();
+            if (antPathMatcher.match(menu.getUrl(), requestUrl) && size > 0) {
                 //定义一个数组，来接收能访问该资源的角色
                 String[] roleNameArray = new String[size];
                 for (int i = 0; i < size; i++) {

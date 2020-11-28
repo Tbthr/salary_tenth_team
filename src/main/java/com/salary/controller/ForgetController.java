@@ -21,36 +21,37 @@ public class ForgetController {
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
-    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     private String code;
+
     @RequestMapping("/sendmail")
-    public Object sendtomail(@RequestBody HashMap<String,Object> map) throws GeneralSecurityException, MessagingException {
-        String id = (String ) map.get("id");
-        String mail = userService.getmailaddress(id);
-        if(mail==null){
+    public Object sendtomail(@RequestBody HashMap<String, Object> map) throws GeneralSecurityException, MessagingException {
+        String id = (String) map.get("id");
+        String mail = userService.getMailAddress(id);
+        if (mail == null) {
             return ApiResult.builder().code(500).msg("用户不存在").data(null).build();
         }
         code = SendEmailUtil.send(mail);
         return ApiResult.builder().code(200).msg("验证码发送成功").data(null).build();
     }
+
     @RequestMapping("/forget")
-    public Object forget(@RequestBody HashMap<String ,Object> map){
-        code="1234";
+    public Object forget(@RequestBody HashMap<String, Object> map) {
+        code = "1234";
         String id = (String) map.get("id");
         String psd = (String) map.get("psd");
         psd = bCryptPasswordEncoder.encode(psd);
         String usercode = (String) map.get("con");
-        if(usercode.equals(code)){
-            if(userMapper.selectByPrimaryKey(id)==null){
+        if (usercode.equals(code)) {
+            if (userMapper.selectByPrimaryKey(id) == null) {
                 return ApiResult.builder().code(500).msg("用户不存在").data(null).build();
-            }else {
-                userMapper.updatePsdbyId(id,psd);
+            } else {
+                userMapper.updatePsdbyId(id, psd);
                 return ApiResult.builder().code(200).msg("更改成功").data(null).build();
             }
-        }
-        else{
+        } else {
             return ApiResult.builder().code(500).msg("验证码错误").data(null).build();
         }
-
     }
 }

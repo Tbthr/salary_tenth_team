@@ -1,12 +1,13 @@
 package com.salary.mapper;
 
 import com.salary.model.ErrorRec;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
+@Transactional
 public interface ErrorRecMapper {
     int deleteByPrimaryKey(@Param("date") Date date, @Param("userId") String userId);
 
