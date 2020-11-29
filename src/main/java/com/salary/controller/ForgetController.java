@@ -5,28 +5,28 @@ import com.salary.mapper.UserMapper;
 import com.salary.service.UserService;
 import com.salary.util.ApiResult;
 import com.salary.util.SendEmailUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
 
 @RestController
 public class ForgetController {
-    @Autowired
+    @Resource
     private UserService userService;
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     private String code;
 
-    @RequestMapping("/sendmail")
-    public Object sendtomail(@RequestBody HashMap<String, Object> map) throws GeneralSecurityException, MessagingException {
+    @RequestMapping("/sendMail")
+    public Object sendMail(@RequestBody HashMap<String, Object> map) throws GeneralSecurityException, MessagingException {
         String id = (String) map.get("id");
         String mail = userService.getMailAddress(id);
         if (mail == null) {
