@@ -20,6 +20,6 @@ public interface RoleMapper {
 
     List<Role> selectRoleByMenuId(Integer MenuId);
 
-    @Select("select * from role where name =#{name}")
+    @Select("select * from role where name = #{name}")
     Role selectByName(String name);
 }

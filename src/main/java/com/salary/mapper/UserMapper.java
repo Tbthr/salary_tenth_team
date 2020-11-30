@@ -1,9 +1,12 @@
 package com.salary.mapper;
 
 import com.salary.model.User;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Transactional
@@ -16,8 +19,11 @@ public interface UserMapper {
 
     List<User> selectAll();
 
-    int updateByPrimaryKey(User record);
+    int updateByPrimaryKey(HashMap<String, Object> map);
 
-    @Select("update user set psd=#{psd} where id = #{id}")
-    void updatePsdbyId(String id, String psd);
+    @Select("update user set psd = #{psd} where id = #{id}")
+    void updatePsdById(String id, String psd);
+
+    @Insert("insert into user_role(user_id, role_id) values(#{userId}, #{RoleId})")
+    int addRoleToUser(@Param("userId") String userId, @Param("RoleId") Integer RoleId);
 }

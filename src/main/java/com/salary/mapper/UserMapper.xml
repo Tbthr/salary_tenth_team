@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.salary.mapper.UserMapper">
+    <sql id="IF">
+        <if test="departId != null">
+            depart_id = #{departId,jdbcType=VARCHAR},
+        </if>
+        <if test="position != null">
+            position = #{position,jdbcType=VARCHAR},
+        </if>
+        <if test="name != null">
+            name = #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="age != null">
+            age = #{age,jdbcType=VARCHAR},
+        </if>
+        <if test="idCard != null">
+            id_card = #{idCard,jdbcType=VARCHAR},
+        </if>
+        <if test="email != null">
+            email = #{email,jdbcType=VARCHAR},
+        </if>
+        <if test="phone != null">
+            phone = #{phone,jdbcType=CHAR},
+        </if>
+        <if test="psd != null">
+            psd = #{psd,jdbcType=VARCHAR},
+        </if>
+        <if test="workYear != null">
+            work_year = #{workYear,jdbcType=INTEGER},
+        </if>
+        <if test="userFlag != null">
+            user_flag = #{userFlag,jdbcType=INTEGER},
+        </if>
+        <if test="gender != null">
+            gender = #{gender,jdbcType=CHAR}
+        </if>
+    </sql>
     <resultMap id="BaseResultMap" type="com.salary.model.User">
         <id column="uid" jdbcType="VARCHAR" property="id"/>
         <result column="did" property="departId"/>
@@ -13,10 +48,12 @@
         <result column="work_year" jdbcType="INTEGER" property="workYear"/>
         <result column="user_flag" jdbcType="INTEGER" property="userFlag"/>
         <result column="gender" jdbcType="CHAR" property="gender"/>
+        <!--部门-->
         <association property="department" javaType="department">
             <id column="did" property="id"/>
             <result column="depart_name" property="departName"/>
         </association>
+        <!--角色列表-->
         <collection property="roles" ofType="Role">
             <id column="rid" property="id"/>
             <result column="rname" property="name"/>
@@ -29,26 +66,20 @@
         where id = #{id,jdbcType=VARCHAR}
     </delete>
     <insert id="insert" parameterType="com.salary.model.User">
-        insert into user (id, depart_id, position, name,
+        insert into user (id, depart_id, position, name, age, id_card,
                           email, phone, psd, work_year,
                           user_flag, gender)
         values (#{id,jdbcType=VARCHAR}, #{departId,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR},
-                #{name,jdbcType=VARCHAR},
+                #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{idCard,jdbcType=VARCHAR},
                 #{email,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR}, #{psd,jdbcType=VARCHAR},
                 #{workYear,jdbcType=INTEGER},
                 #{userFlag,jdbcType=INTEGER}, #{gender,jdbcType=CHAR})
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.salary.model.User">
         update user
-        set depart_id = #{departId,jdbcType=VARCHAR},
-            position  = #{position,jdbcType=VARCHAR},
-            name      = #{name,jdbcType=VARCHAR},
-            email     = #{email,jdbcType=VARCHAR},
-            phone     = #{phone,jdbcType=CHAR},
-            psd       = #{psd,jdbcType=VARCHAR},
-            work_year = #{workYear,jdbcType=INTEGER},
-            user_flag = #{userFlag,jdbcType=INTEGER},
-            gender    = #{gender,jdbcType=CHAR}
+        <trim prefix="set" suffixOverrides=",">
+            <include refid="IF"></include>
+        </trim>
         where id = #{id,jdbcType=VARCHAR}
     </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -60,6 +91,8 @@
                r.nameZh rnameZh,
                position,
                u.name   uname,
+               age,
+               id_card,
                email,
                phone,
                psd,
@@ -84,6 +117,8 @@
                r.nameZh rnameZh,
                position,
                u.name   uname,
+               age,
+               id_card,
                email,
                phone,
                psd,

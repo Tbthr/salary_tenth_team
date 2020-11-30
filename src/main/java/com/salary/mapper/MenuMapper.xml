@@ -80,5 +80,6 @@
                   where ur.user_id = #{id,jdbcType=VARCHAR}
                     and ur.role_id = mr.role_id
               )
+        order by m1.id, m2.id
     </select>
 </mapper>

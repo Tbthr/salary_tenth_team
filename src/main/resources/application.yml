@@ -3,9 +3,12 @@ server:
   servlet:
     context-path: /salary
 
-spring.main.allow-bean-definition-overriding: true
 # 解决多个项目部署在tomcat报错：javax.management.InstanceAlreadyExistsException:com.zaxxer.hikari:name=mallDataSource
+spring.main.allow-bean-definition-overriding: true
+
 spring:
+  freemarker:
+    checkTemplateLocation: false # 关闭template目录的检查
   profiles:
     active: prod # 生产环境
   jmx:

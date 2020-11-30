@@ -33,14 +33,13 @@ public class JWTtoken implements Serializable {
      */
     public static String setToken(String id) {
         // 登陆成功生成token
-        String token = Jwts.builder()
+        return Jwts.builder()
                 // 主题 放入用户名
                 .claim("id", id)
                 // 失效时间
                 .setExpiration(new Date(System.currentTimeMillis() + 3600 * 12 * 1000))
                 // 签名算法和密钥
                 .signWith(SignatureAlgorithm.HS512, JWT_SIGN_KEY).compact();
-        return token;
     }
 
     public static void main(String[] args) throws Exception {

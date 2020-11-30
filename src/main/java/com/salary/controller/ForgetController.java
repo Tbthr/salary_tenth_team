@@ -1,13 +1,15 @@
 package com.salary.controller;
 
-
 import com.salary.mapper.UserMapper;
+import com.salary.model.User;
 import com.salary.service.UserService;
 import com.salary.util.ApiResult;
 import com.salary.util.SendEmailUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -15,43 +17,47 @@ import javax.mail.MessagingException;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
 
+@Api(tags = {"忘记密码"})
 @RestController
 public class ForgetController {
     @Resource
     private UserService userService;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-    private String code;
+    private String code; // 验证码
 
-    @RequestMapping("/sendMail")
-    public Object sendMail(@RequestBody HashMap<String, Object> map) throws GeneralSecurityException, MessagingException {
+    @ApiOperation(value = "获取验证码", notes = "")
+    @PostMapping("/sendMail")
+    public ApiResult sendMail(@RequestBody HashMap<String, Object> map) throws GeneralSecurityException, MessagingException {
         String id = (String) map.get("id");
-        String mail = userService.getMailAddress(id);
-        if (mail == null) {
+        User user = userService.getUserByPrimaryKey(id);
+        if (user == null) {
             return ApiResult.builder().code(500).msg("用户不存在").data(null).build();
         }
-        code = SendEmailUtil.send(mail);
+        String email = user.getEmail();
+        code = SendEmailUtil.send(email);
+        SendEmailUtil.codeMap.put(id, code);
         return ApiResult.builder().code(200).msg("验证码发送成功").data(null).build();
     }
 
-    @RequestMapping("/forget")
-    public Object forget(@RequestBody HashMap<String, Object> map) {
-        code = "1234";
+    @ApiOperation(value = "重置密码")
+    @PostMapping("/forget")
+    public ApiResult forget(@RequestBody HashMap<String, Object> map) {
         String id = (String) map.get("id");
+        if (userMapper.selectByPrimaryKey(id) == null) {
+            return ApiResult.builder().code(500).msg("用户不存在").data(null).build();
+        }
         String psd = (String) map.get("psd");
         psd = bCryptPasswordEncoder.encode(psd);
-        String usercode = (String) map.get("con");
-        if (usercode.equals(code)) {
-            if (userMapper.selectByPrimaryKey(id) == null) {
-                return ApiResult.builder().code(500).msg("用户不存在").data(null).build();
-            } else {
-                userMapper.updatePsdbyId(id, psd);
-                return ApiResult.builder().code(200).msg("更改成功").data(null).build();
-            }
-        } else {
-            return ApiResult.builder().code(500).msg("验证码错误").data(null).build();
+        String userCode = (String) map.get("code");
+        if (SendEmailUtil.codeMap.get(id).equals(userCode)) {
+            // 更新密码
+            userMapper.updatePsdById(id, psd);
+            return ApiResult.builder().code(200).msg("更改成功").data(null).build();
         }
+        return ApiResult.builder().code(500).msg("验证码错误").data(null).build();
     }
 }

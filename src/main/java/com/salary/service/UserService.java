@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -24,9 +25,8 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public String getMailAddress(String id) {
-        User user = userMapper.selectByPrimaryKey(id);
-        return user.getEmail();
+    public User getUserByPrimaryKey(String id) {
+        return userMapper.selectByPrimaryKey(id);
     }
 
     public List<User> getAllUsers() {
@@ -37,7 +37,15 @@ public class UserService implements UserDetailsService {
         return userMapper.deleteByPrimaryKey(id);
     }
 
-    public int updateUser(User user) {
-        return userMapper.updateByPrimaryKey(user);
+    public int updateUser(HashMap<String, Object> map) {
+        return userMapper.updateByPrimaryKey(map);
+    }
+
+    public int addUser(User user) {
+        return userMapper.insert(user);
+    }
+
+    public int addRoleToUser(String userId, Integer RoleId) {
+        return userMapper.addRoleToUser(userId, RoleId);
     }
 }
