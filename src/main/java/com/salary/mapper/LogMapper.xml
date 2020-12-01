@@ -7,7 +7,6 @@
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="ip" jdbcType="VARCHAR" property="ip"/>
         <result column="module" jdbcType="VARCHAR" property="module"/>
-        <result column="description" jdbcType="VARCHAR" property="description"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -16,30 +15,27 @@
         where id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.salary.model.Log">
-        insert into log (date, username,
-                         ip, module, description,
-                         content)
+        insert into log (date, username, ip, module, content)
         values (#{date,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR},
-                #{ip,jdbcType=VARCHAR}, #{module,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+                #{ip,jdbcType=VARCHAR}, #{module,jdbcType=VARCHAR},
                 #{content,jdbcType=VARCHAR})
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.salary.model.Log">
         update log
-        set date        = #{date,jdbcType=VARCHAR},
-            username    = #{username,jdbcType=VARCHAR},
-            ip          = #{ip,jdbcType=VARCHAR},
-            module      = #{module,jdbcType=VARCHAR},
-            description = #{description,jdbcType=VARCHAR},
-            content     = #{content,jdbcType=VARCHAR}
+        set date     = #{date,jdbcType=VARCHAR},
+            username = #{username,jdbcType=VARCHAR},
+            ip       = #{ip,jdbcType=VARCHAR},
+            module   = #{module,jdbcType=VARCHAR},
+            content  = #{content,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select id, date, username, ip, module, description, content
+        select id, date, username, ip, module, content
         from log
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
-        select id, date, username, ip, module, description, content
+        select id, date, username, ip, module, content
         from log
     </select>
 </mapper>

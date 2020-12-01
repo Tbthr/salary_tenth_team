@@ -7,12 +7,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface Log {
     /**
-     * 模块
+     * 操作
      */
     String module() default "";
-
-    /**
-     * 描述
-     */
-    String description() default "";
 }

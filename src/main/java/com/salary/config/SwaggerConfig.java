@@ -45,34 +45,7 @@ public class SwaggerConfig implements ApiListingScannerPlugin {
                                 .termsOfServiceUrl("https://gitee.com/salary_tenth_team")
                                 .build()
                 );
-//                .securitySchemes(securitySchemes())
-//                .securityContexts(securityContexts());
     }
-
-//    private List<ApiKey> securitySchemes() {
-//        List<ApiKey> apiKeyList = new ArrayList<>();
-//        apiKeyList.add(new ApiKey("token", "token", "header"));
-//        return apiKeyList;
-//    }
-//
-//    private List<SecurityContext> securityContexts() {
-//        List<SecurityContext> securityContexts = new ArrayList<>();
-//        securityContexts.add(
-//                SecurityContext.builder()
-//                        .securityReferences(defaultAuth())
-//                        .forPaths(PathSelectors.regex("^(?!auth).*$"))
-//                        .build());
-//        return securityContexts;
-//    }
-//
-//    private List<SecurityReference> defaultAuth() {
-//        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-//        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-//        authorizationScopes[0] = authorizationScope;
-//        List<SecurityReference> securityReferences = new ArrayList<>();
-//        securityReferences.add(new SecurityReference("token", authorizationScopes));
-//        return securityReferences;
-//    }
 
     @Override
     public List<ApiDescription> apply(DocumentationContext documentationContext) {

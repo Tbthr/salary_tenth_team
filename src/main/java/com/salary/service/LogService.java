@@ -37,7 +37,7 @@ public class LogService {
 
     private static final String LOG_CONTENT = "[类名]:%s,[方法]:%s,[参数]:%s";
 
-    public void put(JoinPoint joinPoint, String methodName, String module, String description) {
+    public void put(JoinPoint joinPoint, String methodName, String module) {
         try {
             HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
             Log log = new Log();
@@ -50,7 +50,6 @@ public class LogService {
             String ip = CusAccessObjectUtil.getIpAddress(request);
             log.setUsername(username);
             log.setModule(module);
-            log.setDescription(description);
             log.setIp(ip);
             log.setContent(operateContent(joinPoint, methodName, request));
             LocalDateTime dateTime = LocalDateTime.now(); // gets the current date and time

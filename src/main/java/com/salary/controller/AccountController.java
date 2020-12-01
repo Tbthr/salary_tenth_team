@@ -17,7 +17,6 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/account")
 public class AccountController {
-
     @Resource
     UserService userService;
     @Resource
@@ -40,7 +39,7 @@ public class AccountController {
                 .build();
     }
 
-    @Log(module = "修改个人信息",description = "返回个人所有信息")
+    @Log(module = "修改个人信息")
     @ApiOperation(value = "修改个人信息", notes = "")
     @PostMapping("/edit/info")
     public Object editInfo(@RequestBody HashMap<String, Object> map) {
@@ -68,7 +67,7 @@ public class AccountController {
                 .build();
     }
 
-    @Log(module = "修改密码",description = "返回个人所有信息")
+    @Log(module = "修改密码")
     @ApiOperation(value = "修改密码", notes = "")
     @PostMapping("/edit/psd")
     public Object editPsd(@RequestBody HashMap<String, Object> map) {

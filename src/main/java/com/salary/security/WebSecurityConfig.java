@@ -25,10 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private UserService userService;
     @Resource
-    private UserAuthenticationFailureHandler userAuthenticationFailureHandler;
-    @Resource
-    private UserAuthenticationSuccessHandler userAuthenticationSuccessHandler;
-    @Resource
     private MyAccessDecisionManager myAccessDecisionManager;
     @Resource
     private MySecurityMetadataSource mySecurityMetadataSource;
@@ -76,9 +72,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 设置表单登陆
                 .formLogin()
                 .loginProcessingUrl("/login")
-                // 设置成功、失败处理器
-                .successHandler(userAuthenticationSuccessHandler)
-                .failureHandler(userAuthenticationFailureHandler)
+                // 设置成功、失败 跳转URL
+                .successForwardUrl("/login/success")
+                .failureForwardUrl("/login/failed")
                 // 自定义登陆用户名和密码参数，默认为username和password
                 .usernameParameter("id")
                 .passwordParameter("psd")
