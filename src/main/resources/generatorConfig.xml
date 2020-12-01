@@ -44,9 +44,9 @@
         <!-- 配置表信息 -->
         <!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类名
         所以你想要自动生成哪个数据库哪个表的对应文件，就直接在这里添加就好了-->
-        <table schema="salary" tableName="bill" domainObjectName="Bill"/>
-        <table schema="salary" tableName="bill_item" domainObjectName="BillItem"/>
-        <table schema="salary" tableName="confirm" domainObjectName="Confirm"/>
+        <table schema="salary" tableName="log" domainObjectName="Log"/>
+<!--        <table schema="salary" tableName="bill_item" domainObjectName="BillItem"/>-->
+<!--        <table schema="salary" tableName="confirm" domainObjectName="Confirm"/>-->
 <!--        <table schema="salary" tableName="department" domainObjectName="Department"/>-->
 <!--        <table schema="salary" tableName="error" domainObjectName="Error"/>-->
 <!--        <table schema="salary" tableName="error_rec" domainObjectName="ErrorRec"/>-->

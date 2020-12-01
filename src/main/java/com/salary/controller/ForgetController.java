@@ -27,8 +27,6 @@ public class ForgetController {
     @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private String code; // 验证码
-
     @ApiOperation(value = "获取验证码", notes = "")
     @PostMapping("/sendMail")
     public ApiResult sendMail(@RequestBody HashMap<String, Object> map) throws GeneralSecurityException, MessagingException {
@@ -38,7 +36,8 @@ public class ForgetController {
             return ApiResult.builder().code(500).msg("用户不存在").data(null).build();
         }
         String email = user.getEmail();
-        code = SendEmailUtil.send(email);
+        // 验证码
+        String code = SendEmailUtil.send(email);
         SendEmailUtil.codeMap.put(id, code);
         return ApiResult.builder().code(200).msg("验证码发送成功").data(null).build();
     }

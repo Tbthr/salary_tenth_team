@@ -35,7 +35,7 @@
     </plugins>
 
     <!--多环境配置-->
-    <environments default="prod">
+    <environments default="dev">
         <!--开发环境-->
         <environment id="dev">
             <!--事务管理器-->

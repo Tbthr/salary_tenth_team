@@ -4,10 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -51,21 +49,22 @@ public class User implements UserDetails {
     @ApiModelProperty("性别(m、f)")
     private String gender;
 
-    @ApiModelProperty("部门")
+//    @ApiModelProperty("部门")
     private Department department;
 
-    @ApiModelProperty("角色列表")
-    private List<Role> roles;
+//    @ApiModelProperty("角色列表")
+    private List<Role> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        if (roles == null) {
-            return null;
-        }
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//        if (roles == null) {
+//            return null;
+//        }
+//        for (Role role : roles) {
+//            authorities.add(new SimpleGrantedAuthority(role.getName()));
+//        }
+//        return authorities;
         return authorities;
     }
 
@@ -76,7 +75,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return id;
     }
 
     @Override

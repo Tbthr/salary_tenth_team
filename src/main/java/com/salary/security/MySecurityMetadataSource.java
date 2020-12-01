@@ -37,7 +37,7 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
             List<Role> roles = roleMapper.selectRoleByMenuId(menu.getId());
             int size = roles.size();
             //如果请求的路径包含在某个menu的url中，且能访问该资源的角色信息存在
-            if (antPathMatcher.match(menu.getUrl(), requestUrl) && size > 0) {
+            if (antPathMatcher.match(menu.getPath(), requestUrl) && size > 0) {
                 //定义一个数组，来接收能访问该资源的角色
                 String[] roleNameArray = new String[size];
                 for (int i = 0; i < size; i++) {

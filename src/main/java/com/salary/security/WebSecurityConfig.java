@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         // 放行特定URL
         web.ignoring().antMatchers("/forget", "/sendMail",
-                "/swagger-ui**", "/doc**", "/swagger-resources/**", "/webjars/**", "/v2/api-docs");
+                "/swagger-ui**", "/doc**", "/swagger-resources/**", "/webjars/**", "/v2/**");
     }
 
     @Override

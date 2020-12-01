@@ -1,5 +1,6 @@
 package com.salary.controller;
 
+import com.salary.aop.Log;
 import com.salary.model.User;
 import com.salary.service.DepartmentService;
 import com.salary.service.RoleService;
@@ -36,6 +37,7 @@ public class UserController {
                 .build();
     }
 
+    @Log(module = "查看部门信息",description = "返回所有部门的信息")
     @ApiOperation(value = "添加员工", notes = "返回所有部门的信息")
     @GetMapping("/add")
     public ApiResult getAllDeparts() {
@@ -46,6 +48,7 @@ public class UserController {
                 .build();
     }
 
+    @Log(module = "添加员工",description = "返回所有员工的信息")
     @ApiOperation(value = "添加员工", notes = "返回所有员工的信息")
     @PostMapping("/add")
     public ApiResult addUser(@RequestBody User user, @RequestParam("roleName") String roleName) {
@@ -66,6 +69,7 @@ public class UserController {
                 .build();
     }
 
+    @Log(module = "删除员工",description = "返回所有员工的信息")
     @ApiOperation(value = "删除员工", notes = "返回所有员工的信息")
     @PostMapping("/delete")
     public ApiResult deleteUser(@RequestBody HashMap<String, Object> map) {
@@ -85,6 +89,7 @@ public class UserController {
                 .build();
     }
 
+    @Log(module = "修改员工",description = "返回所有员工的信息")
     @ApiOperation(value = "修改员工", notes = "返回所有员工的信息")
     @PostMapping("/update")
     public ApiResult updateUser(@RequestBody HashMap<String, Object> map) {
