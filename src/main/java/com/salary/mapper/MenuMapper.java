@@ -33,4 +33,8 @@ public interface MenuMapper {
 
     @Delete("delete from menu_role where role_id = #{rid} and menu_id = #{mid}")
     int deleteMenuRoleByAll(Integer rid,Integer mid);
+
+//    List<Menu> selectRoleAuthByPid(Integer rid);
+//
+//    List<Menu> selectRoleAllAuthByRId(Integer rid);
 }

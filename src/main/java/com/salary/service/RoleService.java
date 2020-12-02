@@ -45,4 +45,13 @@ public class RoleService {
     public int deleteByPrimaryKey(Integer id){
         return roleMapper.deleteByPrimaryKey(id);
     }
+
+    public Integer selectRoleIdByName(String name){
+        return roleMapper.selectIdByName(name);
+    }
+
+    public void init(Integer id){
+        roleMapper.insertMenuRole(id,3);
+        roleMapper.insertMenuRole(id,7);
+    }
 }

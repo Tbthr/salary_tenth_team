@@ -66,6 +66,8 @@ public class AuthenticationController {
         role.setNameZh(nameZh);
         try{
             roleService.insertRole(role);
+            int id = roleService.selectRoleIdByName(name);
+            roleService.init(id);
             List<Role> roles = roleService.getAllRoleAuth();
             return ApiResult.builder()
                     .code(200)
@@ -79,8 +81,11 @@ public class AuthenticationController {
                     .build();
         }
     }
+
     @RequestMapping("/role/add/menus")
-    public Object addMenus(@RequestParam("roleId")Integer rid,@RequestParam("menuId[]")List<Integer> mid){
+    public Object addMenus(@RequestBody HashMap<String, Object> map){
+        int rid = (int) map.get("roleId");
+        List<Integer> mid = (List<Integer>) map.get("menuId");
         try{
             for(Integer i:mid){
                 roleService.insertMenuRole(rid, i);
@@ -100,7 +105,8 @@ public class AuthenticationController {
     }
 
     @RequestMapping("/role/delete/roles")
-    public Object deleteRoles(@RequestParam("roleId[]")List<Integer> rid){
+    public Object deleteRoles(@RequestBody HashMap<String, Object> map){
+        List<Integer> rid = (List<Integer>) map.get("roleId");
         try{
             for(Integer i:rid){
                 roleService.deleteMenuRoleById(i);
@@ -122,7 +128,9 @@ public class AuthenticationController {
     }
 
     @RequestMapping("/role/delete/menus")
-    public Object deleteMenus(@RequestParam("roleId")Integer rid,@RequestParam("menus[]")List<Integer> mid){
+    public Object deleteMenus(@RequestBody HashMap<String, Object> map){
+        int rid = (int) map.get("roleId");
+        List<Integer> mid = (List<Integer>) map.get("menuId");
         try{
             for(Integer i:mid){
                 menuService.deleteMenuRoleByAll(rid,i);

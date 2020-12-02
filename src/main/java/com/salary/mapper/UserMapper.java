@@ -25,5 +25,5 @@ public interface UserMapper {
     void updatePsdById(String id, String psd);
 
     @Insert("insert into user_role(user_id, role_id) values(#{userId}, #{RoleId})")
-    int addRoleToUser(@Param("userId") String userId, @Param("RoleId") Integer RoleId);
+    Integer addRoleToUser(@Param("userId") String userId, @Param("RoleId") Integer RoleId);
 }

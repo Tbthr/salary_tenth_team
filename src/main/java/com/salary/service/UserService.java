@@ -48,4 +48,5 @@ public class UserService implements UserDetailsService {
     public int addRoleToUser(String userId, Integer RoleId) {
         return userMapper.addRoleToUser(userId, RoleId);
     }
+
 }

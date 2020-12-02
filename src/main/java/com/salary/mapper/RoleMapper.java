@@ -32,4 +32,7 @@ public interface RoleMapper {
 
     @Delete("delete from menu_role where role_id =#{rid}")
     int deleteMenuRoleByRid(Integer rid);
+
+    @Select("select id from role where name = #{name}")
+    int selectIdByName(String name);
 }
