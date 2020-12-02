@@ -28,6 +28,17 @@
             <result column="m2enabled" jdbcType="BIT" property="enabled" />
         </collection>
     </resultMap>
+    <resultMap id="AuthResultMap" type="com.salary.model.Menu">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="path" jdbcType="VARCHAR" property="path" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+        <result column="level" jdbcType="INTEGER" property="level" />
+        <result column="enabled" jdbcType="BIT" property="enabled" />
+        <collection property="children" ofType="com.salary.model.Menu" select="com.salary.mapper.MenuMapper.selectAuthByPid" column="id">
+        </collection>
+    </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from menu
     where id = #{id,jdbcType=INTEGER}
@@ -87,5 +98,11 @@
                     and ur.role_id = mr.role_id
               )
         order by m1.id, m2.id
+    </select>
+        <select id="selectAuthByPid" resultMap="AuthResultMap">
+        select * from menu where parent_id = #{id} order by id
+    </select>
+    <select id="selectAllAuth" resultMap="AuthResultMap">
+        select * from menu where id != 1 and id != 2 and parent_id =1 order by id
     </select>
 </mapper>

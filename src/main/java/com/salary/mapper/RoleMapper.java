@@ -1,6 +1,8 @@
 package com.salary.mapper;
 
 import com.salary.model.Role;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,4 +24,12 @@ public interface RoleMapper {
 
     @Select("select * from role where name = #{name}")
     Role selectByName(String name);
+
+    Role selectAuthByPrimaryKey(Integer id);
+
+    @Insert("insert into menu_role(role_id,menu_id) values(#{rid},#{mid})")
+    int insertMenuRole(Integer rid,Integer mid);
+
+    @Delete("delete from menu_role where role_id =#{rid}")
+    int deleteMenuRoleByRid(Integer rid);
 }

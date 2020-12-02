@@ -30,4 +30,12 @@ public class MenuService {
     public List<Menu> getByLevel(Integer level){
         return menuMapper.selectByLevel(level);
     }
+
+    public List<Menu> getAllAuth(){
+        return menuMapper.selectAllAuth();
+    }
+
+    public int deleteMenuRoleByAll(Integer rid,Integer mid){
+        return menuMapper.deleteMenuRoleByAll(rid, mid);
+    }
 }
