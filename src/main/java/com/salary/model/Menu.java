@@ -16,6 +16,8 @@ public class Menu {
 
     private Integer parentId;
 
+    private Integer level;
+
     private Boolean enabled;
 
     private List<Menu> children;

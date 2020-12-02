@@ -5,6 +5,7 @@ import com.salary.model.Role;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class RoleService {
@@ -13,5 +14,12 @@ public class RoleService {
 
     public Role selectByName(String name) {
         return roleMapper.selectByName(name);
+    }
+
+    public List<Role> getAll(){
+        return roleMapper.selectAll();
+    }
+    public int insertRole(Role role){
+        return roleMapper.insert(role);
     }
 }

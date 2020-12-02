@@ -15,4 +15,19 @@ public class MenuService {
     public List<Menu> getMenuByUserId(String id) {
         return menuMapper.selectByUserId(id);
     }
+
+    public Menu getMenuByPrimaryKey(Integer id){
+        return menuMapper.selectByPrimaryKey(id);
+    }
+    public List<Menu> getAll(){
+        return menuMapper.selectAll();
+    }
+
+    public List<Menu> getAllAsc(){
+        return menuMapper.selectAllAsc();
+    }
+
+    public List<Menu> getByLevel(Integer level){
+        return menuMapper.selectByLevel(level);
+    }
 }

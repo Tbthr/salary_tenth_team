@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.List;
+
 @ApiModel("角色实体类")
 @Data
 public class Role implements GrantedAuthority {
@@ -17,6 +19,8 @@ public class Role implements GrantedAuthority {
 
     @ApiModelProperty("权限名称")
     private String nameZh;
+
+    private List<Menu> menus;
 
     @Override
     public String getAuthority() {
