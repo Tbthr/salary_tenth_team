@@ -1,6 +1,7 @@
 package com.salary.controller;
 
 
+import com.salary.aop.Log;
 import com.salary.model.Menu;
 import com.salary.model.Role;
 import com.salary.service.MenuService;
@@ -21,6 +22,7 @@ public class AuthenticationController {
     MenuService menuService;
     @Resource
     RoleService roleService;
+
 
     @GetMapping("/menu")
     public Object getAllMenu(){
@@ -56,6 +58,7 @@ public class AuthenticationController {
         }
     }
 
+
     @PostMapping("/role/add/role")
     public Object addRole(@RequestBody HashMap<String ,Object> map ){
         String name = (String) map.get("name");
@@ -82,12 +85,22 @@ public class AuthenticationController {
         }
     }
 
-    @RequestMapping("/role/add/menus")
+    @PostMapping("/role/add/menutree")
+    public Object getMenuTree(@RequestBody HashMap<String, Object> map){
+        int id = (int) map.get("id");
+        return ApiResult.builder()
+                .code(200)
+                .msg("获取权限树成功")
+                .data(menuService.getNotAuthByRoleId(id))
+                .build();
+    }
+
+    @RequestMapping("/role/add/menu")
     public Object addMenus(@RequestBody HashMap<String, Object> map){
         int rid = (int) map.get("roleId");
-        List<Integer> mid = (List<Integer>) map.get("menuId");
+        List<Integer> mid = (List<Integer>)map.get("menuId");
         try{
-            for(Integer i:mid){
+            for(Integer i :mid){
                 roleService.insertMenuRole(rid, i);
             }
             List<Role> roles = roleService.getAllRoleAuth();
@@ -104,9 +117,34 @@ public class AuthenticationController {
         }
     }
 
+    @RequestMapping("/role/update")
+    public Object updateRole(@RequestBody HashMap<String, Object> map){
+        try{
+            int id = (int) map.get("id");
+            String name = (String) map.get("name");
+            name="ROLE_"+name;
+            String nameZh = (String) map.get("nameZh");
+            Role role = roleService.selectByPrimaryKey(id);
+            role.setName(name);
+            role.setNameZh(nameZh);
+            roleService.updateRole(role);
+            List<Role> roles = roleService.getAllRoleAuth();
+            return ApiResult.builder()
+                    .code(200)
+                    .msg("修改角色成功")
+                    .data(roles)
+                    .build();
+        }catch (Exception e){
+            return ApiResult.builder()
+                    .code(500)
+                    .msg("修改角色失败")
+                    .build();
+        }
+    }
+
     @RequestMapping("/role/delete/roles")
     public Object deleteRoles(@RequestBody HashMap<String, Object> map){
-        List<Integer> rid = (List<Integer>) map.get("roleId");
+        List<Integer> rid = (List<Integer>) map.get("id");
         try{
             for(Integer i:rid){
                 roleService.deleteMenuRoleById(i);
@@ -126,6 +164,7 @@ public class AuthenticationController {
                     .build();
         }
     }
+
 
     @RequestMapping("/role/delete/menus")
     public Object deleteMenus(@RequestBody HashMap<String, Object> map){
@@ -148,6 +187,4 @@ public class AuthenticationController {
                     .build();
         }
     }
-
-
 }

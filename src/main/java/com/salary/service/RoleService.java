@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -53,5 +52,12 @@ public class RoleService {
     public void init(Integer id){
         roleMapper.insertMenuRole(id,3);
         roleMapper.insertMenuRole(id,7);
+    }
+    public int updateRole(Role role){
+        return roleMapper.updateByPrimaryKey(role);
+    }
+
+    public Role selectByPrimaryKey(Integer id){
+        return roleMapper.selectByPrimaryKey(id);
     }
 }

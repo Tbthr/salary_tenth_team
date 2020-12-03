@@ -47,7 +47,7 @@
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select  r.id rid,
                 r.name rname,
-                r.nameZh rnameZh,
+                r.nameZh rnameZh
         from role r
         where r.id = #{id,jdbcType=INTEGER}
          order by r.id

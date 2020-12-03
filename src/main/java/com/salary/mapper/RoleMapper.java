@@ -35,4 +35,5 @@ public interface RoleMapper {
 
     @Select("select id from role where name = #{name}")
     int selectIdByName(String name);
+
 }

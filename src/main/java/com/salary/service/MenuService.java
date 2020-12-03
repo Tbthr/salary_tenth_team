@@ -38,4 +38,8 @@ public class MenuService {
     public int deleteMenuRoleByAll(Integer rid,Integer mid){
         return menuMapper.deleteMenuRoleByAll(rid, mid);
     }
+
+    public List<Menu> getNotAuthByRoleId(Integer id){
+        return menuMapper.getNotAuthByRoleId(id);
+    }
 }
