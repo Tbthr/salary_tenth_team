@@ -42,6 +42,8 @@
         <result column="depart_id" jdbcType="VARCHAR" property="departId"/>
         <result column="position" jdbcType="VARCHAR" property="position"/>
         <result column="uname" jdbcType="VARCHAR" property="name"/>
+        <result column="age" jdbcType="VARCHAR" property="age"/>
+        <result column="id_card" jdbcType="VARCHAR" property="idCard"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="phone" jdbcType="CHAR" property="phone"/>
         <result column="psd" jdbcType="VARCHAR" property="psd"/>

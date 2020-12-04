@@ -1,6 +1,5 @@
 package com.salary.security;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salary.util.ApiResult;
 import org.springframework.security.access.AccessDeniedException;
