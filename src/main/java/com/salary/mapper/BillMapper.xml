@@ -1,39 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.salary.mapper.BillMapper">
+    <sql id="BillIF">
+        <if test="year != null">
+            and year(date) = #{year,jdbcType=DATE}
+        </if>
+        <if test="month != null">
+            and month(date) = #{month,jdbcType=DATE}
+        </if>
+        <if test="departId != null">
+            and u.depart_id = #{departId,jdbcType=VARCHAR}
+        </if>
+        <if test="userName != null">
+            and u.name like concat('%',#{userName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="userId != null">
+            and b.user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+    </sql>
     <resultMap id="BaseResultMap" type="com.salary.model.Bill">
-        <id column="date" jdbcType="DATE" property="date"/>
-        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
-        <result column="item_id" jdbcType="INTEGER" property="itemId"/>
-        <result column="money" jdbcType="INTEGER" property="money"/>
+        <result column="date" jdbcType="DATE" property="date"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="base_pay" jdbcType="DECIMAL" property="basePay"/>
+        <result column="post_pay" jdbcType="DECIMAL" property="postPay"/>
+        <result column="seniority_pay" jdbcType="DECIMAL" property="seniorityPay"/>
+        <result column="traffic_allow" jdbcType="DECIMAL" property="trafficAllow"/>
+        <result column="heat_allow" jdbcType="DECIMAL" property="heatAllow"/>
+        <result column="holiday_sympathy" jdbcType="DECIMAL" property="holidaySympathy"/>
+        <result column="other_allow" jdbcType="DECIMAL" property="otherAllow"/>
+        <result column="should_pay" jdbcType="DECIMAL" property="shouldPay"/>
+        <result column="fiof" jdbcType="DECIMAL" property="fiof"/>
+        <result column="absence_cut" jdbcType="DECIMAL" property="absenceCut"/>
+        <result column="other_cut" jdbcType="DECIMAL" property="otherCut"/>
+        <result column="pay" jdbcType="DECIMAL" property="pay"/>
     </resultMap>
-    <delete id="deleteByPrimaryKey" parameterType="map">
-        delete
-        from bill
-        where date = #{date,jdbcType=DATE}
-          and user_id = #{userId,jdbcType=VARCHAR}
-    </delete>
     <insert id="insert" parameterType="com.salary.model.Bill">
-        insert into bill (date, user_id, item_id,
-                          money)
-        values (#{date,jdbcType=DATE}, #{userId,jdbcType=VARCHAR}, #{itemId,jdbcType=INTEGER},
-                #{money,jdbcType=INTEGER})
+        insert into bill (date, user_id, base_pay,
+                          post_pay, seniority_pay, traffic_allow,
+                          heat_allow, holiday_sympathy, other_allow,
+                          should_pay, fiof, absence_cut,
+                          other_cut, pay)
+        values (#{date,jdbcType=DATE}, #{userId,jdbcType=VARCHAR}, #{basePay,jdbcType=DECIMAL},
+                #{postPay,jdbcType=DECIMAL}, #{seniorityPay,jdbcType=DECIMAL}, #{trafficAllow,jdbcType=DECIMAL},
+                #{heatAllow,jdbcType=DECIMAL}, #{holidaySympathy,jdbcType=DECIMAL}, #{otherAllow,jdbcType=DECIMAL},
+                #{shouldPay,jdbcType=DECIMAL}, #{fiof,jdbcType=DECIMAL}, #{absenceCut,jdbcType=DECIMAL},
+                #{otherCut,jdbcType=DECIMAL}, #{pay,jdbcType=DECIMAL})
     </insert>
-    <update id="updateByPrimaryKey" parameterType="com.salary.model.Bill">
-        update bill
-        set item_id = #{itemId,jdbcType=INTEGER},
-            money   = #{money,jdbcType=INTEGER}
-        where date = #{date,jdbcType=DATE}
-          and user_id = #{userId,jdbcType=VARCHAR}
-    </update>
-    <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
-        select date, user_id, item_id, money
-        from bill
-        where date = #{date,jdbcType=DATE}
-          and user_id = #{userId,jdbcType=VARCHAR}
-    </select>
     <select id="selectAll" resultMap="BaseResultMap">
-        select date, user_id, item_id, money
-        from bill
+        select date,
+        user_id,
+        base_pay,
+        post_pay,
+        seniority_pay,
+        traffic_allow,
+        heat_allow,
+        holiday_sympathy,
+        other_allow,
+        should_pay,
+        fiof,
+        absence_cut,
+        other_cut,
+        pay
+        from bill b
+        left join user u on b.user_id = u.id
+        left join department d on d.id = u.depart_id
+        <where>
+            <include refid="BillIF"/>
+        </where>
     </select>
 </mapper>

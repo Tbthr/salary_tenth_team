@@ -47,7 +47,8 @@ public class LogService {
             if (StringUtils.isEmpty(username)) {
                 username = "未知用户";
             }
-            String ip = CusAccessObjectUtil.getIpAddress(request);
+            // 获取IP地址
+            String ip = CusAccessObjectUtil.getClientIpAddress(request);
             log.setUsername(username);
             log.setModule(module);
             log.setIp(ip);

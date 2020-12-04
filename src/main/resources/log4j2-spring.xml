@@ -10,7 +10,7 @@
         <Console name="CONSOLE" target="SYSTEM_OUT">
             <!--设置日志格式及颜色-->
             <PatternLayout
-                    pattern="[%d][%highlight{%p}][%style{%t}{bright,blue}][%style{%C}{bright,yellow}]: %msg%n%style{%throwable}{red}"
+                    pattern="[%style{%d}][%highlight{%p}][%style{%thread}][%style{%logger}{yellow}]: %msg%n%style{%throwable}{red}"
                     disableAnsi="false" noConsoleNoAnsi="false"/>
         </Console>
 

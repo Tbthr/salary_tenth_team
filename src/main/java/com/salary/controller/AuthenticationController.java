@@ -1,7 +1,6 @@
 package com.salary.controller;
 
 
-import com.salary.aop.Log;
 import com.salary.model.Menu;
 import com.salary.model.Role;
 import com.salary.service.MenuService;
@@ -25,15 +24,15 @@ public class AuthenticationController {
 
 
     @GetMapping("/menu")
-    public Object getAllMenu(){
-        try{
+    public Object getAllMenu() {
+        try {
             List<Menu> menus = menuService.getAllAsc();
             return ApiResult.builder()
                     .code(200)
                     .msg("获取成功")
                     .data(menus)
                     .build();
-        }catch (Exception e){
+        } catch (Exception e) {
             return ApiResult.builder()
                     .code(500)
                     .msg("获取失败")
@@ -42,15 +41,15 @@ public class AuthenticationController {
     }
 
     @GetMapping("/role")
-    public Object getAllRole(){
-        try{
+    public Object getAllRole() {
+        try {
             List<Role> roles = roleService.getAllRoleAuth();
             return ApiResult.builder()
                     .code(200)
                     .msg("获取成功")
                     .data(roles)
                     .build();
-        }catch (Exception e){
+        } catch (Exception e) {
             return ApiResult.builder()
                     .code(500)
                     .msg("获取失败")
@@ -60,14 +59,14 @@ public class AuthenticationController {
 
 
     @PostMapping("/role/add/role")
-    public Object addRole(@RequestBody HashMap<String ,Object> map ){
+    public Object addRole(@RequestBody HashMap<String, Object> map) {
         String name = (String) map.get("name");
-        name ="ROLE_"+name;
+        name = "ROLE_" + name;
         String nameZh = (String) map.get("nameZh");
         Role role = new Role();
         role.setName(name);
         role.setNameZh(nameZh);
-        try{
+        try {
             roleService.insertRole(role);
             int id = roleService.selectRoleIdByName(name);
             roleService.init(id);
@@ -77,7 +76,7 @@ public class AuthenticationController {
                     .msg("添加角色成功")
                     .data(roles)
                     .build();
-        }catch (Exception e){
+        } catch (Exception e) {
             return ApiResult.builder()
                     .code(500)
                     .msg("添加角色失败")
@@ -86,7 +85,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/role/add/menutree")
-    public Object getMenuTree(@RequestBody HashMap<String, Object> map){
+    public Object getMenuTree(@RequestBody HashMap<String, Object> map) {
         int id = (int) map.get("id");
         return ApiResult.builder()
                 .code(200)
@@ -96,11 +95,11 @@ public class AuthenticationController {
     }
 
     @RequestMapping("/role/add/menu")
-    public Object addMenus(@RequestBody HashMap<String, Object> map){
+    public Object addMenus(@RequestBody HashMap<String, Object> map) {
         int rid = (int) map.get("roleId");
-        List<Integer> mid = (List<Integer>)map.get("menuId");
-        try{
-            for(Integer i :mid){
+        List<Integer> mid = (List<Integer>) map.get("menuId");
+        try {
+            for (Integer i : mid) {
                 roleService.insertMenuRole(rid, i);
             }
             List<Role> roles = roleService.getAllRoleAuth();
@@ -109,7 +108,7 @@ public class AuthenticationController {
                     .msg("添加权限成功")
                     .data(roles)
                     .build();
-        }catch (Exception e){
+        } catch (Exception e) {
             return ApiResult.builder()
                     .code(500)
                     .msg("添加权限失败")
@@ -118,11 +117,11 @@ public class AuthenticationController {
     }
 
     @RequestMapping("/role/update")
-    public Object updateRole(@RequestBody HashMap<String, Object> map){
-        try{
+    public Object updateRole(@RequestBody HashMap<String, Object> map) {
+        try {
             int id = (int) map.get("id");
             String name = (String) map.get("name");
-            name="ROLE_"+name;
+            name = "ROLE_" + name;
             String nameZh = (String) map.get("nameZh");
             Role role = roleService.selectByPrimaryKey(id);
             role.setName(name);
@@ -134,7 +133,7 @@ public class AuthenticationController {
                     .msg("修改角色成功")
                     .data(roles)
                     .build();
-        }catch (Exception e){
+        } catch (Exception e) {
             return ApiResult.builder()
                     .code(500)
                     .msg("修改角色失败")
@@ -143,10 +142,10 @@ public class AuthenticationController {
     }
 
     @RequestMapping("/role/delete/roles")
-    public Object deleteRoles(@RequestBody HashMap<String, Object> map){
+    public Object deleteRoles(@RequestBody HashMap<String, Object> map) {
         List<Integer> rid = (List<Integer>) map.get("id");
-        try{
-            for(Integer i:rid){
+        try {
+            for (Integer i : rid) {
                 roleService.deleteMenuRoleById(i);
                 roleService.deleteByPrimaryKey(i);
             }
@@ -156,8 +155,7 @@ public class AuthenticationController {
                     .msg("删除角色成功")
                     .data(roles)
                     .build();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return ApiResult.builder()
                     .code(500)
                     .msg("删除角色失败")
@@ -167,12 +165,12 @@ public class AuthenticationController {
 
 
     @RequestMapping("/role/delete/menus")
-    public Object deleteMenus(@RequestBody HashMap<String, Object> map){
+    public Object deleteMenus(@RequestBody HashMap<String, Object> map) {
         int rid = (int) map.get("roleId");
         List<Integer> mid = (List<Integer>) map.get("menuId");
-        try{
-            for(Integer i:mid){
-                menuService.deleteMenuRoleByAll(rid,i);
+        try {
+            for (Integer i : mid) {
+                menuService.deleteMenuRoleByAll(rid, i);
             }
             List<Role> roles = roleService.getAllRoleAuth();
             return ApiResult.builder()
@@ -180,7 +178,7 @@ public class AuthenticationController {
                     .msg("删除权限成功")
                     .data(roles)
                     .build();
-        }catch (Exception e){
+        } catch (Exception e) {
             return ApiResult.builder()
                     .code(500)
                     .msg("删除权限失败")

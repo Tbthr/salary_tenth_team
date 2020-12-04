@@ -10,7 +10,7 @@ spring:
   freemarker:
     checkTemplateLocation: false # 关闭template目录的检查
   profiles:
-    active: dev
+    active: prod
   jmx:
     enabled: false # spring.jmx.default-domain=project1
 

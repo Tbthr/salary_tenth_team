@@ -49,10 +49,10 @@ public class User implements UserDetails {
     @ApiModelProperty("性别(m、f)")
     private String gender;
 
-//    @ApiModelProperty("部门")
+    //    @ApiModelProperty("部门")
     private Department department;
 
-//    @ApiModelProperty("角色列表")
+    //    @ApiModelProperty("角色列表")
     private List<Role> authorities;
 
     @Override

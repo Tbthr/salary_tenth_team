@@ -30,12 +30,12 @@
             <property name="reasonable" value="true"/>
             <property name="supportMethodsArguments" value="true"/>
             <!--默认值为pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero-->
-            <!--<property name="params" value="pageNum=page;pageSize=rows;"/>-->
+<!--            <property name="params" value="pageNum=page;pageSize=rows;"/>-->
         </plugin>
     </plugins>
 
     <!--多环境配置-->
-    <environments default="dev">
+    <environments default="prod">
         <!--开发环境-->
         <environment id="dev">
             <!--事务管理器-->

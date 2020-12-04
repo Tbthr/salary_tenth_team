@@ -26,7 +26,7 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        ApiResult result = ApiResult.builder().code(403).msg("没有权限").data(null).build();
+        ApiResult result = ApiResult.builder().code(401).msg("没有权限").data(null).build();
         out.write(objectMapper.writeValueAsString(result));
         out.flush();
         out.close();

@@ -28,7 +28,7 @@ public interface RoleMapper {
     Role selectAuthByPrimaryKey(Integer id);
 
     @Insert("insert into menu_role(role_id,menu_id) values(#{rid},#{mid})")
-    int insertMenuRole(Integer rid,Integer mid);
+    int insertMenuRole(Integer rid, Integer mid);
 
     @Delete("delete from menu_role where role_id =#{rid}")
     int deleteMenuRoleByRid(Integer rid);

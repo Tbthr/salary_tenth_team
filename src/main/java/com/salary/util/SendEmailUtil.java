@@ -11,7 +11,7 @@ import java.util.Properties;
 import java.util.Random;
 
 public class SendEmailUtil {
-    public static HashMap<String,String> codeMap = new HashMap<>();
+    public static HashMap<String, String> codeMap = new HashMap<>();
 
     public static String send(String addr) throws MessagingException, GeneralSecurityException {
         //创建一个配置文件并保存

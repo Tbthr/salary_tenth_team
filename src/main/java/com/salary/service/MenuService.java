@@ -16,30 +16,31 @@ public class MenuService {
         return menuMapper.selectByUserId(id);
     }
 
-    public Menu getMenuByPrimaryKey(Integer id){
+    public Menu getMenuByPrimaryKey(Integer id) {
         return menuMapper.selectByPrimaryKey(id);
     }
-    public List<Menu> getAll(){
+
+    public List<Menu> getAll() {
         return menuMapper.selectAll();
     }
 
-    public List<Menu> getAllAsc(){
+    public List<Menu> getAllAsc() {
         return menuMapper.selectAllAsc();
     }
 
-    public List<Menu> getByLevel(Integer level){
+    public List<Menu> getByLevel(Integer level) {
         return menuMapper.selectByLevel(level);
     }
 
-    public List<Menu> getAllAuth(){
+    public List<Menu> getAllAuth() {
         return menuMapper.selectAllAuth();
     }
 
-    public int deleteMenuRoleByAll(Integer rid,Integer mid){
+    public int deleteMenuRoleByAll(Integer rid, Integer mid) {
         return menuMapper.deleteMenuRoleByAll(rid, mid);
     }
 
-    public List<Menu> getNotAuthByRoleId(Integer id){
+    public List<Menu> getNotAuthByRoleId(Integer id) {
         return menuMapper.getNotAuthByRoleId(id);
     }
 }

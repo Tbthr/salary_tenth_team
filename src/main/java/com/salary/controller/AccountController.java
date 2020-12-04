@@ -27,7 +27,7 @@ public class AccountController {
 
     @ApiOperation(value = "查看个人信息", notes = "")
     @PostMapping("/info")
-    public Object getInfo(@RequestBody HashMap<String ,Object> map ) {
+    public Object getInfo(@RequestBody HashMap<String, Object> map) {
         String id = (String) map.get("id");
         User user = userService.getUserByPrimaryKey(id);
         if (user != null) {
@@ -74,13 +74,13 @@ public class AccountController {
         String id = (String) map.get("id");
         User user = userService.getUserByPrimaryKey(id);
         String oldPsd = (String) map.get("oldPsd");
-        if(oldPsd==null){
+        if (oldPsd == null) {
             return ApiResult.builder()
                     .code(500)
                     .msg("旧密码错误")
                     .build();
         }
-        if (!bCryptPasswordEncoder.matches(oldPsd,user.getPsd())) {
+        if (!bCryptPasswordEncoder.matches(oldPsd, user.getPsd())) {
             return ApiResult.builder()
                     .code(500)
                     .msg("旧密码错误")

@@ -37,12 +37,12 @@ public class UserController {
                 .build();
     }
 
-    @ApiOperation(value = "添加员工", notes = "返回所有部门的信息")
-    @GetMapping("/add")
-    public ApiResult getAllDeparts() {
+    @ApiOperation(value = "获取相关信息", notes = "返回所有部门、以及对应职位信息")
+    @GetMapping("/add/info")
+    public ApiResult getAllDeparts(/*@RequestParam("departId") String departId*/) {
         return ApiResult.builder()
                 .code(200)
-                .msg("所有部门信息")
+                .msg("获取成功")
                 .data(departmentService.getAllDeparts())
                 .build();
     }
