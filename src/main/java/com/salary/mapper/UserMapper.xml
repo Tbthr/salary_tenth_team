@@ -80,7 +80,7 @@
     <update id="updateByPrimaryKey" parameterType="com.salary.model.User">
         update user
         <trim prefix="set" suffixOverrides=",">
-            <include refid="IF"></include>
+            <include refid="IF"/>
         </trim>
         where id = #{id,jdbcType=VARCHAR}
     </update>

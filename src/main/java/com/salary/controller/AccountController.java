@@ -86,6 +86,8 @@ public class AccountController {
                     .msg("旧密码错误")
                     .build();
         }
+        String psd = (String) map.get("psd");
+        map.put("psd",bCryptPasswordEncoder.encode(psd));
         int i = userService.updateUser(map);
         if (i > 0) {
             return ApiResult.builder()
