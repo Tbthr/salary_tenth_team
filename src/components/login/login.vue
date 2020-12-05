@@ -85,7 +85,7 @@ export default {
         // })
         // console.log(this.formdata)
         this.$axios({
-          url: 'http://salary1.free.idcfengye.com/salary/login',
+          url: 'login',
           method: 'post',
           data: {
             id: this.formdata.userid,
@@ -104,19 +104,16 @@ export default {
               }
               return ret
             }
-          ],
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
+          ]
         })
           .then((res) => {
             console.log(res)
             if (res.data.code === 200) {
-              this.$router.push({name: 'home'})
+              this.$router.push({name: 'index'})
               this.$message.success(res.data.msg)
-              this.userData = res.data.data
-              this.userToken = res.data.token
-              this.menuList = res.data.index
+              this.userData = res.data.data.user
+              this.userToken = res.data.data.token
+              this.menuList = res.data.data.menus
               this.code = res.data.code
               this.msg = res.data.msg
               // console.log(this.userToken)
@@ -149,7 +146,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
   background-color: #0f294f;
   /* url(../../assets/images/bg.png) no-repeat; */
   background-size: 100% 100%;

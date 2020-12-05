@@ -7,28 +7,33 @@ import ElementUI from 'element-ui'
 import axios from 'axios'
 import store from './store'
 import Validator from 'vue-validator'
+import MyBread from './components/cuscom/myBread.vue'
+import MyHttpServer from './plugins/http'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/reset.css'
 import './assets/font/iconfont.css'
 
 Vue.use(ElementUI)
+Vue.use(MyHttpServer)
+Vue.component(MyBread.name, {MyBread})
 // 全局配置axios
 Vue.prototype.$axios = axios
 // require('./mock/mock.js')
 Vue.use(Validator)
 // eslint-disable-next-line standard/computed-property-even-spacing
-axios.interceptors.request.use(config => {
-  let token = sessionStorage.getItem('Authorization')
-  if (token) {
-    config.headers['Authorization'] = token
-  }
-  return config
-}, error => {
-  // 对请求错误做些什么
-  return Promise.reject(error)
-})
 
-Vue.config.productionTip = false
+// axios.interceptors.request.use(config => {
+//   let token = sessionStorage.getItem('Authorization')
+//   if (token) {
+//     config.headers['Authorization'] = token
+//   }
+//   return config
+// }, error => {
+//   // 对请求错误做些什么
+//   return Promise.reject(error)
+// })
+
+// Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({

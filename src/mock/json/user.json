@@ -1,0 +1,166 @@
+{
+    "code": 200,
+    "msg": "所有员工信息",
+    "data": [
+      {
+        "id": "1111111111",
+        "departId": "1",
+        "position": "教师",
+        "name": "普通员工",
+        "age": null,
+        "idCard": null,
+        "email": "1543859741@qq.com",
+        "phone": "ssddas",
+        "psd": "$2a$10$M9IF7r17HHbTo9XPHJAAbOHxibnsCbWdUFZoORz2HZ2iLWCZ1y.Gq",
+        "workYear": 1,
+        "userFlag": 1,
+        "gender": "f",
+        "department": {
+          "id": "1",
+          "departName": "计算机科学学院"
+        },
+        "authorities": [
+          {
+            "id": 1,
+            "name": "ROLE_normal",
+            "nameZh": "普通用户",
+            "authority": "ROLE_normal"
+          }
+        ],
+        "accountNonExpired": true,
+        "accountNonLocked": true,
+        "credentialsNonExpired": true,
+        "enabled": true,
+        "password": "$2a$10$M9IF7r17HHbTo9XPHJAAbOHxibnsCbWdUFZoORz2HZ2iLWCZ1y.Gq",
+        "username": "1111111111"
+      },
+      {
+        "id": "1234567890",
+        "departId": "2",
+        "position": "教师",
+        "name": "测试人员",
+        "age": null,
+        "idCard": null,
+        "email": "1598622578@qq.com",
+        "phone": "15179518972",
+        "psd": "$2a$10$clPtJiCckqSM7J9y.KwfvOEXXy7bQeciHVLBY/tfY.Bzi0FGr2bXK",
+        "workYear": 1,
+        "userFlag": 1,
+        "gender": "m",
+        "department": {
+          "id": "2",
+          "departName": "文学院"
+        },
+        "authorities": [
+          {
+            "id": 1,
+            "name": "ROLE_normal",
+            "nameZh": "普通用户",
+            "authority": "ROLE_normal"
+          }
+        ],
+        "accountNonExpired": true,
+        "accountNonLocked": true,
+        "credentialsNonExpired": true,
+        "enabled": true,
+        "password": "$2a$10$clPtJiCckqSM7J9y.KwfvOEXXy7bQeciHVLBY/tfY.Bzi0FGr2bXK",
+        "username": "1234567890"
+      },
+      {
+        "id": "2222222222",
+        "departId": "6",
+        "position": "教学秘书",
+        "name": "部门管理员",
+        "age": null,
+        "idCard": null,
+        "email": "1543859741@qq.com",
+        "phone": "sadfsd",
+        "psd": "aaa",
+        "workYear": 1,
+        "userFlag": 2,
+        "gender": "m",
+        "department": {
+          "id": "6",
+          "departName": "教务处"
+        },
+        "authorities": [
+          {
+            "id": 2,
+            "name": "ROLE_departadmin",
+            "nameZh": "部门管理员",
+            "authority": "ROLE_departadmin"
+          }
+        ],
+        "accountNonExpired": true,
+        "accountNonLocked": true,
+        "credentialsNonExpired": true,
+        "enabled": true,
+        "password": "aaa",
+        "username": "2222222222"
+      },
+      {
+        "id": "3333333333",
+        "departId": "4",
+        "position": "财务处长",
+        "name": "财务管理员",
+        "age": null,
+        "idCard": null,
+        "email": "1543859741@qq.com",
+        "phone": "12345678901",
+        "psd": "$2a$10$Ijnat6dYFewR1cuenqJ1oeGid4yehDgXxvY96A0s08Ms5iYq9lCY6",
+        "workYear": 1,
+        "userFlag": 3,
+        "gender": "m",
+        "department": {
+          "id": "4",
+          "departName": "财务处"
+        },
+        "authorities": [
+          {
+            "id": 3,
+            "name": "ROLE_salaryadmin",
+            "nameZh": "财务管理员",
+            "authority": "ROLE_salaryadmin"
+          }
+        ],
+        "accountNonExpired": true,
+        "accountNonLocked": true,
+        "credentialsNonExpired": true,
+        "enabled": true,
+        "password": "$2a$10$Ijnat6dYFewR1cuenqJ1oeGid4yehDgXxvY96A0s08Ms5iYq9lCY6",
+        "username": "3333333333"
+      },
+      {
+        "id": "4444444444",
+        "departId": "4",
+        "position": "人事财务总管",
+        "name": "系统管理员",
+        "age": null,
+        "idCard": null,
+        "email": "1543859741@qq.com",
+        "phone": "2134",
+        "psd": "$2a$10$MbGyELJhvLE7RQ8DSR.nge0mMAiO.NxuvXCm3Uy7qwtl0Jm3fQhMa",
+        "workYear": 1,
+        "userFlag": 0,
+        "gender": "f",
+        "department": {
+          "id": "4",
+          "departName": "财务处"
+        },
+        "authorities": [
+          {
+            "id": 4,
+            "name": "ROLE_sysadmin",
+            "nameZh": "系统管理员",
+            "authority": "ROLE_sysadmin"
+          }
+        ],
+        "accountNonExpired": true,
+        "accountNonLocked": true,
+        "credentialsNonExpired": true,
+        "enabled": true,
+        "password": "$2a$10$MbGyELJhvLE7RQ8DSR.nge0mMAiO.NxuvXCm3Uy7qwtl0Jm3fQhMa",
+        "username": "4444444444"
+      }
+    ]
+  }

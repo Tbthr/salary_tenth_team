@@ -8,8 +8,20 @@ import User from '../components/user/user.vue'
 import Role from '../components/authority/role.vue'
 import Menu from '../components/authority/menu.vue'
 import Submit from '../components/bills/submit.vue'
+import Log from '../components/log/log.vue'
+import UserAdd from '../components/user/useradd'
+import UserDelete from '../components/user/userdelete'
+import AccountInfo from '../components/account/accountInfo'
+import AccountEdit from '../components/account/accountEdit'
+import EditInfo from '../components/account/editInfo'
+import BillsInfo from '../components/bills/info'
+import Check from '../components/bills/check'
 Vue.use(Router)
 
+const originalPush = Router.prototype.push
+Router.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 export default new Router({
   routes: [
     {
@@ -45,9 +57,49 @@ export default new Router({
           component: User
         },
         {
+          name: 'useradd',
+          path: 'user/add',
+          component: UserAdd
+        },
+        {
+          name: 'userdelete',
+          path: 'user/delete',
+          component: UserDelete
+        },
+        {
           name: 'submit',
           path: 'bills/submit',
           component: Submit
+        },
+        {
+          name: 'log',
+          path: 'sys/log',
+          component: Log
+        },
+        {
+          name: 'accountInfo',
+          path: 'account/info',
+          component: AccountInfo
+        },
+        {
+          name: 'accountEdit',
+          path: 'account/edit/psd',
+          component: AccountEdit
+        },
+        {
+          name: 'editInfo',
+          path: 'account/edit/info',
+          component: EditInfo
+        },
+        {
+          name: 'info',
+          path: 'bills/info',
+          component: BillsInfo
+        },
+        {
+          name: 'check',
+          path: 'bills/check',
+          component: Check
         }
       ],
       component: Home

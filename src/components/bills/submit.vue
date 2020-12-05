@@ -1,10 +1,6 @@
 <template>
     <div>
-        <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: 'home' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>账单信息</el-breadcrumb-item>
-            <el-breadcrumb-item>提交账单</el-breadcrumb-item>
-        </el-breadcrumb>
+        <my-bread level1='账单信息' level2="提交表单"></my-bread>
         <el-card>
             <el-row class="cat_opt">
                 <el-col>
@@ -25,7 +21,9 @@
     </div>
 </template>
 <script>
+import myBread from '../cuscom/myBread.vue'
 export default {
+  components: { myBread },
   data () {
     return {
       cateList: []

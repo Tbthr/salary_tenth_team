@@ -39,12 +39,12 @@ export default {
     return {
       getCode: '获取验证码',
       isGeting: false,
-      count: 6,
+      count: 20,
       disable: false,
       ruleForm: {
         userid: '',
         password: '',
-        confirm: ''
+        code: ''
       },
       forgetFormRules: {
         userid: [
@@ -67,39 +67,19 @@ export default {
       this.$refs.ruleForm.validate(async (valid) => {
         if (!valid) return false
         this.$axios({
-          url: 'http://salary1.free.idcfengye.com/salary/sendmail',
+          url: 'sendMail',
           method: 'post',
           data: {
             id: this.ruleForm.userid
-          },
-          transformRequest: [
-            function (data) {
-              // Do whatever you want to transform the data
-              let ret = ''
-              for (let it in data) {
-                ret +=
-                  encodeURIComponent(it) +
-                  '=' +
-                  encodeURIComponent(data[it]) +
-                  '&'
-              }
-              return ret
-            }
-          ],
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
           }
         })
           .then((res) => {
             console.log(res)
-            // if (res.data.meta.code === 200) {
-            //   this.$router.push({name: 'home'})
-            //   this.$message.success(res.data.meta.msg)
-            //   // window.sessionStorage.setItem('token', res.data.token)
-            //   // eslint-disable-next-line no-undef
-            // } else {
-            //   this.$message.error(res.data.meta.msg)
-            // }
+            if (res.data.code === 200) {
+              this.$message.success(res.data.msg)
+            } else {
+              this.$message.error(res.data.msg)
+            }
           })
           .catch((error) => {
             console.log(error)
@@ -109,7 +89,7 @@ export default {
             this.isGeting = false
             this.disable = false
             this.getCode = '获取验证码'
-            this.count = 6
+            this.count = 20
             clearInterval(countDown)
           } else {
             this.isGeting = true
@@ -127,41 +107,24 @@ export default {
       this.$refs.ruleForm.validate(async valid => {
         if (!valid) return false
         this.$axios({
-          url: 'http://salary1.free.idcfengye.com/salary/forget',
+          url: 'forget',
           method: 'post',
           data: {
             id: this.ruleForm.userid,
             psd: this.ruleForm.password,
-            con: this.ruleForm.confirm
-          },
-          transformRequest: [
-            function (data) {
-              // Do whatever you want to transform the data
-              let ret = ''
-              for (let it in data) {
-                ret +=
-                  encodeURIComponent(it) +
-                  '=' +
-                  encodeURIComponent(data[it]) +
-                  '&'
-              }
-              return ret
-            }
-          ],
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            code: this.ruleForm.confirm
           }
         })
           .then((res) => {
             console.log(res)
-            // if (res.data.meta.code === 200) {
-            //   this.$router.push({name: 'home'})
-            //   this.$message.success(res.data.meta.msg)
-            //   // window.sessionStorage.setItem('token', res.data.token)
-            //   // eslint-disable-next-line no-undef
-            // } else {
-            //   this.$message.error(res.data.meta.msg)
-            // }
+            if (res.data.code === 200) {
+              this.$router.push({name: 'login'})
+              this.$message.success(res.data.msg)
+              // window.sessionStorage.setItem('token', res.data.token)
+              // eslint-disable-next-line no-undef
+            } else {
+              this.$message.error(res.data.msg)
+            }
           })
           .catch((error) => {
             console.log(error)

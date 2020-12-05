@@ -3,7 +3,7 @@
     <el-header>
       <div>
         <!-- <img src="../../assets/logo.jpg"> -->
-        <span>财务管理系统</span>
+        <span>工资管理系统</span>
       </div>
       <el-button type="info" @click="logout">退出登录</el-button>
     </el-header>
@@ -11,15 +11,18 @@
       <el-aside :width="isCollapse ? '64px' : '200px'">
         <div class="toggle-button" @click="togleCollapse">|||</div>
         <el-menu unique-opened :collapse="isCollapse" :collapse-transition="false" router :default-active="activePath" background-color="#0f294f" text-color="#fff" active-text-color="#409FFF">
-          <el-submenu :index="item.id+''" v-for="item in menuList" :key="item.id" >
+          <el-menu-item @click="go()">
+            <span slot="title">首页</span>
+         </el-menu-item>
+          <el-submenu :index="item.id+1+''" v-for="item in menuList" :key="item.id" >
             <template slot="title">
               <!-- <i :class="iconObj[item.id]"></i> -->
-              <span>{{item.authName}}</span>
+              <span>{{item.name}}</span>
             </template>
-            <el-menu-item :index="subItem.path" v-for="subItem in item.children" :key="subItem.id" @click="saveNavState('/' + subItem.path)">
+            <el-menu-item :index="subItem.url" v-for="subItem in item.children" :key="subItem.id" @click="saveNavState('/' + subItem.path)">
               <template slot="title">
                 <i class="el-icon-menu"></i>
-                <span>{{ subItem.authName}}</span>
+                <span>{{ subItem.name}}</span>
               </template>
             </el-menu-item>
           </el-submenu>
@@ -58,6 +61,7 @@ export default {
     logout () {
       // 清空token
       window.sessionStorage.clear()
+      this.$message.success('退出成功！')
       this.$router.push('/login')
     },
     getMenuList () {
@@ -67,7 +71,7 @@ export default {
         if (sessionStorage.getItem('Code') === '200') {
           this.menuList = JSON.parse(sessionStorage.getItem('Menu'))
           this.$message.success(sessionStorage.getItem('Msg'))
-        } else if (sessionStorage.getItem('Code') === '403') {
+        } else if (sessionStorage.getItem('Code') === '401') {
           this.$message.warning(sessionStorage.getItem('Msg'))
           this.$router.push({name: 'login'})
           window.localStorage.clear()
@@ -98,6 +102,9 @@ export default {
     saveNavState (activePath) {
       window.sessionStorage.setItem('activePath', activePath)
       this.activePath = window.sessionStorage.getItem('activePath')
+    },
+    go () {
+      this.$router.push({name: 'index'})
     }
   }
 }
