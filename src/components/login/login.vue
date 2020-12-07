@@ -1,36 +1,47 @@
 <template>
-  <div class="login-wrap">
-    <el-form
-      class="login-form"
-      ref="loginFormRef"
-      :rules="loginFormRules"
-      label-position="top"
-      label-width="80px"
-      :model="formdata"
-    >
-      <h2 class="h2">欢迎登录</h2>
-      <el-form-item label="工号" prop="userid">
-        <el-input
-          placeholder="请输入职工号"
-          prefix-icon="iconfont el-icon-login-yonghu"
-          v-model="formdata.userid"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input
-          placeholder="请输入密码"
-          prefix-icon="iconfont el-icon-login-mimaicon"
-          type="password"
-          v-model="formdata.password"
-        ></el-input>
-      </el-form-item>
-      <el-button @click="doLogin" class="login-btn" type="primary" plain
-        >登录</el-button
-      >
-      <div class="forget-password">
-        <router-link to="forget" exact>忘记密码</router-link>
-      </div>
-    </el-form>
+  <div class="container">
+    <el-card  class="login-card">
+      <el-row :span="24">
+        <el-col :span="12">
+          <img src="../../assets/images/img.png" width="100%" height="100%">
+        </el-col>
+        <el-col :span="12" class="login-wrap">
+          <div class="el">
+            <el-form
+              class="login-form"
+              ref="loginFormRef"
+              :rules="loginFormRules"
+              label-position="top"
+              label-width="80px"
+              :model="formdata"
+              >
+              <h2 class="h2">工资管理系统</h2>
+              <el-form-item label="工号" prop="userid">
+                <el-input
+                  placeholder="请输入职工号"
+                  prefix-icon="iconfont el-icon-login-yonghu"
+                  v-model="formdata.userid"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="密码" prop="password">
+                <el-input
+                  placeholder="请输入密码"
+                  prefix-icon="iconfont el-icon-login-mimaicon"
+                  type="password"
+                  v-model="formdata.password"
+                ></el-input>
+              </el-form-item>
+              <el-button @click="doLogin" class="login-btn" type="primary" plain
+                >登录</el-button
+              >
+              <div class="forget-password">
+                <router-link to="forget" exact>忘记密码</router-link>
+              </div>
+              </el-form>
+          </div>
+        </el-col>
+      </el-row>
+    </el-card>
   </div>
 </template>
 
@@ -65,25 +76,6 @@ export default {
     doLogin () {
       this.$refs.loginFormRef.validate(async (valid) => {
         if (!valid) return false
-        // eslint-disable-next-line no-unused-vars
-        // this.$axios.post('http://salary1.free.idcfengye.com/salary/login', this.formdata).then(res => {
-        //   const {
-        //     // eslint-disable-next-line no-unused-vars
-        //     data,
-        //     // eslint-disable-next-line no-unused-vars
-        //     meta: {msg, code}
-        //   } = res.data
-        //   if (code === 200) {
-        //     this.$router.push({name: 'home'})
-        //     console.log(res)
-        //     this.$message.success(msg)
-        //     window.sessionStorage.setItem('token', res.data.token)
-        //     // eslint-disable-next-line no-undef
-        //   } else {
-        //     this.$message.error(msg)
-        //   }
-        // })
-        // console.log(this.formdata)
         this.$axios({
           url: 'login',
           method: 'post',
@@ -112,6 +104,7 @@ export default {
               this.$router.push({name: 'index'})
               this.$message.success(res.data.msg)
               this.userData = res.data.data.user
+              this.photo = res.data.data.user.name[0]
               this.userToken = res.data.data.token
               this.menuList = res.data.data.menus
               this.code = res.data.code
@@ -122,6 +115,7 @@ export default {
               // console.log(this.code)
               // 将用户token保存到vuex中
               sessionStorage.setItem('userData', JSON.stringify(this.userData))
+              sessionStorage.setItem('photo', this.photo)
               sessionStorage.setItem('Token', this.userToken)
               sessionStorage.setItem('Menu', JSON.stringify(this.menuList))
               sessionStorage.setItem('Code', this.code)
@@ -140,26 +134,34 @@ export default {
 }
 </script>
 
-<style>
-.login-wrap {
+<style scope>
+.container {
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #0f294f;
-  /* url(../../assets/images/bg.png) no-repeat; */
-  background-size: 100% 100%;
+  background-color:#0994f1;
+}
+.login-card {
+  width: 1000px;
+  height: 550px;
+  box-shadow:5px 5px 10px rgba(51, 51, 51, 0.459) !important;
+}
+.el-card__body {
+  padding: 0;
 }
 .el-form--label-top .el-form-item__label {
   padding-top: 15px;
   padding-bottom: 0px;
-  color: #ffffff;
+  color: #000000;
+}
+.el{
+  background-color: #ffff
 }
 .login-wrap .login-form {
-  width: 280px;
-  background-color: none;
   border-radius: 5px;
-  padding: 30px;
+  padding: 100px;
+  /* background-color:#75a3e7 */
 }
 .login-wrap .login-btn {
   margin-top: 40px;
@@ -173,7 +175,7 @@ export default {
 
 a {
   text-decoration: none;
-  color: #ffffff62;
+  color: #0000009d;
   font-size: 14px;
 }
 
@@ -184,6 +186,6 @@ a {
   margin-bottom: 0;
 }
 .h2 {
-  color: #ffffff;
+  color: #000000;
 }
 </style>

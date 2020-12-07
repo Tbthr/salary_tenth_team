@@ -4,7 +4,7 @@
     <my-bread level1='权限管理' level2='权限列表'></my-bread>
     <!-- 卡片视图 -->
     <el-card>
-      <el-table :data="menuList" border stripe>
+      <el-table :data="menuList" border stripe height="550">
         <el-table-column type="index" label="#"></el-table-column>
         <el-table-column label="权限名称" prop="name"></el-table-column>
         <el-table-column label="路径" prop="url"></el-table-column>

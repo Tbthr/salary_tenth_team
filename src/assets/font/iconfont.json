@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6211364",
+      "name": "员工管理",
+      "font_class": "yuangong",
+      "unicode": "e720",
+      "unicode_decimal": 59168
+    },
+    {
+      "icon_id": "6938332",
+      "name": "日志",
+      "font_class": "rizhi",
+      "unicode": "ec85",
+      "unicode_decimal": 60549
+    },
+    {
+      "icon_id": "11183170",
+      "name": "权限管理",
+      "font_class": "permission",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "13496187",
+      "name": "账单",
+      "font_class": "bills",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "8449073",
+      "name": "个人信息",
+      "font_class": "geren",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
       "icon_id": "2392560",
       "name": "错",
       "font_class": "cuo",

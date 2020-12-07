@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- 面包屑导航区 -->
-    <my-bread level1='权限管理' level2='权限列表'></my-bread>
-    <el-card>
+    <my-bread level1='权限管理' level2='角色列表'></my-bread>
+    <el-card height="550">
         <!-- 添加角色按钮 -->
         <el-row>
             <el-col>
@@ -376,6 +376,7 @@ export default {
 }
 .sure{
   float: right;
+  margin-right: 10px;
 }
 .bdtop {
   border-top: 1px solid #eee;
