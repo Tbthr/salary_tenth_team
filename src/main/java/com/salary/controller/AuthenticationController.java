@@ -1,6 +1,5 @@
 package com.salary.controller;
 
-
 import com.salary.model.Menu;
 import com.salary.model.Role;
 import com.salary.service.MenuService;
@@ -21,7 +20,6 @@ public class AuthenticationController {
     MenuService menuService;
     @Resource
     RoleService roleService;
-
 
     @GetMapping("/menu")
     public Object getAllMenu() {
@@ -56,7 +54,6 @@ public class AuthenticationController {
                     .build();
         }
     }
-
 
     @PostMapping("/role/add/role")
     public Object addRole(@RequestBody HashMap<String, Object> map) {

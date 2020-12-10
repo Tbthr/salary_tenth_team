@@ -1,5 +1,6 @@
 package com.salary.controller;
 
+import com.salary.model.Bill;
 import com.salary.service.BillService;
 import com.salary.util.ApiResult;
 import io.swagger.annotations.Api;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 
 @Api(tags = "账单信息")
 @RestController
@@ -16,7 +18,7 @@ public class BillController {
     @Resource
     private BillService billService;
 
-    @ApiOperation(value = "查看账单", notes = "")
+    @ApiOperation(value = "查看账单", notes = "根据条件筛选(分页)")
     @PostMapping("/info")
     public ApiResult getInfo(@RequestBody HashMap<String, Object> map,
                              @RequestParam(required = false, defaultValue = "1") int page,
@@ -31,7 +33,7 @@ public class BillController {
 
     @ApiOperation(value = "提交账单", notes = "")
     @PostMapping("/submit")
-    public ApiResult submit(@RequestBody HashMap<String, Object> map) {
+    public ApiResult submit(@RequestBody List<Bill> list) {
         return ApiResult.builder()
                 .code(200)
                 .msg("提交成功")

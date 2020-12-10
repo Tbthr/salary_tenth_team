@@ -13,19 +13,19 @@ public class Bill {
 
     private BigDecimal basePay;
 
+    private BigDecimal seniorityPay;
+
     private BigDecimal postPay;
 
-    private BigDecimal seniorityPay;
+    private BigDecimal foodAllow;
 
     private BigDecimal trafficAllow;
 
-    private BigDecimal heatAllow;
+    private BigDecimal travelAllow;
 
-    private BigDecimal holidaySympathy;
+    private BigDecimal overtimeAllow;
 
     private BigDecimal otherAllow;
-
-    private BigDecimal shouldPay;
 
     private BigDecimal fiof;
 
@@ -33,5 +33,11 @@ public class Bill {
 
     private BigDecimal otherCut;
 
-    private BigDecimal pay;
+    private BigDecimal incomeTax;
+
+    private BigDecimal shouldPay;
+
+    private Date checkTime;
+
+    private Integer checkStatus;
 }

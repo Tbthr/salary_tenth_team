@@ -37,13 +37,23 @@ public class UserController {
                 .build();
     }
 
-    @ApiOperation(value = "获取相关信息", notes = "返回所有部门、以及对应职位信息")
-    @GetMapping("/add/info")
-    public ApiResult getAllDeparts(/*@RequestParam("departId") String departId*/) {
+    @ApiOperation(value = "获取部门信息", notes = "返回所有部门信息")
+    @GetMapping("/add/departInfo")
+    public ApiResult getAllDeparts() {
         return ApiResult.builder()
                 .code(200)
                 .msg("获取成功")
                 .data(departmentService.getAllDeparts())
+                .build();
+    }
+
+    @ApiOperation(value = "查找员工", notes = "根据条件筛选")
+    @GetMapping("/add/userInfo")
+    public ApiResult getUserByIF(@RequestBody HashMap<String,Object> map) {
+        return ApiResult.builder()
+                .code(200)
+                .msg("获取成功")
+                .data(userService.getUserByIF(map))
                 .build();
     }
 

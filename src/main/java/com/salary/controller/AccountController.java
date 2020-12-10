@@ -92,13 +92,12 @@ public class AccountController {
         if (i > 0) {
             return ApiResult.builder()
                     .code(200)
-                    .msg("更改成功")
-                    .data(userService.getUserByPrimaryKey(id))
+                    .msg("更改成功，请重新登录！")
                     .build();
         }
         return ApiResult.builder()
                 .code(500)
-                .msg("操作失败")
+                .msg("更改错误")
                 .build();
     }
 }

@@ -25,6 +25,10 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public List<User> getUserByIF(HashMap<String, Object> map) {
+        return userMapper.selectByIF(map);
+    }
+
     public User getUserByPrimaryKey(String id) {
         return userMapper.selectByPrimaryKey(id);
     }

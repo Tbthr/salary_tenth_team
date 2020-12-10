@@ -17,6 +17,8 @@ public interface UserMapper {
 
     User selectByPrimaryKey(String id);
 
+    List<User> selectByIF(HashMap<String,Object> map);
+
     List<User> selectAll();
 
     int updateByPrimaryKey(HashMap<String, Object> map);

@@ -1,71 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.salary.mapper.BillMapper">
-    <sql id="BillIF">
+    <sql id="BIllIF">
         <if test="year != null">
-            and year(date) = #{year,jdbcType=DATE}
+            and year(date) = #{year}
         </if>
         <if test="month != null">
-            and month(date) = #{month,jdbcType=DATE}
-        </if>
-        <if test="departId != null">
-            and u.depart_id = #{departId,jdbcType=VARCHAR}
-        </if>
-        <if test="userName != null">
-            and u.name like concat('%',#{userName,jdbcType=VARCHAR},'%')
+            and month(date) = #{month}
         </if>
         <if test="userId != null">
-            and b.user_id = #{userId,jdbcType=VARCHAR}
+            and user_id = #{userId}
+        </if>
+        <if test="checkStatus != null">
+            and check_status = #{checkStatus}
+        </if>
+        <if test="departId != null">
+            and d.id = #{departId}
+        </if>
+        <if test="UserName != null">
+            and u.name like concat('%', #{UserName}, '%')
         </if>
     </sql>
     <resultMap id="BaseResultMap" type="com.salary.model.Bill">
         <result column="date" jdbcType="DATE" property="date"/>
         <result column="user_id" jdbcType="VARCHAR" property="userId"/>
         <result column="base_pay" jdbcType="DECIMAL" property="basePay"/>
-        <result column="post_pay" jdbcType="DECIMAL" property="postPay"/>
         <result column="seniority_pay" jdbcType="DECIMAL" property="seniorityPay"/>
+        <result column="post_pay" jdbcType="DECIMAL" property="postPay"/>
+        <result column="food_allow" jdbcType="DECIMAL" property="foodAllow"/>
         <result column="traffic_allow" jdbcType="DECIMAL" property="trafficAllow"/>
-        <result column="heat_allow" jdbcType="DECIMAL" property="heatAllow"/>
-        <result column="holiday_sympathy" jdbcType="DECIMAL" property="holidaySympathy"/>
+        <result column="travel_allow" jdbcType="DECIMAL" property="travelAllow"/>
+        <result column="overtime_allow" jdbcType="DECIMAL" property="overtimeAllow"/>
         <result column="other_allow" jdbcType="DECIMAL" property="otherAllow"/>
-        <result column="should_pay" jdbcType="DECIMAL" property="shouldPay"/>
         <result column="fiof" jdbcType="DECIMAL" property="fiof"/>
         <result column="absence_cut" jdbcType="DECIMAL" property="absenceCut"/>
         <result column="other_cut" jdbcType="DECIMAL" property="otherCut"/>
-        <result column="pay" jdbcType="DECIMAL" property="pay"/>
+        <result column="income_tax" jdbcType="DECIMAL" property="incomeTax"/>
+        <result column="should_pay" jdbcType="DECIMAL" property="shouldPay"/>
+        <result column="check_time" jdbcType="DATE" property="checkTime"/>
+        <result column="check_status" jdbcType="INTEGER" property="checkStatus"/>
     </resultMap>
     <insert id="insert" parameterType="com.salary.model.Bill">
         insert into bill (date, user_id, base_pay,
-                          post_pay, seniority_pay, traffic_allow,
-                          heat_allow, holiday_sympathy, other_allow,
-                          should_pay, fiof, absence_cut,
-                          other_cut, pay)
-        values (#{date,jdbcType=DATE}, #{userId,jdbcType=VARCHAR}, #{basePay,jdbcType=DECIMAL},
-                #{postPay,jdbcType=DECIMAL}, #{seniorityPay,jdbcType=DECIMAL}, #{trafficAllow,jdbcType=DECIMAL},
-                #{heatAllow,jdbcType=DECIMAL}, #{holidaySympathy,jdbcType=DECIMAL}, #{otherAllow,jdbcType=DECIMAL},
-                #{shouldPay,jdbcType=DECIMAL}, #{fiof,jdbcType=DECIMAL}, #{absenceCut,jdbcType=DECIMAL},
-                #{otherCut,jdbcType=DECIMAL}, #{pay,jdbcType=DECIMAL})
+                          seniority_pay, post_pay, food_allow,
+                          traffic_allow, travel_allow, overtime_allow,
+                          other_allow, fiof, absence_cut,
+                          other_cut, income_tax, should_pay,
+                          check_time, check_status)
+        values (#{date,jdbcType=DATE}, #{userId,jdbcType=VARCHAR},
+                #{basePay,jdbcType=DECIMAL}, #{seniorityPay,jdbcType=DECIMAL},
+                #{postPay,jdbcType=DECIMAL}, #{foodAllow,jdbcType=DECIMAL},
+                #{trafficAllow,jdbcType=DECIMAL}, #{travelAllow,jdbcType=DECIMAL},
+                #{overtimeAllow,jdbcType=DECIMAL}, #{otherAllow,jdbcType=DECIMAL},
+                #{fiof,jdbcType=DECIMAL}, #{absenceCut,jdbcType=DECIMAL},
+                #{otherCut,jdbcType=DECIMAL}, #{incomeTax,jdbcType=DECIMAL},
+                #{shouldPay,jdbcType=DECIMAL}, #{checkTime,jdbcType=DATE},
+                #{checkStatus,jdbcType=INTEGER})
     </insert>
     <select id="selectAll" resultMap="BaseResultMap">
-        select date,
+        select
+        date,
         user_id,
         base_pay,
-        post_pay,
         seniority_pay,
+        post_pay,
+        food_allow,
         traffic_allow,
-        heat_allow,
-        holiday_sympathy,
+        travel_allow,
+        overtime_allow,
         other_allow,
-        should_pay,
         fiof,
         absence_cut,
         other_cut,
-        pay
+        income_tax,
+        should_pay,
+        check_time,
+        check_status
         from bill b
         left join user u on b.user_id = u.id
         left join department d on d.id = u.depart_id
         <where>
-            <include refid="BillIF"/>
+            <include refid="BIllIF"/>
         </where>
+        order by b.check_time desc,b.user_id
     </select>
 </mapper>
