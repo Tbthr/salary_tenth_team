@@ -141,7 +141,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color:#0994f1;
+    background-color:#4d5f88;
     /* background:url("../../assets/images/4.jpg") no-repeat; */
     /* background-size: 100% 100%; */
 }

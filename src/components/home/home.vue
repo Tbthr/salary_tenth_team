@@ -6,14 +6,21 @@
         <span style="margin-left:10px; font-size:30px">工资管理系统</span>
       </div>
       <div class="user">
-        <el-avatar>{{userName}}</el-avatar>
-        <el-button type="info" @click="logout" class="logout" size="small">退出登录</el-button>
+        <el-dropdown @command="handleCommand">
+          <el-avatar>{{userName}}</el-avatar>
+          <el-dropdown-menu>
+            <el-dropdown-item command="/account/info">个人信息</el-dropdown-item>
+            <el-dropdown-item command="/info">账号信息</el-dropdown-item>
+            <el-dropdown-item command="login">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <!-- <el-button type="info" @click="logout" class="logout" size="small">退出登录</el-button> -->
       </div>
     </el-header>
     <el-container>
       <el-aside :width="isCollapse ? '64px' : '200px'">
         <div class="toggle-button" @click="togleCollapse">|||</div>
-        <el-menu unique-opened :collapse="isCollapse" :collapse-transition="false" router :default-active="activePath" background-color="#0f294f" text-color="#fff" active-text-color="#409FFF">
+        <el-menu unique-opened :collapse="isCollapse" :collapse-transition="false" router :default-active="activePath" background-color="#4d5f88" text-color="#fff" active-text-color="#232b3d">
           <el-menu-item @click="go()">
             <i class="el-icon-s-home"></i>
             <span slot="title">首页</span>
@@ -63,11 +70,15 @@ export default {
     this.activePath = window.sessionStorage.getItem('Token')
   },
   methods: {
-    logout () {
-      // 清空token
-      window.sessionStorage.clear()
-      this.$message.success('退出成功！')
-      this.$router.push('/login')
+    handleCommand (command) {
+      // this.$message('click on item ' + command)
+      if (command === 'login') {
+        window.sessionStorage.clear()
+        this.$message.success('退出成功！')
+        this.$router.push({name: 'login'})
+      } else {
+        this.$router.push(command)
+      }
     },
     getMenuList () {
       if (JSON.parse(sessionStorage.getItem('userData')) !== null) {
@@ -120,7 +131,7 @@ export default {
   height: 100%;
 }
 .el-header {
-  background-color: #0f294f;
+  background-color: #4d5f88;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -139,7 +150,7 @@ export default {
     align-items: center;
 }
 .el-aside {
-  background-color: #0f294f;
+  background-color: #4d5f88;
 }
 .el-aside .el-menu {
     border: none;
@@ -151,7 +162,7 @@ export default {
   margin-right: 10px;
 }
 .toggle-button {
-  background-color: #010b1a91;
+  background-color: #232b3d;
   font-size: 10px;
   line-height: 24px;
   color: #fff;

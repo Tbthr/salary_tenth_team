@@ -1,6 +1,6 @@
 <template>
   <div>
-    <my-bread level1='查看账单' level2='已审核'></my-bread>
+    <my-bread level1='账单信息' level2='已审核'></my-bread>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <i class="el-icon-s-tools"></i><span>已审批</span>

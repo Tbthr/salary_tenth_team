@@ -7,9 +7,9 @@
         <el-row>
             <el-col>
             <el-button class='sure' type="primary" @click="AddRoleDialogVisible=true" float-right>添加角色</el-button>
-            <el-button type="danger" icon="el-icon-delete" @click="removeRoleById(scope.row.id)" float-right>删除</el-button>
+            <el-button :disabled= "isDisabled" class='multi' type="danger" icon="el-icon-delete" @click= "removeMulRoleById()" float-right>批量删除</el-button>
             </el-col>
-            <el-table :data="roleList" border stripe>
+            <el-table :data="roleList" border stripe @selection-change= "selectionChange">
                 <!-- 展开列 -->
                 <el-table-column type="expand">
                 <template slot-scope="scope">
@@ -60,7 +60,7 @@
                 <el-table-column label="角色描述" prop="nameZh"></el-table-column>
                 <el-table-column label="操作" width="300px">
                 <template slot-scope="scope">
-                    <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)">编辑</el-button>
+                    <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.$index)">编辑</el-button>
                     <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeRoleById(scope.row.id)">删除</el-button>
                     <el-button
                     type="warning"
@@ -115,7 +115,7 @@
     </span>
     </el-dialog>
     <!-- 编辑角色对话框 -->
-    <el-dialog title="编辑角色" :visible.sync="editRoleDialogVisible" width="40%" @close="addRoleDialogClosed">
+    <el-dialog title="编辑角色" :visible.sync="editRoleDialogVisible" width="40%" @close="editRoleDialogClosed">
     <el-form
         :model="editRoleForm"
         ref="editRoleFormRef"
@@ -143,9 +143,16 @@ export default {
   components: { myBread },
   data () {
     return {
+      // 批量删除按钮是否不可用
+      isDisabled: true,
+      // 批量删除列表
+      multiId: [],
+      // id数组
       idList: [],
       // 所有角色列表
       roleList: [],
+      // 权限id
+      menuId: [],
       // 分配权限框
       setRightDialogVisible: false,
       // 权限列表
@@ -171,7 +178,10 @@ export default {
         ]
       },
       //   编辑角色信息
-      editRoleForm: {},
+      editRoleForm: {
+        name: '',
+        nameZh: ''
+      },
       editRoleDialogVisible: false,
       editRoleFormRules: {
         name: [
@@ -217,20 +227,29 @@ export default {
       if (confirmResult !== 'confirm') {
         this.$message.info('已取消权限删除')
       }
-      const { data: res } = await this.$axios.delete(
-        `role/${roleId}/menu/${rightId}`
-      )
-      if (res.code !== 200) {
-        return this.$message.error('删除权限失败！')
-      }
-      this.roleList = res.data
-      //   不建议使用
-      this.getRoleList()
+      this.$axios({
+        url: 'authority/role/delete/menus',
+        method: 'post',
+        data: {
+          roleId: roleId.id,
+          menuId: [rightId]
+        }
+      })
+        .then((res) => {
+          if (res.data.code !== 200) {
+            return this.$message.error(res.data.msg)
+          } else {
+            this.$message.success(res.data.msg)
+          }
+          this.roleList = res.data.data
+        })
     },
     // 分配权限
     async showSetRightDialog (role) {
       this.roleId = role.id
       console.log(this.roleId)
+      sessionStorage.removeItem('roleId', this.roleId)
+      sessionStorage.setItem('roleId', this.roleId)
       // 获取角色的所有权限
       this.$axios({
         url: 'authority/role/add/menutree',
@@ -247,19 +266,6 @@ export default {
 
         this.setRightDialogVisible = true
       })
-      // const { data: res } = await this.$axios.get('authority/role/add/menutree', this.roleId)
-      // if (res.code !== 200) {
-      //   console.log(res.code)
-      //   console.log(res)
-      //   return this.$message.error('获取权限数据失败！')
-      // }
-      //   获取权限树
-      // this.rightsList = res.data
-      //   console.log(res)
-      // //   递归获取三级节点的id
-      // this.getLeafkeys(role, this.defKeys)
-
-      // this.setRightDialogVisible = true
     },
     // 通过递归 获取角色下三级权限的 id, 并保存到defKeys数组
     getLeafkeys (node, arr) {
@@ -277,6 +283,10 @@ export default {
     addRoleDialogClosed () {
       this.$refs.addRoleFormRef.resetFields()
     },
+    // 编辑角色对话框的关闭
+    editRoleDialogClosed () {
+      this.$refs.editRoleFormRef.resetFields()
+    },
     // 添加角色
     addRoles () {
       this.$refs.addRoleFormRef.validate(async valid => {
@@ -284,13 +294,18 @@ export default {
         const { data: res } = await this.$axios.post('authority/role/add/role', this.addRoleForm)
         if (res.code !== 200) {
           this.$message.error(res.msg)
+        } else {
+          this.$message.success(res.msg)
+          this.AddRoleDialogVisible = false
+          this.roleList = res.data
         }
-        this.$message.success(res.msg)
-        this.AddRoleDialogVisible = false
-        this.roleList = res.data
+        sessionStorage.removeItem('roleList')
+        sessionStorage.setItem('roleList', JSON.stringify(this.roleList))
+        const list = JSON.parse(sessionStorage.getItem('roleList'))
+        console.log(list)
       })
     },
-    // 删除角色
+    // 删除单个角色
     async removeRoleById (id) {
       this.idList = id
       const confirmResult = await this.$confirm(
@@ -315,17 +330,52 @@ export default {
         console.log(res)
         if (res.data.code !== 200) {
           this.$message.error(res.data.msg)
+        } else {
+          this.$message.success(res.data.msg)
+          this.roleList = res.data.data
+          sessionStorage.removeItem('roleList')
+          sessionStorage.setItem('roleList', JSON.stringify(this.roleList))
         }
-        this.$message.success(res.data.msg)
-        this.roleList = res.data.data
+      })
+    },
+    // 批量删除
+    selectionChange (selection) { // 参数selection返回所选行的各个分量
+      if (selection.length > 0) {
+        this.isDisabled = false // 批量删除按钮可用
+        console.log(selection[0].id)
+        for (var i = 0; i < selection.length; i++) {
+          this.multiId[i] = selection[i].id
+        }
+        console.log(this.multiId)
+      } else {
+        this.isDisabled = true // 批量删除按钮不可用
+      }
+    },
+    async removeMulRoleById () {
+      this.$axios({
+        url: 'authority/role/delete/roles',
+        method: 'POST',
+        data: {
+          id: this.multiId
+        }
+      }).then((res) => {
+        console.log(res)
+        if (res.data.code !== 200) {
+          this.$message.error(res.data.msg)
+        } else {
+          this.$message.success(res.data.msg)
+          this.roleList = res.data.data
+          sessionStorage.removeItem('roleList')
+          sessionStorage.setItem('roleList', JSON.stringify(this.roleList))
+        }
       })
     },
     // 编辑角色
-    async showEditDialog (id) {
-      console.log(id)
-      this.id = id
-      // this.editRoleForm = JSON.parse(sessionStorage.getItem('roleList'))
-      // console.log(this.editRoleForm)
+    async showEditDialog (index) {
+      console.log(index)
+      // this.index = index
+      this.editRoleForm = JSON.parse(sessionStorage.getItem('roleList'))[index]
+      console.log(this.editRoleForm)
       this.editRoleDialogVisible = true
     },
     editRoles () {
@@ -344,28 +394,44 @@ export default {
           console.log(res)
           if (res.data.code !== 200) {
             this.$message.error(res.data.msg)
+          } else {
+            // 隐藏编辑角色对话框
+            this.editRoleDialogVisible = false
+            this.$message.success(res.data.msg)
+            this.roleList = res.data.data
+            sessionStorage.removeItem('roleList')
+            sessionStorage.setItem('roleList', JSON.stringify(this.roleList))
           }
-          // 隐藏编辑角色对话框
-          this.editRoleDialogVisible = false
-          this.$message.success(res.data.msg)
-          this.roleList = res.data.data
         })
       })
     },
     // 分配权限
-    async allotRights (roleId) {
+    async allotRights () {
       // 获得当前选中和半选中的Id
       const keys = [
         ...this.$refs.treeRef.getCheckedKeys(),
         ...this.$refs.treeRef.getHalfCheckedKeys()
       ]
       // join() 方法用于把数组中的所有元素放入一个字符串
-      const idStr = keys.join(',')
-      const { data: res } = await this.$axios.post(`authority/role/rights`, { rids: idStr })
-      if (res.meta.status !== 200) { return this.$message.error('分配权限失败！') }
-      this.$message.success('分配权限成功!')
-      this.getRolesList()
-      this.setRightDialogVisible = false
+      // const idStr = keys.join(',')
+      this.$axios({
+        url: 'authority/role/add/menu',
+        method: 'POST',
+        data: {
+          roleId: JSON.parse(sessionStorage.getItem('roleId')),
+          menuId: keys
+        }
+      })
+        .then((res) => {
+          console.log(res)
+          if (res.data.code !== 200) {
+            this.$message.error(res.data.msg)
+          } else {
+            this.$message.success(res.data.msg)
+            this.roleList = res.data.data
+            this.setRightDialogVisible = false
+          }
+        })
     }
   }
 }
@@ -374,9 +440,12 @@ export default {
 .el-tag {
   margin: 7px;
 }
+.multi {
+  margin-left: 0;
+}
 .sure{
   float: right;
-  margin-right: 10px;
+  margin-bottom: 10px;
 }
 .bdtop {
   border-top: 1px solid #eee;
