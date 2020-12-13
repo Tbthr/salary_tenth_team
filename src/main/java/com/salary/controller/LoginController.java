@@ -24,7 +24,7 @@ public class LoginController {
     @Resource
     private MenuService menuService;
 
-    @Log(module = "登录成功")
+    @Log(info = "LOGIN",module = "登录成功")
     @PostMapping("/success")
     public ApiResult loginSuccess() {
         //获取token

@@ -33,7 +33,7 @@ public class LogAspect {
         String methodName = joinPoint.getSignature().getName();
         Method method = currentMethod(joinPoint, methodName);
         Log log = method.getAnnotation(Log.class);
-        logService.put(joinPoint, methodName, log.module());
+        logService.put(joinPoint, methodName, log.module(), log.info());
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.salary.controller;
 
+import com.salary.aop.Log;
 import com.salary.mapper.UserMapper;
 import com.salary.model.User;
 import com.salary.service.UserService;
@@ -27,6 +28,7 @@ public class ForgetController {
     @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Log(info = "INFO",module = "获取验证码")
     @ApiOperation(value = "获取验证码", notes = "")
     @PostMapping("/sendMail")
     public ApiResult sendMail(@RequestBody HashMap<String, Object> map) throws GeneralSecurityException, MessagingException {
@@ -42,6 +44,7 @@ public class ForgetController {
         return ApiResult.builder().code(200).msg("验证码发送成功").data(null).build();
     }
 
+    @Log(info = "UPDATE",module = "重置密码")
     @ApiOperation(value = "重置密码")
     @PostMapping("/forget")
     public ApiResult forget(@RequestBody HashMap<String, Object> map) {

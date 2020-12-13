@@ -1,18 +1,20 @@
 package com.salary.controller;
 
+import com.salary.aop.Log;
 import com.salary.model.Menu;
 import com.salary.model.Role;
 import com.salary.service.MenuService;
 import com.salary.service.RoleService;
 import com.salary.util.ApiResult;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 
-@Api(tags = {"权限管理"})
+@Api(tags = "权限管理")
 @RestController
 @RequestMapping("/authority")
 public class AuthenticationController {
@@ -21,6 +23,8 @@ public class AuthenticationController {
     @Resource
     RoleService roleService;
 
+    @Log(info = "SELECT",module = "获取权限列表")
+    @ApiOperation(value = "获取权限列表", notes = "")
     @GetMapping("/menu")
     public Object getAllMenu() {
         try {
@@ -38,6 +42,8 @@ public class AuthenticationController {
         }
     }
 
+    @Log(info = "SELECT",module = "获取角色列表")
+    @ApiOperation(value = "获取角色列表", notes = "")
     @GetMapping("/role")
     public Object getAllRole() {
         try {
@@ -55,6 +61,8 @@ public class AuthenticationController {
         }
     }
 
+    @Log(info = "INSERT",module = "增加角色")
+    @ApiOperation(value = "增加角色", notes = "")
     @PostMapping("/role/add/role")
     public Object addRole(@RequestBody HashMap<String, Object> map) {
         String name = (String) map.get("name");
@@ -81,6 +89,8 @@ public class AuthenticationController {
         }
     }
 
+    @Log(info = "SELECT",module = "获取权限树")
+    @ApiOperation(value = "获取权限树", notes = "")
     @PostMapping("/role/add/menutree")
     public Object getMenuTree(@RequestBody HashMap<String, Object> map) {
         int id = (int) map.get("id");
@@ -91,7 +101,9 @@ public class AuthenticationController {
                 .build();
     }
 
-    @RequestMapping("/role/add/menu")
+    @Log(info = "INSERT",module = "添加权限")
+    @ApiOperation(value = "添加权限", notes = "")
+    @PostMapping("/role/add/menu")
     public Object addMenus(@RequestBody HashMap<String, Object> map) {
         int rid = (int) map.get("roleId");
         List<Integer> mid = (List<Integer>) map.get("menuId");
@@ -113,7 +125,9 @@ public class AuthenticationController {
         }
     }
 
-    @RequestMapping("/role/update")
+    @Log(info = "UPDATE",module = "修改角色")
+    @ApiOperation(value = "修改角色", notes = "")
+    @PostMapping("/role/update")
     public Object updateRole(@RequestBody HashMap<String, Object> map) {
         try {
             int id = (int) map.get("id");
@@ -138,7 +152,9 @@ public class AuthenticationController {
         }
     }
 
-    @RequestMapping("/role/delete/roles")
+    @Log(info = "DELETE",module = "删除角色")
+    @ApiOperation(value = "删除角色", notes = "")
+    @PostMapping("/role/delete/roles")
     public Object deleteRoles(@RequestBody HashMap<String, Object> map) {
         List<Integer> rid = (List<Integer>) map.get("id");
         try {
@@ -160,8 +176,9 @@ public class AuthenticationController {
         }
     }
 
-
-    @RequestMapping("/role/delete/menus")
+    @Log(info = "DELETE",module = "删除权限")
+    @ApiOperation(value = "删除权限", notes = "")
+    @PostMapping("/role/delete/menus")
     public Object deleteMenus(@RequestBody HashMap<String, Object> map) {
         int rid = (int) map.get("roleId");
         List<Integer> mid = (List<Integer>) map.get("menuId");

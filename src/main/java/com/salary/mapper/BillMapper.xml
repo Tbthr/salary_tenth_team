@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.salary.mapper.BillMapper">
-    <sql id="BIllIF">
+    <sql id="BILLIF">
         <if test="year != null">
             and year(date) = #{year}
         </if>
@@ -19,6 +19,53 @@
         </if>
         <if test="UserName != null">
             and u.name like concat('%', #{UserName}, '%')
+        </if>
+    </sql>
+    <sql id="BILLALLIF">
+        <if test="basePay != null">
+            base_pay = #{basePay,jdbcType=DECIMAL},
+        </if>
+        <if test="seniorityPay != null">
+            seniority_pay = #{seniorityPay,jdbcType=DECIMAL},
+        </if>
+        <if test="postPay != null">
+            post_pay = #{postPay,jdbcType=DECIMAL},
+        </if>
+        <if test="foodAllow != null">
+            food_allow = #{foodAllow,jdbcType=DECIMAL},
+        </if>
+        <if test="trafficAllow != null">
+            traffic_allow = #{trafficAllow,jdbcType=DECIMAL},
+        </if>
+        <if test="travelAllow != null">
+            travel_allow = #{travelAllow,jdbcType=DECIMAL},
+        </if>
+        <if test="overtimeAllow != null">
+            overtime_allow = #{overtimeAllow,jdbcType=DECIMAL},
+        </if>
+        <if test="otherAllow != null">
+            other_allow = #{otherAllow,jdbcType=DECIMAL},
+        </if>
+        <if test="fiof != null">
+            fiof = #{fiof,jdbcType=DECIMAL},
+        </if>
+        <if test="absenceCut != null">
+            absence_cut = #{absenceCut,jdbcType=DECIMAL},
+        </if>
+        <if test="otherCut != null">
+            other_cut = #{otherCut,jdbcType=DECIMAL},
+        </if>
+        <if test="incomeTax != null">
+            income_tax = #{incomeTax,jdbcType=DECIMAL},
+        </if>
+        <if test="shouldPay != null">
+            should_pay = #{shouldPay,jdbcType=DECIMAL},
+        </if>
+        <if test="checkTime != null">
+            check_time = #{checkTime,jdbcType=DATE},
+        </if>
+        <if test="checkStatus != null">
+            check_status = #{checkStatus,jdbcType=INTEGER},
         </if>
     </sql>
     <resultMap id="BaseResultMap" type="com.salary.model.Bill">
@@ -39,6 +86,26 @@
         <result column="should_pay" jdbcType="DECIMAL" property="shouldPay"/>
         <result column="check_time" jdbcType="DATE" property="checkTime"/>
         <result column="check_status" jdbcType="INTEGER" property="checkStatus"/>
+        <!--用户信息-->
+        <association property="user" javaType="user">
+            <id column="uid" jdbcType="VARCHAR" property="id"/>
+            <result column="depart_id" jdbcType="VARCHAR" property="departId"/>
+            <result column="position" jdbcType="VARCHAR" property="position"/>
+            <result column="name" jdbcType="VARCHAR" property="name"/>
+            <result column="age" jdbcType="VARCHAR" property="age"/>
+            <result column="id_card" jdbcType="VARCHAR" property="idCard"/>
+            <result column="email" jdbcType="VARCHAR" property="email"/>
+            <result column="phone" jdbcType="CHAR" property="phone"/>
+            <result column="psd" jdbcType="VARCHAR" property="psd"/>
+            <result column="work_year" jdbcType="INTEGER" property="workYear"/>
+            <result column="user_flag" jdbcType="INTEGER" property="userFlag"/>
+            <result column="gender" jdbcType="CHAR" property="gender"/>
+        </association>
+        <!--部门-->
+        <association property="department" javaType="department">
+            <id column="did" property="id"/>
+            <result column="depart_name" property="departName"/>
+        </association>
     </resultMap>
     <insert id="insert" parameterType="com.salary.model.Bill">
         insert into bill (date, user_id, base_pay,
@@ -46,7 +113,7 @@
                           traffic_allow, travel_allow, overtime_allow,
                           other_allow, fiof, absence_cut,
                           other_cut, income_tax, should_pay,
-                          check_time, check_status)
+                          check_time)
         values (#{date,jdbcType=DATE}, #{userId,jdbcType=VARCHAR},
                 #{basePay,jdbcType=DECIMAL}, #{seniorityPay,jdbcType=DECIMAL},
                 #{postPay,jdbcType=DECIMAL}, #{foodAllow,jdbcType=DECIMAL},
@@ -54,9 +121,15 @@
                 #{overtimeAllow,jdbcType=DECIMAL}, #{otherAllow,jdbcType=DECIMAL},
                 #{fiof,jdbcType=DECIMAL}, #{absenceCut,jdbcType=DECIMAL},
                 #{otherCut,jdbcType=DECIMAL}, #{incomeTax,jdbcType=DECIMAL},
-                #{shouldPay,jdbcType=DECIMAL}, #{checkTime,jdbcType=DATE},
-                #{checkStatus,jdbcType=INTEGER})
+                #{shouldPay,jdbcType=DECIMAL}, #{checkTime,jdbcType=DATE})
     </insert>
+    <update id="update" parameterType="bill">
+        update bill
+        <trim prefix="set" suffixOverrides=",">
+            <include refid="BILLALLIF"/>
+        </trim>
+        where date = #{date,jdbcType=DATE} and user_id = #{userId,jdbcType=VARCHAR}
+    </update>
     <select id="selectAll" resultMap="BaseResultMap">
         select
         date,
@@ -75,12 +148,26 @@
         income_tax,
         should_pay,
         check_time,
-        check_status
+        check_status,
+        u.id uid,
+        depart_id,
+        position,
+        name,
+        age,
+        id_card,
+        email,
+        phone,
+        psd,
+        work_year,
+        user_flag,
+        gender,
+        d.id did,
+        depart_name
         from bill b
         left join user u on b.user_id = u.id
         left join department d on d.id = u.depart_id
         <where>
-            <include refid="BIllIF"/>
+            <include refid="BILLIF"/>
         </where>
         order by b.check_time desc,b.user_id
     </select>

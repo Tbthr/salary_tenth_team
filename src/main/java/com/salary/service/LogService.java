@@ -37,7 +37,7 @@ public class LogService {
 
     private static final String LOG_CONTENT = "[类名]:%s,[方法]:%s,[参数]:%s";
 
-    public void put(JoinPoint joinPoint, String methodName, String module) {
+    public void put(JoinPoint joinPoint, String methodName, String module, String info) {
         try {
             HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
             Log log = new Log();
@@ -51,6 +51,7 @@ public class LogService {
             String ip = CusAccessObjectUtil.getClientIpAddress(request);
             log.setUsername(username);
             log.setModule(module);
+            log.setInfo(info);
             log.setIp(ip);
             log.setContent(operateContent(joinPoint, methodName, request));
             LocalDateTime dateTime = LocalDateTime.now(); // gets the current date and time
@@ -69,9 +70,13 @@ public class LogService {
      * @param rows 页数
      * @return 分页返回日志列表
      */
-    public PageInfo<Log> getAllLog(int page, int rows) {
+    public PageInfo<Log> getAllLog(HashMap<String, Object> map, int page, int rows) {
         PageHelper.startPage(page, rows);
-        return new PageInfo<>(logMapper.selectAll());
+        return new PageInfo<>(logMapper.selectAll(map));
+    }
+
+    public int deleteById(Integer id) {
+        return logMapper.deleteByPrimaryKey(id);
     }
 
     public String operateContent(JoinPoint joinPoint, String methodName, HttpServletRequest request) throws ClassNotFoundException, NotFoundException {

@@ -136,7 +136,7 @@
           and ur.role_id = r.id
     </select>
     <select id="selectByIF" parameterType="com.salary.model.User" resultType="user">
-        select id,name
+        select *
         from user
         <where>
             <if test="name != null">

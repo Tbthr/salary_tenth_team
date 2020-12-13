@@ -1,15 +1,21 @@
 package com.salary.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
 public class Bill {
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date date;
 
     private String userId;
+    private User user;
+    private Department department;
 
     private BigDecimal basePay;
 
@@ -37,7 +43,10 @@ public class Bill {
 
     private BigDecimal shouldPay;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date checkTime;
 
     private Integer checkStatus;
+
 }

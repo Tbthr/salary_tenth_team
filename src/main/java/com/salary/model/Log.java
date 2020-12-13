@@ -14,5 +14,7 @@ public class Log {
 
     private String module;
 
+    private String info;
+
     private String content;
 }

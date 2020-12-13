@@ -1,5 +1,6 @@
 package com.salary.controller;
 
+import com.salary.aop.Log;
 import com.salary.model.User;
 import com.salary.service.UserService;
 import com.salary.util.ApiResult;
@@ -19,15 +20,15 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/account")
 public class AccountController {
-
     @Autowired
     UserService userService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Log(info = "SELECT",module = "查看个人信息")
     @ApiOperation(value = "查看个人信息", notes = "")
     @PostMapping("/info")
-    public Object getInfo(@RequestBody HashMap<String, Object> map) {
+    public ApiResult getInfo(@RequestBody HashMap<String, Object> map) {
         String id = (String) map.get("id");
         User user = userService.getUserByPrimaryKey(id);
         if (user != null) {
@@ -43,9 +44,10 @@ public class AccountController {
                 .build();
     }
 
+    @Log(info = "UPDATE",module = "修改个人信息")
     @ApiOperation(value = "修改个人信息", notes = "")
     @PostMapping("/edit/info")
-    public Object editInfo(@RequestBody HashMap<String, Object> map) {
+    public ApiResult editInfo(@RequestBody HashMap<String, Object> map) {
         String id = (String) map.get("id");
         String code = (String) map.get("code");
         if (!SendEmailUtil.codeMap.get(id).equals(code)) {
@@ -68,9 +70,10 @@ public class AccountController {
                 .build();
     }
 
+    @Log(info = "UPDATE",module = "修改密码")
     @ApiOperation(value = "修改密码", notes = "")
     @PostMapping("/edit/psd")
-    public Object editPsd(@RequestBody HashMap<String, Object> map) {
+    public ApiResult editPsd(@RequestBody HashMap<String, Object> map) {
         String id = (String) map.get("id");
         User user = userService.getUserByPrimaryKey(id);
         String oldPsd = (String) map.get("oldPsd");

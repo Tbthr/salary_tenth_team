@@ -3,6 +3,7 @@ package com.salary.mapper;
 import com.salary.model.Log;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Transactional
@@ -13,7 +14,5 @@ public interface LogMapper {
 
     Log selectByPrimaryKey(Integer id);
 
-    List<Log> selectAll();
-
-    int updateByPrimaryKey(Log record);
+    List<Log> selectAll(HashMap<String,Object> map);
 }

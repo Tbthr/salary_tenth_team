@@ -30,6 +30,16 @@
             <!--设置最大存档数-->
             <DefaultRolloverStrategy max="20"/>
         </RollingFile>
+
+        <!--保存到数据库配置文件-->
+        <JDBC name="databaseAppender" tableName="log">
+            <ConnectionFactory class="com.salary.config.ConnectionFactoryConfig" method="getDatabaseConnection"/>
+            <Column name="date" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS}"/>
+            <Column name="username" pattern="%thread"/>
+            <Column name="info" pattern="%level"/>
+            <Column name="module" pattern="%logger"/>
+            <Column name="content" pattern="%m"/>
+        </JDBC>
     </Appenders>
 
     <Loggers>
@@ -37,6 +47,7 @@
         <Root level="debug">
             <AppenderRef ref="CONSOLE" level="info"/>
             <AppenderRef ref="FILE-APPENDER" level="warn"/>
+            <AppenderRef ref="databaseAppender" level="warn"/>
         </Root>
         <!--spring日志-->
         <Logger name="org.springframework" level="info"/>

@@ -10,4 +10,9 @@ public @interface Log {
      * 操作
      */
     String module() default "";
+
+    /**
+     * 级别
+     */
+    String info() default "";
 }
