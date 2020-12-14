@@ -27,6 +27,14 @@ public class BillController {
     @Resource
     private BillService billService;
 
+    /**
+     * 查看账单
+     *
+     * @param map  查询条件
+     * @param page 当前页码
+     * @param rows 每页条数
+     * @return 根据map筛选后的分页数据
+     */
     @Log(info = "SELECT", module = "查看账单")
     @ApiOperation(value = "查看账单", notes = "根据条件筛选(分页)")
     @GetMapping("/info")
@@ -41,6 +49,12 @@ public class BillController {
                 .build();
     }
 
+    /**
+     * 查看账单（不分页）
+     *
+     * @param map 查询条件
+     * @return 根据map筛选后的数据
+     */
     @Log(info = "SELECT", module = "查看账单")
     @ApiOperation(value = "查看账单", notes = "根据条件筛选(不分页)")
     @GetMapping("/info/origin")
@@ -53,6 +67,13 @@ public class BillController {
                 .build();
     }
 
+    /**
+     * 提交账单
+     *
+     * @param map 提交时间、bill列表
+     * @return 是否提交成功
+     * @throws ParseException 日期转换异常
+     */
     @Log(info = "INSERT", module = "提交账单")
     @ApiOperation(value = "提交账单", notes = "")
     @PostMapping("/submit")
@@ -95,6 +116,12 @@ public class BillController {
                 .build();
     }
 
+    /**
+     * 审批账单
+     *
+     * @param list bill列表
+     * @return 是否操作成功
+     */
     @Log(info = "UPDATE", module = "审批账单")
     @ApiOperation(value = "审批账单", notes = "")
     @PostMapping("/check")

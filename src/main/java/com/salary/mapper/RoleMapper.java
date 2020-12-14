@@ -36,7 +36,7 @@ public interface RoleMapper {
      * 插入menu_role表
      * @param rid，角色id
      * @param mid，权限id
-     * @return
+     * @return 成功：1 失败：0
      */
     @Insert("insert into menu_role(role_id,menu_id) values(#{rid},#{mid})")
     int insertMenuRole(Integer rid, Integer mid);
@@ -44,7 +44,7 @@ public interface RoleMapper {
     /**
      * 删除menu_role中角色的所有权限
      * @param rid，角色id
-     * @return
+     * @return 成功：1 失败：0
      */
     @Delete("delete from menu_role where role_id =#{rid}")
     int deleteMenuRoleByRid(Integer rid);
@@ -52,7 +52,7 @@ public interface RoleMapper {
     /**
      * 根据name获取角色信息
      * @param name，角色的name
-     * @return
+     * @return 成功：1 失败：0
      */
     @Select("select id from role where name = #{name}")
     int selectIdByName(String name);

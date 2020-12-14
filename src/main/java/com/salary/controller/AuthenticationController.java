@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -27,9 +26,10 @@ public class AuthenticationController {
 
     /**
      * 获取所有权限列表
+     *
      * @return 权限列表
      */
-    @Log(info = "SELECT",module = "获取权限列表")
+    @Log(info = "SELECT", module = "获取权限列表")
     @ApiOperation(value = "获取权限列表", notes = "")
     @GetMapping("/menu")
     public Object getAllMenu() {
@@ -50,9 +50,10 @@ public class AuthenticationController {
 
     /**
      * 获取所有角色列表，以树状结构为其拥有的权限返回
+     *
      * @return 角色列表，以树状结构返回
      */
-    @Log(info = "SELECT",module = "获取角色列表")
+    @Log(info = "SELECT", module = "获取角色列表")
     @ApiOperation(value = "获取角色列表", notes = "")
     @GetMapping("/role")
     public Object getAllRole() {
@@ -73,10 +74,11 @@ public class AuthenticationController {
 
     /**
      * 增加角色功能
+     *
      * @param map，map中name为角色名字，nameZh为角色描述
      * @return 返回最新的角色列表以树状结构
      */
-    @Log(info = "INSERT",module = "增加角色")
+    @Log(info = "INSERT", module = "增加角色")
     @ApiOperation(value = "增加角色", notes = "")
     @PostMapping("/role/add/role")
     public Object addRole(@RequestBody HashMap<String, Object> map) {
@@ -89,8 +91,8 @@ public class AuthenticationController {
         try {
             roleService.insertRole(role);
             int id = roleService.selectRoleIdByName(name);
-            List<Integer> menuId = Arrays.asList(3,7,8,9);
-            roleService.init(id,menuId);
+            List<Integer> menuId = Arrays.asList(3, 7, 8, 9);
+            roleService.init(id, menuId);
             List<Role> roles = roleService.getAllRoleAuth();
             return ApiResult.builder()
                     .code(200)
@@ -106,11 +108,12 @@ public class AuthenticationController {
     }
 
     /**
-     *获取对应角色没有的权限树
+     * 获取对应角色没有的权限树
+     *
      * @param map，id为角色对应的id
      * @return 该id对应的角色所没有拥有的权限
      */
-    @Log(info = "SELECT",module = "获取权限树")
+    @Log(info = "SELECT", module = "获取权限树")
     @ApiOperation(value = "获取权限树", notes = "")
     @PostMapping("/role/add/menutree")
     public Object getMenuTree(@RequestBody HashMap<String, Object> map) {
@@ -124,10 +127,11 @@ public class AuthenticationController {
 
     /**
      * 为角色添加权限功能
+     *
      * @param map，roleId为角色id，menuId为一个想添加的数组
      * @return 最新的角色权限树列表
      */
-    @Log(info = "INSERT",module = "添加权限")
+    @Log(info = "INSERT", module = "添加权限")
     @ApiOperation(value = "添加权限", notes = "")
     @PostMapping("/role/add/menu")
     public Object addMenus(@RequestBody HashMap<String, Object> map) {
@@ -153,10 +157,11 @@ public class AuthenticationController {
 
     /**
      * 修改角色信息
+     *
      * @param map，id为当前id，name为更改后的name，nameZh为更改后的nameZh
      * @return 最新的角色权限树列表
      */
-    @Log(info = "UPDATE",module = "修改角色")
+    @Log(info = "UPDATE", module = "修改角色")
     @ApiOperation(value = "修改角色", notes = "")
     @PostMapping("/role/update")
     public Object updateRole(@RequestBody HashMap<String, Object> map) {
@@ -185,10 +190,11 @@ public class AuthenticationController {
 
     /**
      * 删除角色
+     *
      * @param map，获取角色id
      * @return 最新的角色权限树列表
      */
-    @Log(info = "DELETE",module = "删除角色")
+    @Log(info = "DELETE", module = "删除角色")
     @ApiOperation(value = "删除角色", notes = "")
     @PostMapping("/role/delete/roles")
     public Object deleteRoles(@RequestBody HashMap<String, Object> map) {
@@ -214,10 +220,11 @@ public class AuthenticationController {
 
     /**
      * 删除角色对应的权限
+     *
      * @param map，roleId为角色的id，menuId为权限的列表
      * @return 最新的角色权限树列表
      */
-    @Log(info = "DELETE",module = "删除权限")
+    @Log(info = "DELETE", module = "删除权限")
     @ApiOperation(value = "删除权限", notes = "")
     @PostMapping("/role/delete/menus")
     public Object deleteMenus(@RequestBody HashMap<String, Object> map) {

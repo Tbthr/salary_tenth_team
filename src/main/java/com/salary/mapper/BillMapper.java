@@ -11,12 +11,37 @@ import java.util.List;
 
 @Transactional
 public interface BillMapper {
+    /**
+     * 插入账单信息
+     *
+     * @param record 账单信息
+     * @return 成功：1 失败：0
+     */
     int insert(Bill record);
 
+    /**
+     * 查询账单
+     *
+     * @param map 查询条件
+     * @return bill列表
+     */
     List<Bill> selectAll(HashMap<String, Object> map);
 
+    /**
+     * 根据id查询账单信息
+     *
+     * @param date   日期
+     * @param userId 工号
+     * @return 账单信息
+     */
     @Select("select * from bill where date = #{date} and user_id = #{userId} limit 1")
-    Bill selectById(@Param("date") Date date,@Param("userId") String userId);
+    Bill selectById(@Param("date") Date date, @Param("userId") String userId);
 
+    /**
+     * 更新账单
+     *
+     * @param bill 账单信息
+     * @return 成功：1 失败：0
+     */
     int update(Bill bill);
 }

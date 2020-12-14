@@ -27,10 +27,11 @@ public class AccountController {
 
     /**
      * 查看个人信息
+     *
      * @param map，id为user的id
      * @return 返回user的所有信息
      */
-    @Log(info = "SELECT",module = "查看个人信息")
+    @Log(info = "SELECT", module = "查看个人信息")
     @ApiOperation(value = "查看个人信息", notes = "")
     @PostMapping("/info")
     public ApiResult getInfo(@RequestBody HashMap<String, Object> map) {
@@ -51,10 +52,11 @@ public class AccountController {
 
     /**
      * 修改个人信息
+     *
      * @param map，id为user的id，code为用户得到的验证码
      * @return 最新的个人信息
      */
-    @Log(info = "UPDATE",module = "修改个人信息")
+    @Log(info = "UPDATE", module = "修改个人信息")
     @ApiOperation(value = "修改个人信息", notes = "")
     @PostMapping("/edit/info")
     public ApiResult editInfo(@RequestBody HashMap<String, Object> map) {
@@ -82,10 +84,11 @@ public class AccountController {
 
     /**
      * 修改密码
+     *
      * @param map，id为user的id，psd为新密码，oldPsd为旧密码
      * @return 操作的状态
      */
-    @Log(info = "UPDATE",module = "修改密码")
+    @Log(info = "UPDATE", module = "修改密码")
     @ApiOperation(value = "修改密码", notes = "")
     @PostMapping("/edit/psd")
     public ApiResult editPsd(@RequestBody HashMap<String, Object> map) {
@@ -105,7 +108,7 @@ public class AccountController {
                     .build();
         }
         String psd = (String) map.get("psd");
-        map.put("psd",bCryptPasswordEncoder.encode(psd));
+        map.put("psd", bCryptPasswordEncoder.encode(psd));
         int i = userService.updateUser(map);
         if (i > 0) {
             return ApiResult.builder()

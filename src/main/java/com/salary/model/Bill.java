@@ -51,4 +51,6 @@ public class Bill {
 
     private Integer checkStatus;
 
+    private String mark;
+
 }

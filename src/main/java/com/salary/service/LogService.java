@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -37,6 +38,14 @@ public class LogService {
 
     private static final String LOG_CONTENT = "[类名]:%s,[方法]:%s,[参数]:%s";
 
+    /**
+     * 持久化日志
+     *
+     * @param joinPoint  切入点
+     * @param methodName 方法名
+     * @param module     操作
+     * @param info       级别/类型
+     */
     public void put(JoinPoint joinPoint, String methodName, String module, String info) {
         try {
             HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
@@ -75,10 +84,35 @@ public class LogService {
         return new PageInfo<>(logMapper.selectAll(map));
     }
 
+    /**
+     * 查询所有日志
+     *
+     * @return 返回日志列表
+     */
+    public List<Log> getAllLogOrigin(HashMap<String, Object> map) {
+        return logMapper.selectAll(map);
+    }
+
+    /**
+     * 删除日志
+     *
+     * @param id 日志id
+     * @return 成功：1 失败：0
+     */
     public int deleteById(Integer id) {
         return logMapper.deleteByPrimaryKey(id);
     }
 
+    /**
+     * 格式化content内容
+     *
+     * @param joinPoint  切入点
+     * @param methodName 方法名
+     * @param request    请求request
+     * @return 已格式化内容
+     * @throws ClassNotFoundException 类找不到异常
+     * @throws NotFoundException      找不到异常
+     */
     public String operateContent(JoinPoint joinPoint, String methodName, HttpServletRequest request) throws ClassNotFoundException, NotFoundException {
         String className = joinPoint.getTarget().getClass().getName();
         Object[] params = joinPoint.getArgs();
@@ -101,6 +135,16 @@ public class LogService {
         return String.format(LOG_CONTENT, className, methodName, bf.toString());
     }
 
+    /**
+     * 获取方法参数
+     *
+     * @param cls        类对象
+     * @param clazzName  类名
+     * @param methodName 方法名
+     * @param args       参数列表
+     * @return 方法参数
+     * @throws NotFoundException 找不到异常
+     */
     private Map<String, Object> getFieldsName(Class cls, String clazzName, String methodName, Object[] args) throws NotFoundException {
         Map<String, Object> map = new HashMap<>();
 

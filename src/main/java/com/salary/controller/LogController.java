@@ -18,6 +18,14 @@ public class LogController {
     @Resource
     private LogService logService;
 
+    /**
+     * 查看日志
+     *
+     * @param map  查询条件
+     * @param page 当前页码
+     * @param rows 每页条数
+     * @return 根据map筛选后的分页数据
+     */
     @Log(info = "SELECT", module = "查看日志")
     @ApiOperation(value = "查看日志")
     @GetMapping("/log")
@@ -32,6 +40,30 @@ public class LogController {
                 .build();
     }
 
+    /**
+     * 查看日志（不分页）
+     *
+     * @param map  查询条件
+     * @return 根据map筛选后的数据
+     */
+    @Log(info = "SELECT", module = "查看日志")
+    @ApiOperation(value = "查看日志")
+    @GetMapping("/log/origin")
+    public ApiResult getAllLogsOrigin(@RequestParam HashMap<String, Object> map) {
+
+        return ApiResult.builder()
+                .code(200)
+                .msg("获取日志成功")
+                .data(logService.getAllLogOrigin(map))
+                .build();
+    }
+
+    /**
+     * 删除日志
+     *
+     * @param ids 日志id列表
+     * @return 是否删除成功
+     */
     @Log(info = "DELETE", module = "删除日志")
     @ApiOperation(value = "删除日志")
     @PostMapping("/log/delete")

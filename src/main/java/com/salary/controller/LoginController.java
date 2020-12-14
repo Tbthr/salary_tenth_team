@@ -26,9 +26,10 @@ public class LoginController {
 
     /**
      * 返回的登录信息
+     *
      * @return 用户的所有信息，用户的权限树，token认证信息
      */
-    @Log(info = "LOGIN",module = "登录成功")
+    @Log(info = "LOGIN", module = "登录成功")
     @PostMapping("/success")
     public ApiResult loginSuccess() {
         //获取token
@@ -44,6 +45,7 @@ public class LoginController {
 
     /**
      * 登录失败
+     *
      * @return 返回失败的状态码
      */
     @PostMapping("/failed")

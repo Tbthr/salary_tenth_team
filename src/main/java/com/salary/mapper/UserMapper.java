@@ -15,8 +15,9 @@ public interface UserMapper {
 
     /**
      * 插入信息
+     *
      * @param record 要修改的User信息
-     * @return
+     * @return 成功：1 失败：0
      */
     int insert(User record);
 
@@ -24,27 +25,31 @@ public interface UserMapper {
 
     /**
      * 模糊查找
+     *
      * @param map name和id
      * @return 返回符合条件的用户信息
      */
-    List<User> selectByIF(HashMap<String,Object> map);
+    List<User> selectByIF(HashMap<String, Object> map);
 
     /**
      * 获取所有的用户信息
+     *
      * @return 所有的用户信息
      */
     List<User> selectAll();
 
     /**
      * 动态更新用户数据
+     *
      * @param map 需要更新的用户信息
-     * @return
+     * @return 成功：1 失败：0
      */
     int updateByPrimaryKey(HashMap<String, Object> map);
 
     /**
      * 更新密码
-     * @param id 用户id
+     *
+     * @param id  用户id
      * @param psd 新密码
      */
     @Select("update user set psd = #{psd} where id = #{id}")
@@ -52,6 +57,7 @@ public interface UserMapper {
 
     /**
      * 给用户赋予角色
+     *
      * @param userId，用户id
      * @param RoleId，角色id
      * @return
