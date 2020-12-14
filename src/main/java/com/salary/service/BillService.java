@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class BillService {
@@ -18,6 +19,10 @@ public class BillService {
     public PageInfo<Bill> getInfo(HashMap<String, Object> map, int page, int rows) {
         PageHelper.startPage(page, rows);
         return new PageInfo<>(billMapper.selectAll(map));
+    }
+
+    public List<Bill> getInfoOrigin(HashMap<String, Object> map) {
+        return billMapper.selectAll(map);
     }
 
     public Bill getBillById(Date date, String userId) {

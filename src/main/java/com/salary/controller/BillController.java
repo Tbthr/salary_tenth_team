@@ -27,7 +27,7 @@ public class BillController {
     @Resource
     private BillService billService;
 
-    @Log(info = "SELECT",module = "查看账单")
+    @Log(info = "SELECT", module = "查看账单")
     @ApiOperation(value = "查看账单", notes = "根据条件筛选(分页)")
     @GetMapping("/info")
     public ApiResult getInfo(@RequestParam HashMap<String, Object> map,
@@ -41,7 +41,19 @@ public class BillController {
                 .build();
     }
 
-    @Log(info = "INSERT",module = "提交账单")
+    @Log(info = "SELECT", module = "查看账单")
+    @ApiOperation(value = "查看账单", notes = "根据条件筛选(不分页)")
+    @GetMapping("/info/origin")
+    public ApiResult getInfoOrigin(@RequestParam HashMap<String, Object> map) {
+
+        return ApiResult.builder()
+                .code(200)
+                .msg("获取成功")
+                .data(billService.getInfoOrigin(map))
+                .build();
+    }
+
+    @Log(info = "INSERT", module = "提交账单")
     @ApiOperation(value = "提交账单", notes = "")
     @PostMapping("/submit")
     public ApiResult submit(@RequestBody Map<String, Object> map) throws ParseException {
@@ -83,7 +95,7 @@ public class BillController {
                 .build();
     }
 
-    @Log(info = "UPDATE",module = "审批账单")
+    @Log(info = "UPDATE", module = "审批账单")
     @ApiOperation(value = "审批账单", notes = "")
     @PostMapping("/check")
     public ApiResult check(@RequestBody List<Bill> list) {
