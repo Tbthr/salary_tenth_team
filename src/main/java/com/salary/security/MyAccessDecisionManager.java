@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+/**
+ * 判断当前访问的用户所拥有的角色是否有访问这个网址
+ */
 @Component
 public class MyAccessDecisionManager implements AccessDecisionManager {
     @Override

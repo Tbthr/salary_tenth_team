@@ -18,6 +18,10 @@ import org.springframework.web.cors.CorsUtils;
 
 import javax.annotation.Resource;
 
+
+/**
+ * spring security 的配置
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)//开启security全局注解

@@ -28,6 +28,13 @@ public class ForgetController {
     @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    /**
+     * 向邮箱发送验证码
+     * @param map，id为用户id
+     * @return 操作状态码
+     * @throws GeneralSecurityException
+     * @throws MessagingException
+     */
     @Log(info = "INFO",module = "获取验证码")
     @ApiOperation(value = "获取验证码", notes = "")
     @PostMapping("/sendMail")
@@ -44,6 +51,11 @@ public class ForgetController {
         return ApiResult.builder().code(200).msg("验证码发送成功").data(null).build();
     }
 
+    /**
+     * 重置密码
+     * @param map，id为用户的id，code为邮箱的验证码，psd为新密码
+     * @return 操作的状态码
+     */
     @Log(info = "UPDATE",module = "重置密码")
     @ApiOperation(value = "重置密码")
     @PostMapping("/forget")

@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * token信息进行权限认证
+ */
 @Component
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     // javax.naming.NameNotFoundException:

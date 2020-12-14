@@ -24,6 +24,10 @@ public class LoginController {
     @Resource
     private MenuService menuService;
 
+    /**
+     * 返回的登录信息
+     * @return 用户的所有信息，用户的权限树，token认证信息
+     */
     @Log(info = "LOGIN",module = "登录成功")
     @PostMapping("/success")
     public ApiResult loginSuccess() {
@@ -38,6 +42,10 @@ public class LoginController {
         return ApiResult.builder().code(200).msg("登录成功").data(map).build();
     }
 
+    /**
+     * 登录失败
+     * @return 返回失败的状态码
+     */
     @PostMapping("/failed")
     public ApiResult loginFailure() {
         return ApiResult.builder().code(500).msg("登录失败").data(null).build();

@@ -25,6 +25,12 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+
+    /**
+     * 模糊查找
+     * @param map name和id
+     * @return 返回符合条件的用户信息
+     */
     public List<User> getUserByIF(HashMap<String, Object> map) {
         return userMapper.selectByIF(map);
     }
@@ -33,6 +39,10 @@ public class UserService implements UserDetailsService {
         return userMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     * 获取所有的用户信息
+     * @return 所有的用户信息
+     */
     public List<User> getAllUsers() {
         return userMapper.selectAll();
     }
@@ -41,14 +51,30 @@ public class UserService implements UserDetailsService {
         return userMapper.deleteByPrimaryKey(id);
     }
 
+    /**
+     * 动态更新用户数据
+     * @param map 需要更新的用户信息
+     * @return
+     */
     public int updateUser(HashMap<String, Object> map) {
         return userMapper.updateByPrimaryKey(map);
     }
 
+    /**
+     * 插入信息
+     * @param user 要修改的User信息
+     * @return
+     */
     public int addUser(User user) {
         return userMapper.insert(user);
     }
 
+    /**
+     * 给用户赋予角色
+     * @param userId，用户id
+     * @param RoleId，角色id
+     * @return
+     */
     public int addRoleToUser(String userId, Integer RoleId) {
         return userMapper.addRoleToUser(userId, RoleId);
     }
