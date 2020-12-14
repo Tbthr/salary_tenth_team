@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 加载可以访问当前网址的所有角色信息
+ */
 @Component
 public class MySecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
     @Resource

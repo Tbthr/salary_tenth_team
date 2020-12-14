@@ -25,14 +25,35 @@ public interface RoleMapper {
     @Select("select * from role where name = #{name}")
     Role selectByName(String name);
 
+    /**
+     * 获取角色对应的权限树
+     * @param id，角色id
+     * @return id对应角色的权限树
+     */
     Role selectAuthByPrimaryKey(Integer id);
 
+    /**
+     * 插入menu_role表
+     * @param rid，角色id
+     * @param mid，权限id
+     * @return
+     */
     @Insert("insert into menu_role(role_id,menu_id) values(#{rid},#{mid})")
     int insertMenuRole(Integer rid, Integer mid);
 
+    /**
+     * 删除menu_role中角色的所有权限
+     * @param rid，角色id
+     * @return
+     */
     @Delete("delete from menu_role where role_id =#{rid}")
     int deleteMenuRoleByRid(Integer rid);
 
+    /**
+     * 根据name获取角色信息
+     * @param name，角色的name
+     * @return
+     */
     @Select("select id from role where name = #{name}")
     int selectIdByName(String name);
 
