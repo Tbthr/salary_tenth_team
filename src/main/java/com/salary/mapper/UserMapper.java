@@ -32,6 +32,14 @@ public interface UserMapper {
     List<User> selectByIF(HashMap<String, Object> map);
 
     /**
+     * 根据工号返回可用的用户列表
+     *
+     * @param userId 工号
+     * @return 可用的用户列表
+     */
+    List<User> selectUsersByUserId(String userId);
+
+    /**
      * 获取所有的用户信息
      *
      * @return 所有的用户信息

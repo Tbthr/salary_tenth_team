@@ -147,4 +147,9 @@
             </if>
         </where>
     </select>
+    <select id="selectUsersByUserId" parameterType="java.lang.String" resultType="user">
+        select *
+        from user u
+        where u.depart_id = (select depart_id from user u where u.id = #{userId})
+    </select>
 </mapper>

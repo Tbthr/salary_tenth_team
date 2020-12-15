@@ -6,9 +6,6 @@
 <!-- configuration核心配置文件 -->
 <configuration>
 
-    <!--引入外部(db.properties)配置文件-->
-    <properties resource="db.properties"/>
-
     <settings>
         <!--开启驼峰命名自动映射-->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
@@ -30,35 +27,9 @@
             <property name="reasonable" value="true"/>
             <property name="supportMethodsArguments" value="true"/>
             <!--默认值为pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero-->
-<!--            <property name="params" value="pageNum=page;pageSize=rows;"/>-->
+            <!--<property name="params" value="pageNum=page;pageSize=rows;"/>-->
         </plugin>
     </plugins>
-
-    <!--多环境配置-->
-    <environments default="prod">
-        <!--开发环境-->
-        <environment id="dev">
-            <!--事务管理器-->
-            <transactionManager type="JDBC"/>
-            <dataSource type="POOLED">
-                <property name="driver" value="${driver}"/>
-                <property name="url" value="${dev.url}"/>
-                <property name="username" value="${dev.username}"/>
-                <property name="password" value="${dev.password}"/>
-            </dataSource>
-        </environment>
-        <!--生产环境-->
-        <environment id="prod">
-            <!--事务管理器-->
-            <transactionManager type="JDBC"/>
-            <dataSource type="com.salary.config.DruidDataSourceFactory">
-                <property name="driverClass" value="${driver}"/>
-                <property name="url" value="${prod.url}"/>
-                <property name="username" value="${prod.username}"/>
-                <property name="password" value="${prod.password}"/>
-            </dataSource>
-        </environment>
-    </environments>
 
     <!--将包内的映射器接口实现全部注册为映射器，需要配置文件名称和接口名称一致，并且位于同一目录下-->
     <mappers>

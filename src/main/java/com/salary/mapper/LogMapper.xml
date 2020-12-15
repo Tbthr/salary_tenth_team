@@ -8,20 +8,17 @@
         <if test="month != null">
             and month(date) = #{month}
         </if>
-        <if test="username != null">
-            and username = #{username}
-        </if>
-        <if test="ip != null">
-            and ip = #{ip}
+        <if test="day != null">
+            and day(date) = #{day}
         </if>
         <if test="info != null">
             and info = #{info}
         </if>
-        <if test="module != null">
-            and module like concat('%', #{module}, '%')
-        </if>
-        <if test="content != null">
-            and content like concat('%', #{content}, '%')
+        <if test="other != null">
+            and username like concat('%', #{other}, '%')
+                or ip like concat('%', #{other}, '%')
+                or module like concat('%', #{other}, '%')
+                or content like concat('%', #{other}, '%')
         </if>
     </sql>
     <resultMap id="BaseResultMap" type="com.salary.model.Log">

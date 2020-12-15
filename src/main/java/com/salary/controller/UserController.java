@@ -77,6 +77,23 @@ public class UserController {
     }
 
     /**
+     * 根据工号返回可用的用户列表
+     *
+     * @param userId 工号
+     * @return 可用的用户列表
+     */
+    @Log(info = "SELECT", module = "查找可选员工(查看账单时)")
+    @ApiOperation(value = "查找可选员工", notes = "根据条件筛选")
+    @GetMapping("/add/userInfo/available")
+    public ApiResult getUsersByUserId(@RequestParam String userId) {
+        return ApiResult.builder()
+                .code(200)
+                .msg("获取成功")
+                .data(userService.getUsersByUserId(userId))
+                .build();
+    }
+
+    /**
      * 添加员工
      *
      * @param user     员工信息

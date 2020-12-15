@@ -4,14 +4,19 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.salary.mapper.BillMapper;
 import com.salary.model.Bill;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
+import javax.validation.constraints.PastOrPresent;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 @Service
+@Validated //参数校验
 public class BillService {
     @Resource
     private BillMapper billMapper;
@@ -46,7 +51,9 @@ public class BillService {
      * @param userId 工号
      * @return 账单
      */
-    public Bill getBillById(Date date, String userId) {
+    public Bill getBillById(
+            @PastOrPresent(message = "日期必须为过去或现在") Date date,
+            @Length(min = 10, max = 10, message = "账号长度为 10 位") String userId) {
         return billMapper.selectById(date, userId);
     }
 
@@ -56,7 +63,7 @@ public class BillService {
      * @param bill 账单信息
      * @return 成功：1 失败：0
      */
-    public int insertBill(Bill bill) {
+    public int insertBill(@Valid Bill bill) {
         return billMapper.insert(bill);
     }
 
@@ -66,7 +73,7 @@ public class BillService {
      * @param bill 账单信息
      * @return 成功：1 失败：0
      */
-    public int updateBill(Bill bill) {
+    public int updateBill(@Valid Bill bill) {
         return billMapper.update(bill);
     }
 }
