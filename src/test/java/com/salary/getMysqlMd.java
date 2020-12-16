@@ -6,10 +6,9 @@ import cn.smallbun.screw.core.engine.EngineFileType;
 import cn.smallbun.screw.core.engine.EngineTemplateType;
 import cn.smallbun.screw.core.execute.DocumentationExecute;
 import cn.smallbun.screw.core.process.ProcessConfig;
+import com.alibaba.druid.filter.config.ConfigTools;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-
-
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
@@ -18,13 +17,21 @@ import java.util.ArrayList;
 public class getMysqlMd {
 
     @Test
-    void testScrew() {
+    void testScrew() throws Exception {
+        // 账号
+        String public_key_user = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJndiNDBwCn2ZCqJTUh/PHvzkhB7FzUERYyHpt1Pj7xzEc5caboRA3E9oztMuFfVimnYlGP++kh1Buc/EI0L/JECAwEAAQ==";
+        String encode_user = "kwZgPTM2Ep2a9b+eXqKwFIqSmB100pFUkx9qq8/Q91MKAqyqnoJSqOFEeGuWteVRtXFCq0rCBmWLitibPyexwA==";
+        String user = ConfigTools.decrypt(public_key_user, encode_user);
+        // 密码
+        String public_key_psd = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJCdWsohJ0A9NeV/TFcd9fCpj5+1rXxTrsRfj/uG/Kn28xt5LUwweBRGJMpevd5fO1LCygAeyDTVbhvWBPvMH4sCAwEAAQ==";
+        String encode_psd = "buCGzcaNvjMfzJLSv2l7+C0v26qc3Ix/xyn/P1gfh5f7skdXfPeAzi1bhO4W+Ym0lBkwmMGsE8s2nZTX9nRe4A==";
+        String psd = ConfigTools.decrypt(public_key_psd, encode_psd);
         //数据源
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
         hikariConfig.setJdbcUrl("jdbc:mysql://47.92.165.44:3306/salary");
-        hikariConfig.setUsername("root");
-        hikariConfig.setPassword("rpz2020.");
+        hikariConfig.setUsername(user);
+        hikariConfig.setPassword(psd);
         //设置可以获取tables remarks信息
         hikariConfig.addDataSourceProperty("useInformationSchema", "true");
         hikariConfig.setMinimumIdle(2);

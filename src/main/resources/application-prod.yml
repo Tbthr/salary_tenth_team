@@ -1,8 +1,9 @@
+public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJCdWsohJ0A9NeV/TFcd9fCpj5+1rXxTrsRfj/uG/Kn28xt5LUwweBRGJMpevd5fO1LCygAeyDTVbhvWBPvMH4sCAwEAAQ==
 spring:
   datasource:
     url: jdbc:mysql://47.92.165.44:3306/salary?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT&allowMultiQueries=true
     username: root
-    password: rpz2020.
+    password: buCGzcaNvjMfzJLSv2l7+C0v26qc3Ix/xyn/P1gfh5f7skdXfPeAzi1bhO4W+Ym0lBkwmMGsE8s2nZTX9nRe4A==
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     # druid连接池的配置信息
@@ -24,11 +25,14 @@ spring:
       testOnBorrow: false # 获取连接检测
       testOnReturn: false # 归还连接检测
 
+      #通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: config.decrypt=true;config.decrypt.key=${public-key};druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
       # 打开PSCache，并且指定每个连接上PSCache的大小
       poolPreparedStatements: true
       maxPoolPreparedStatementPerConnectionSize: 20
       # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-      filters: stat,wall
+      filters: stat,wall,log4j2,config
 
       # 是否启用StatFilter默认值true
       web-stat-filter:
