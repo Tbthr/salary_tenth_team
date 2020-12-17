@@ -36,6 +36,10 @@
             gender = #{gender,jdbcType=CHAR}
         </if>
     </sql>
+    <resultMap id="indexMap" type="indexRes">
+        <result column="cnt" property="cnt"/>
+        <result column="mark" property="mark"/>
+    </resultMap>
     <resultMap id="BaseResultMap" type="com.salary.model.User">
         <id column="uid" jdbcType="VARCHAR" property="id"/>
         <result column="did" property="departId"/>
@@ -151,5 +155,17 @@
         select *
         from user u
         where u.depart_id = (select depart_id from user u where u.id = #{userId})
+    </select>
+    <select id="selectGender" resultMap="indexMap">
+        select count(*) cnt, gender mark from user group by gender
+    </select>
+    <select id="selectAge" resultMap="indexMap">
+        select count(*) cnt, age mark from user group by age
+    </select>
+    <select id="selectDepart" resultMap="indexMap">
+        select count(*) cnt, depart_name mark from user u, department d where depart_id = d.id group by depart_id
+    </select>
+    <select id="selectPosition" resultMap="indexMap">
+        select count(*) cnt, position mark from user group by position
     </select>
 </mapper>

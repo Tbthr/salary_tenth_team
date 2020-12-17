@@ -1,8 +1,8 @@
 package com.salary.service;
 
 import com.salary.mapper.UserMapper;
+import com.salary.model.IndexRes;
 import com.salary.model.User;
-import com.salary.valid.ServiceException;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +18,7 @@ import javax.validation.constraints.Pattern;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Validated
@@ -27,10 +28,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     // 重写的方法不可以参数校验
-    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException, ServiceException {
-//        if (id.length() != 10) {
-//            throw new ServiceException(ServiceExceptionEnum.INVALID_REQUEST_PARAM_ERROR);
-//        }
+    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         User user = userMapper.selectByPrimaryKey(id);
         if (user == null) {
             throw new UsernameNotFoundException("工号不存在！");
@@ -80,6 +78,28 @@ public class UserService implements UserDetailsService {
      */
     public List<User> getAllUsers() {
         return userMapper.selectAll();
+    }
+
+    /**
+     * 获取首页统计信息
+     *
+     * @return 统计信息
+     */
+    public Map<String, List<IndexRes>> getIndexInfo() {
+        Map<String, List<IndexRes>> map = new HashMap<>();
+        List<IndexRes> age = userMapper.selectAge();
+        System.out.println("age = " + age);
+        List<IndexRes> depart = userMapper.selectDepart();
+        System.out.println("depart = " + depart);
+        List<IndexRes> gender = userMapper.selectGender();
+        System.out.println("gender = " + gender);
+        List<IndexRes> position = userMapper.selectPosition();
+        System.out.println("position = " + position);
+        map.put("age", age);
+        map.put("depart", depart);
+        map.put("gender", gender);
+        map.put("position", position);
+        return map;
     }
 
     public int deleteUser(

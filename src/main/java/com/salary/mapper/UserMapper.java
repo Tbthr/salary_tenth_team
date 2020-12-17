@@ -1,9 +1,11 @@
 package com.salary.mapper;
 
+import com.salary.model.IndexRes;
 import com.salary.model.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
@@ -47,6 +49,34 @@ public interface UserMapper {
     List<User> selectAll();
 
     /**
+     * 性别分组
+     *
+     * @return 分组统计数据
+     */
+    List<IndexRes> selectGender();
+
+    /**
+     * 年龄分组
+     *
+     * @return 分组统计数据
+     */
+    List<IndexRes> selectAge();
+
+    /**
+     * 部门分组
+     *
+     * @return 分组统计数据
+     */
+    List<IndexRes> selectDepart();
+
+    /**
+     * 职位分组
+     *
+     * @return 分组统计数据
+     */
+    List<IndexRes> selectPosition();
+
+    /**
      * 动态更新用户数据
      *
      * @param map 需要更新的用户信息
@@ -60,7 +90,7 @@ public interface UserMapper {
      * @param id  用户id
      * @param psd 新密码
      */
-    @Select("update user set psd = #{psd} where id = #{id}")
+    @Update("update user set psd = #{psd} where id = #{id}")
     void updatePsdById(String id, String psd);
 
     /**
@@ -68,7 +98,7 @@ public interface UserMapper {
      *
      * @param userId，用户id
      * @param RoleId，角色id
-     * @return
+     * @return 成功：1 失败：0
      */
     @Insert("insert into user_role(user_id, role_id) values(#{userId}, #{RoleId})")
     Integer addRoleToUser(@Param("userId") String userId, @Param("RoleId") Integer RoleId);
