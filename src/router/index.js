@@ -13,7 +13,6 @@ import UserAdd from '../components/user/useradd'
 import AccountInfo from '../components/account/accountInfo'
 import AccountEdit from '../components/account/accountEdit'
 import EditInfo from '../components/account/editInfo'
-/// import Account from '../components/account/info'
 import BillsInfo from '../components/bills/info'
 import Check from '../components/bills/check'
 Vue.use(Router)
@@ -86,11 +85,6 @@ export default new Router({
           path: 'account/edit/info',
           component: EditInfo
         },
-        // {
-        //   name: 'account',
-        //   path: 'account/info',
-        //   component: Account
-        // },
         {
           name: 'info',
           path: 'bills/info',

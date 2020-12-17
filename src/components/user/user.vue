@@ -1,18 +1,10 @@
 <template>
   <div class="user">
-<<<<<<< HEAD
       <!-- 面包屑导航区 -->
     <my-bread level1='员工管理' level2='查看员工'></my-bread>
     <el-card>
       <!-- 快速查找 -->
       <div slot="header" class="searchUser">
-=======
-    <el-card>
-    <!-- 面包屑导航区 -->
-    <my-bread level1='员工管理' level2='查看员工'></my-bread>
-      <!-- 快速查找 -->
-      <div class="searchUser">
->>>>>>> d377d02 (整合项目)
         <span>快速查找</span>
         <el-input placeholder="请输入..."  v-model="search" clearable class="input-with-select"></el-input>
       </div>
