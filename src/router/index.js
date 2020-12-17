@@ -10,11 +10,10 @@ import Menu from '../components/authority/menu'
 import Submit from '../components/bills/submit.vue'
 import Log from '../components/log/log.vue'
 import UserAdd from '../components/user/useradd'
-import UserDelete from '../components/user/userdelete'
-// import AccountInfo from '../components/account/accountInfo'
+import AccountInfo from '../components/account/accountInfo'
 import AccountEdit from '../components/account/accountEdit'
 import EditInfo from '../components/account/editInfo'
-import Account from '../components/account/account'
+/// import Account from '../components/account/info'
 import BillsInfo from '../components/bills/info'
 import Check from '../components/bills/check'
 Vue.use(Router)
@@ -63,11 +62,6 @@ export default new Router({
           component: UserAdd
         },
         {
-          name: 'userdelete',
-          path: 'user/delete',
-          component: UserDelete
-        },
-        {
           name: 'submit',
           path: 'bills/submit',
           component: Submit
@@ -77,11 +71,11 @@ export default new Router({
           path: 'sys/log',
           component: Log
         },
-        // {
-        //   name: 'accountInfo',
-        //   path: 'account/info',
-        //   component: AccountInfo
-        // },
+        {
+          name: 'accountInfo',
+          path: 'account/info',
+          component: AccountInfo
+        },
         {
           name: 'accountEdit',
           path: 'account/edit/psd',
@@ -92,11 +86,11 @@ export default new Router({
           path: 'account/edit/info',
           component: EditInfo
         },
-        {
-          name: 'account',
-          path: 'account/info',
-          component: Account
-        },
+        // {
+        //   name: 'account',
+        //   path: 'account/info',
+        //   component: Account
+        // },
         {
           name: 'info',
           path: 'bills/info',

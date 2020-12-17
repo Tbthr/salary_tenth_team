@@ -1,18 +1,33 @@
 <template>
   <div>
     <!-- 面包屑导航区 -->
-    <my-bread level1='个人信息' level2='详细信息'></my-bread>
+    <my-bread level1='基本信息'></my-bread>
     <el-card class="box-card">
       <div class="title">
         <el-row>
           <el-col>
             <i class="el-icon-user-solid"></i>
             <span>基本信息</span>
-            <el-link icon="el-icon-edit">编辑</el-link>
+            <el-link
+            class="edit"
+            icon="el-icon-edit"
+            :underline="false"
+            :v-model="isedit"
+            v-if="!isedit"
+            @click="iseditshow"
+            >编辑</el-link>
+            <el-link
+            class="edit"
+            icon="el-icon-edit"
+            :underline="false"
+            v-if="isedit"
+            @click="exitedit"
+            >取消编辑</el-link>
           </el-col>
         </el-row>
       </div>
       <section>
+        <!-- 基本信息 -->
         <el-table
           :show-header="false"
           :data="ManMsg"
@@ -122,3 +137,18 @@ export default {
   }
 }
 </script>
+<style scoped>
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both;
+}
+
+.box-card {
+  margin: 20px auto;
+  width: 100%;
+}
+</style>

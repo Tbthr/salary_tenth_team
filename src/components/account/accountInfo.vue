@@ -20,6 +20,9 @@
           <el-form-item label="性别">
             <el-input v-model="ManMsg.gender" readonly="readonly"></el-input>
           </el-form-item>
+          <el-form-item label="年龄（岁）">
+            <el-input v-model="ManMsg.age" readonly="readonly"></el-input>
+          </el-form-item>
           <el-form-item label="邮箱">
             <el-input v-model="ManMsg.email" readonly="readonly"></el-input>
           </el-form-item>

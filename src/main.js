@@ -12,10 +12,13 @@ import MyHttpServer from './plugins/http'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/reset.css'
 import './assets/font/iconfont.css'
-
+import JsonExcel from 'vue-json-excel'
+import * as echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+Vue.component('downloadExcel', JsonExcel)
 Vue.use(ElementUI)
 Vue.use(MyHttpServer)
-Vue.component(MyBread.name, {MyBread})
+Vue.component(MyBread.name, MyBread)
 // 全局配置axios
 Vue.prototype.$axios = axios
 // require('./mock/mock.js')

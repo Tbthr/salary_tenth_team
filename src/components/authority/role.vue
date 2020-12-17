@@ -1,77 +1,77 @@
 <template>
   <div>
-    <!-- 面包屑导航区 -->
-    <my-bread level1='权限管理' level2='角色列表'></my-bread>
-    <el-card height="550">
-        <!-- 添加角色按钮 -->
-        <el-row>
-            <el-col>
-            <el-button class='sure' type="primary" @click="AddRoleDialogVisible=true" float-right>添加角色</el-button>
-            <el-button :disabled= "isDisabled" class='multi' type="danger" icon="el-icon-delete" @click= "removeMulRoleById()" float-right>批量删除</el-button>
-            </el-col>
-            <el-table :data="roleList" border stripe @selection-change= "selectionChange">
-                <!-- 展开列 -->
-                <el-table-column type="expand">
-                <template slot-scope="scope">
-                    <el-row
-                    :class="['bdbottom', i1 === 0 ? 'bdtop' : '', 'vcenter']"
-                    v-for="(item1, i1) in scope.row.menus"
-                    :key="item1.id"
-                    >
-                      <!-- 一级权限 -->
-                      <el-col :span="6">
-                          <el-tag closable @close="removeRightById(scope.row, item1.id)">{{ item1.name}}</el-tag>
-                          <i class="el-icon-arrow-right"></i>
-                      </el-col>
-                      <!-- 二级和三级 -->
-                      <el-col :span="18">
-                          <!-- 通过for循环 渲染二级权限 -->
-                          <el-row
-                          :class="[i2 === 0 ? '' : 'bdtop', 'vcenter']"
-                          v-for="(item2, i2) in item1.children"
-                          :key="item2.id"
-                          >
-                            <el-col :span="6">
-                                <el-tag
-                                type="success"
-                                closable
-                                @close="removeRightById(scope.row, item2.id)"
-                                >{{ item2.name }}</el-tag>
-                                <i class="el-icon-arrow-right"></i>
-                            </el-col>
-                            <el-col :span="18">
-                                <el-tag
-                                type="warning"
-                                v-for="(item3) in item2.children"
-                                :key="item3.id"
-                                closable
-                                @close="removeRightById(scope.row, item3.id)"
-                                >{{ item3.name}}</el-tag>
-                            </el-col>
-                          </el-row>
-                      </el-col>
-                    </el-row>
-                </template>
-                </el-table-column>
-                <!-- 索引列 -->
-                <el-table-column type="index" label="#"></el-table-column>
-                <el-table-column type="selection" width="55px"></el-table-column>
-                <el-table-column label="角色名称" prop="name"></el-table-column>
-                <el-table-column label="角色描述" prop="nameZh"></el-table-column>
-                <el-table-column label="操作" width="300px">
-                <template slot-scope="scope">
-                    <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.$index)">编辑</el-button>
-                    <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeRoleById(scope.row.id)">删除</el-button>
-                    <el-button
-                    type="warning"
-                    icon="el-icon-setting"
-                    size="mini"
-                    @click="showSetRightDialog(scope.row)"
-                    >分配权限</el-button>
-                </template>
-                </el-table-column>
-            </el-table>
-        </el-row>
+    <el-card>
+      <!-- 面包屑导航区 -->
+      <my-bread level1='权限管理' level2='角色列表'></my-bread>
+      <!-- 添加角色按钮 -->
+      <el-row>
+          <el-col>
+          <el-button class='sure' type="primary" @click="AddRoleDialogVisible=true" float-right>添加角色</el-button>
+          <el-button :disabled= "isDisabled" class='multi' type="danger" icon="el-icon-delete" @click= "removeMulRoleById()" float-right>批量删除</el-button>
+          </el-col>
+          <el-table :data="roleList" border stripe @selection-change= "selectionChange"  height="500">
+              <!-- 展开列 -->
+              <el-table-column type="expand">
+              <template slot-scope="scope">
+                  <el-row
+                  :class="['bdbottom', i1 === 0 ? 'bdtop' : '', 'vcenter']"
+                  v-for="(item1, i1) in scope.row.menus"
+                  :key="item1.id"
+                  >
+                    <!-- 一级权限 -->
+                    <el-col :span="14">
+                        <el-tag closable @close="removeRightById(scope.row, item1.id)">{{ item1.name}}</el-tag>
+                        <i class="el-icon-arrow-right"></i>
+                    </el-col>
+                    <!-- 二级和三级 -->
+                    <el-col :span="10">
+                        <!-- 通过for循环 渲染二级权限 -->
+                        <el-row
+                        :class="[i2 === 0 ? '' : 'bdtop', 'vcenter']"
+                        v-for="(item2, i2) in item1.children"
+                        :key="item2.id"
+                        >
+                          <el-col :span="10">
+                              <el-tag
+                              type="success"
+                              closable
+                              @close="removeRightById(scope.row, item2.id)"
+                              >{{ item2.name }}</el-tag>
+                              <!-- <i class="el-icon-arrow-right"></i> -->
+                          </el-col>
+                          <el-col :span="0">
+                              <el-tag
+                              type="warning"
+                              v-for="(item3) in item2.children"
+                              :key="item3.id"
+                              closable
+                              @close="removeRightById(scope.row, item3.id)"
+                              >{{ item3.name}}</el-tag>
+                          </el-col>
+                        </el-row>
+                    </el-col>
+                  </el-row>
+              </template>
+              </el-table-column>
+              <!-- 索引列 -->
+              <el-table-column type="index" label="#"></el-table-column>
+              <el-table-column type="selection" width="55px"></el-table-column>
+              <el-table-column label="角色名称" prop="name"></el-table-column>
+              <el-table-column label="角色描述" prop="nameZh"></el-table-column>
+              <el-table-column label="操作" width="300px">
+              <template slot-scope="scope">
+                  <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.$index)">编辑</el-button>
+                  <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeRoleById(scope.row.id)">删除</el-button>
+                  <el-button
+                  type="warning"
+                  icon="el-icon-setting"
+                  size="mini"
+                  @click="showSetRightDialog(scope.row)"
+                  >分配权限</el-button>
+              </template>
+              </el-table-column>
+          </el-table>
+      </el-row>
     </el-card>
     <!-- 分配权限 -->
     <el-dialog
@@ -138,9 +138,7 @@
 </template>
 
 <script>
-import myBread from '../cuscom/myBread.vue'
 export default {
-  components: { myBread },
   data () {
     return {
       // 批量删除按钮是否不可用
@@ -340,7 +338,7 @@ export default {
     },
     // 批量删除
     selectionChange (selection) { // 参数selection返回所选行的各个分量
-      if (selection.length > 0) {
+      if (selection.length > 1) {
         this.isDisabled = false // 批量删除按钮可用
         console.log(selection[0].id)
         for (var i = 0; i < selection.length; i++) {
@@ -386,7 +384,7 @@ export default {
           url: 'authority/role/update',
           method: 'POST',
           data: {
-            id: this.id,
+            id: this.editRoleForm.id,
             name: this.editRoleForm.name,
             nameZh: this.editRoleForm.nameZh
           }

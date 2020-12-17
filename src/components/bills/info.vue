@@ -327,6 +327,10 @@
                 @selection-change="handleSelectionChange"
                 style="width:100%;"
                 @sort-change="changeSort">
+<<<<<<< HEAD
+=======
+
+>>>>>>> d377d02 (整合项目)
           <el-table-column fixed type="selection" reserve-selection></el-table-column>
           <el-table-column fixed label="年"  sortable prop="b_year" align="center" width="70px" style="background-color:red;"></el-table-column>
           <el-table-column fixed label="月"  sortable prop="b_moth" align="center" width="60px"></el-table-column>

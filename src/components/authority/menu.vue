@@ -1,10 +1,10 @@
 <template>
   <div>
-    <!-- 面包屑导航区 -->
-    <my-bread level1='权限管理' level2='权限列表'></my-bread>
     <!-- 卡片视图 -->
     <el-card>
-      <el-table :data="menuList" border stripe height="550">
+      <!-- 面包屑导航区 -->
+      <my-bread level1='权限管理' level2='权限列表'></my-bread>
+      <el-table :data="menuList" border stripe height="500">
         <el-table-column type="index" label="#"></el-table-column>
         <el-table-column label="权限名称" prop="name"></el-table-column>
         <el-table-column label="路径" prop="url"></el-table-column>
@@ -21,9 +21,7 @@
 </template>
 
 <script>
-import myBread from '../cuscom/myBread.vue'
 export default {
-  components: { myBread },
   data () {
     return {
       // 权限列表
@@ -51,6 +49,9 @@ export default {
 </script>
 
 <style scoped>
+.el-table{
+  margin: 15px 0 0 0 ;
+}
 .el-tag {
   margin: 7px;
 }

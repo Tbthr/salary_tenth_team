@@ -3,14 +3,13 @@
     <el-header>
       <div>
         <img src="../../assets/images/logo1.png" width="33%" height="33%">
-        <span style="margin-left:10px; font-size:30px">工资管理系统</span>
+        <span style="margin-left:10px; font-size:30px; ">工资管理系统</span>
       </div>
       <div class="user">
         <el-dropdown @command="handleCommand">
           <el-avatar>{{userName}}</el-avatar>
           <el-dropdown-menu>
             <el-dropdown-item command="/account/info">个人信息</el-dropdown-item>
-            <el-dropdown-item command="/info">账号信息</el-dropdown-item>
             <el-dropdown-item command="login">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -20,7 +19,7 @@
     <el-container>
       <el-aside :width="isCollapse ? '64px' : '200px'">
         <div class="toggle-button" @click="togleCollapse">|||</div>
-        <el-menu unique-opened :collapse="isCollapse" :collapse-transition="false" router :default-active="activePath" background-color="#4d5f88" text-color="#fff" active-text-color="#232b3d">
+        <el-menu unique-opened :collapse="isCollapse" :collapse-transition="false" router :default-active="activePath" background-color="#4d5f88" text-color="#fff" active-text-color="#fff">
           <el-menu-item @click="go()">
             <i class="el-icon-s-home"></i>
             <span slot="title">首页</span>

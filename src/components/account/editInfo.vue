@@ -7,40 +7,34 @@
       </div>
       <div>
         <el-form label-width="85px" :inline="true" :model ="ManMsg" :rules= "rules" ref= "ManMsg">
-          <el-form-item label="职工号:" prop = "userid">
-            <el-input v-model ="ManMsg.userid" :disabled = "true"></el-input>
+          <el-form-item label="职工号:" >
+            <el-input v-model ="ManMsg.id" :disabled = "true"></el-input>
           </el-form-item>
 
-          <el-form-item label = "姓名:" prop = "name">
+          <el-form-item label = "姓名:">
             <el-input v-model ="ManMsg.name" :disabled = "true"></el-input>
           </el-form-item>
 
-          <el-form-item label = "部门:" prop = "department">
-            <el-input v-model ="ManMsg.department" :disabled = "true"></el-input>
+          <el-form-item label = "部门:" >
+            <el-input v-model ="ManMsg.department.departName" :disabled = "true"></el-input>
           </el-form-item>
 
-          <el-form-item label = "职位:" prop = "position">
+          <el-form-item label = "职位:" >
             <el-input v-model ="ManMsg.position" :disabled= "true"></el-input>
           </el-form-item>
 
-          <el-form-item label = "手机号:"  prop = "phone" >
-            <el-input v-model ="ManMsg.phone" placeholder="请输入新手机号" ></el-input>
-          </el-form-item>
-
-          <el-form-item label = "邮箱:"  prop = "email">
-
-            <el-input type = "email" v-model="ManMsg.email" placeholder="请输入新邮箱"  ></el-input>
-
+          <el-form-item label = "手机号:"  prop="Phone">
+            <el-input v-model ="ManMsg.Phone" placeholder="请输入新手机号" ></el-input>
           </el-form-item>
 
           <!--获取验证码-->
-          <el-form-item label="验证码:" prop ="textcode">
-            <el-input v-model="ManMsg.testcode" style="width: 180px" placeholder="请输入验证码"></el-input>
-            <el-button type="primary"  v-show = "show" @click="getCode" :disabled="disable" style="margin-left: 15px" :class="{ codeGeting:isGeting }">{{getCode}}</el-button>
-          </el-form-item>
+          <el-form-item label="验证码" prop="confirm">
+                <el-input v-model="ManMsg.confirm" class="type1"></el-input>
+                <el-button class="confirm-btn" size="small" type="primary" :disabled="disable" :class="{ codeGeting:isGeting }" @click="getVerifyCode">{{getCode}}</el-button>
+            </el-form-item>
         </el-form>
 
-        <el-button  type="primary"  @click = "dgVisible2()"  style="display:block;margin:0 auto">确认修改</el-button>
+        <el-button  type="primary"  @click = "dgVisible2(); changeMsg()"  style="display:block;margin:0 auto">确认修改</el-button>
       </div>
     </el-card>
     <el-dialog title = "提示" :visible.sync= "dialogVisible2" width="30%" :before-close="handleClose">
@@ -58,7 +52,7 @@ export default {
   components: { myBread },
   data () {
     // 验证邮箱的规则
-    var checkEmail = (rule, value, callback) => {
+    /* var checkEmail = (rule, value, callback) => {
       const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
       if (!value) {
         return callback(new Error('邮箱不能为空'))
@@ -70,7 +64,7 @@ export default {
           callback(new Error('请输入正确的邮箱格式'))
         }
       }, 100)
-    }
+    } */
     // 验证手机号的规则
     var checkPhone = (rule, value, callback) => {
       const phoneReg = /^1[3|4|5|7|8][0-9]{9}$/
@@ -95,25 +89,33 @@ export default {
 
     return {
       getCode: '获取验证码',
+      isGeting: false,
+      count: 20,
+      disable: false,
       show: true,
-      count: '',
+      confirm: '',
       timer: null,
-      ManMsg: { },
+
+      ManMsg: {
+        department: {
+          departName: ''
+        }
+      },
+      ruleForm: {
+
+      },
       // 校验规则
       rules: {
-        userid: [],
-        name: [],
-        department: [],
-        position: [],
-        email: [
+
+        /* email: [
           {required: true, message: '请输入邮箱'},
           { validator: checkEmail, trigger: 'blur' }
-        ],
-        phone: [
+        ], */
+        Phone: [
           {required: true, message: '请输入手机号'},
           { validator: checkPhone, trigger: 'blur' }
         ],
-        textcode: [
+        confirm: [
           { required: true, message: '请输入验证码', trigger: 'blur' }
         ]
       },
@@ -123,19 +125,96 @@ export default {
     }
   },
   created () {
-    this.editInfo()
+    this.getManMsg()
   },
   methods: {
+    // 判断手机号是否为空
+
     // 发起请求
-    getMag () {
-      this.axios({
+    getVerifyCode () {
+      this.$refs.ManMsg.validate(async (valid) => {
+        if (!valid) return false
+        this.$axios({
+          url: 'sendMail',
+          method: 'post',
+          data: {
+            id: this.ManMsg.id
+          }
+        })
+          .then((res) => {
+            console.log(res)
+            if (res.data.code === 200) {
+              this.$message.success(res.data.msg)
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        var countDown = setInterval(() => {
+          if (this.count < 1) {
+            this.isGeting = false
+            this.disable = false
+            this.getCode = '获取验证码'
+            this.count = 20
+            clearInterval(countDown)
+          } else {
+            this.isGeting = true
+            this.disable = true
+            this.getCode = this.count-- + 's后重发'
+          }
+        }, 1000)
+      })
+    },
+    // 获取信息
+    getManMsg () {
+      const AccountMsg = JSON.parse(sessionStorage.getItem('manMsg'))
+      this.ManMsg = AccountMsg
+      console.log(this.ManMsg)
+    },
+    // 发送修改信息请求
+    async changeMsg () {
+      this.$axios({
         url: 'account/edit/info',
         method: 'post',
-        data: this.ManMsg
+        data: {
+          id: this.ManMsg.id,
+          code: this.ManMsg.confirm,
+          phone: this.ManMsg.Phone
+        }
       })
+        .then((res) => {
+          console.log(res)
+          if (res.data.code === 200) {
+            this.ManMsg = res.data.data
+            this.$message.success(res.data.msg)
+          } else {
+            this.$message.error(res.data.msg)
+          }
+          if (res.data.phone === 200) {
+            this.ManMsg = res.data.data
+            this.$M.success(res.data.msg)
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     dgVisible2 () {
       this.dialogVisible2 = true
+    },
+    handleClose (done) {
+      this.$confirm('确定关闭吗').then(() => {
+        // function(done)，done 用于关闭 Dialog
+        done()
+
+        console.info("点击右上角 'X' ，取消按钮或遮罩层时触发")
+      }).catch(() => {
+        console.log('点击确定时触发')
+      })
     }
   }
 

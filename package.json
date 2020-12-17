@@ -13,10 +13,12 @@
   },
   "dependencies": {
     "axios": "^0.21.0",
+    "echarts": "^5.0.0",
     "element-ui": "^2.14.0",
     "js-md5": "^0.7.3",
     "mockjs": "^1.1.0",
     "vue": "^2.5.2",
+    "vue-json-excel": "^0.3.0",
     "vue-router": "^3.0.1",
     "vue-validator": "^3.0.0-alpha.2",
     "vuex": "^3.5.1"

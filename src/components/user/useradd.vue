@@ -1,10 +1,18 @@
 <template>
 <div>
+<<<<<<< HEAD
       <!-- 面包屑导航区 -->
     <my-bread level1='员工管理' level2='添加员工'></my-bread>
     <el-card>
         <!-- 添加按钮 -->
         <div slot="header" class="clearfix">
+=======
+    <el-card>
+        <!-- 添加按钮 -->
+        <div slot="header" class="clearfix">
+            <!-- 面包屑导航区 -->
+        <my-bread level1='员工管理' level2='添加员工'></my-bread>
+>>>>>>> d377d02 (整合项目)
           <i class="el-icon-user-solid"></i><span>新增用户</span>
             <el-button  style="float: right" @click="resetForm('addsForm')">重置</el-button>
             <el-button type="primary" @click="addUser('addsForm')" style="float: right">确认添加</el-button>
@@ -77,9 +85,13 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import myBread from '../cuscom/myBread.vue'
 export default {
   components: { myBread },
+=======
+export default {
+>>>>>>> d377d02 (整合项目)
   data () {
     var checkEmail = (rule, value, callback) => {
       const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
