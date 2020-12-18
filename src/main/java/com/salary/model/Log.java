@@ -6,6 +6,7 @@ import lombok.Data;
 @ApiModel("日志实体类")
 @Data
 public class Log {
+
     private Integer id;
 
     private String date;

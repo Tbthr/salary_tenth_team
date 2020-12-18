@@ -16,9 +16,9 @@
         </if>
         <if test="other != null">
             and username like concat('%', #{other}, '%')
-                or ip like concat('%', #{other}, '%')
-                or module like concat('%', #{other}, '%')
-                or content like concat('%', #{other}, '%')
+            or ip like concat('%', #{other}, '%')
+            or module like concat('%', #{other}, '%')
+            or content like concat('%', #{other}, '%')
         </if>
     </sql>
     <resultMap id="BaseResultMap" type="com.salary.model.Log">

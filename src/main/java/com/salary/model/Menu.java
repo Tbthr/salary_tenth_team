@@ -8,6 +8,7 @@ import java.util.List;
 @ApiModel("权限实体类")
 @Data
 public class Menu {
+
     private Integer id;
 
     private String url;

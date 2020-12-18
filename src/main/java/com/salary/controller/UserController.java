@@ -158,7 +158,9 @@ public class UserController {
     @PostMapping("/update")
     public ApiResult updateUser(@RequestBody HashMap<String, Object> map) {
         String psd = (String) map.get("psd");
-        if (psd != null) {
+        String id = (String) map.get("id");
+        User user = userService.getUserByPrimaryKey(id);
+        if (psd != null && !psd.equals(user.getPsd())) {
             map.put("psd", bCryptPasswordEncoder.encode(psd));
         }
         int i = userService.updateUser(map);

@@ -15,6 +15,7 @@ import java.util.Date;
 @ApiModel("账单信息实体类")
 @Data
 public class Bill {
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @PastOrPresent(message = "日期必须为过去或现在")

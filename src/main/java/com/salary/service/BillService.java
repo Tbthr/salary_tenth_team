@@ -75,7 +75,6 @@ public class BillService {
                 .add(bill.getTravelAllow())
                 .add(bill.getOvertimeAllow())
                 .add(bill.getOtherAllow());
-        System.out.println("sum = " + sum);
         //  -1:小于 / 0:等于 / 1:大于
         if (sum.compareTo(new BigDecimal(5000)) < 0) {
             taxRate = 0.0;
@@ -95,9 +94,7 @@ public class BillService {
         BigDecimal cut = bill.getFiof()
                 .add(bill.getAbsenceCut())
                 .add(bill.getOtherCut());
-        System.out.println("cut = " + cut);
         BigDecimal incomeTax = sum.subtract(cut).multiply(BigDecimal.valueOf(taxRate));
-        System.out.println("incomeTax = " + incomeTax);
         bill.setIncomeTax(incomeTax);
         bill.setShouldPay(sum.subtract(incomeTax));
         return bill;

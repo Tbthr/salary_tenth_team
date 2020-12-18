@@ -220,7 +220,7 @@
         from user u
                  left join bill b
                            on u.id = b.user_id
-                                  and date = (select date from bill order by date desc limit 1)
+                               and date = (select date from bill order by date desc limit 1)
                  left join department d on d.id = u.depart_id
         where depart_id = (select depart_id from user where id = #{userId})
     </select>

@@ -62,7 +62,7 @@ public class User implements UserDetails {
 
     @ApiModelProperty("性别(m、f)")
     @Length(min = 1, max = 1, message = "性别长度为 1 位")
-    @Pattern(regexp = "[m,f]",message = "性别标识符必须为 m或f")
+    @Pattern(regexp = "[m,f]", message = "性别标识符必须为 m或f")
     private String gender;
 
     private Department department;
