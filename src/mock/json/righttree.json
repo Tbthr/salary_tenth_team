@@ -1,0 +1,76 @@
+{
+    "data": [
+            {
+                "id": 100,
+                "authName": "员工管理",
+                "path": null,
+                "children": [
+                    {
+                        "id": 101,
+                        "authName": "查看员工信息",
+                        "path": null
+                    },
+                    {
+                        "id": 102,
+                        "authName": "添加员工",
+                        "path": null
+                    }
+                ]
+            },
+            {
+                "id": 101,
+                "authName": "账单信息",
+                "path": null,
+                "children": [
+                    {
+                        "id": 104,
+                        "authName": "查看账单",
+                        "path": null
+                    }
+                ]
+            },
+            {
+                "id": 101,
+                "authName": "账单信息",
+                "path": null,
+                "children": [
+                    {
+                        "id": 104,
+                        "authName": "查看账单",
+                        "path": null
+                    }
+                ]
+            },
+            {
+                "id": 108,
+                "authName": "用户管理",
+                "path": null,
+                "children": [
+                    {
+                        "id": 110,
+                        "authName": "用户列表",
+                        "path": null,
+                        "children": [
+                            {
+                                "id": 111,
+                                "authName": "添加用户",
+                                "path": null
+                            },
+                            {
+                                "id": 113,
+                                "authName": "编辑用户",
+                                "path": null
+                            },
+                            {
+                                "id": 114,
+                                "authName": "删除用户",
+                                "path": null
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+    "msg": "获取成功",
+    "code": 200
+}
