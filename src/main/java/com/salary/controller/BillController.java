@@ -68,6 +68,20 @@ public class BillController {
     }
 
     /**
+     * 获取最新账单
+     *
+     * @return 账单列表
+     */
+    @GetMapping("/latest")
+    public ApiResult getLatestBills(@RequestParam String userId) {
+        return ApiResult.builder()
+                .code(200)
+                .msg("获取成功")
+                .data(billService.getLatestBills(userId))
+                .build();
+    }
+
+    /**
      * 提交账单
      *
      * @param map 提交时间、bill列表
@@ -89,6 +103,7 @@ public class BillController {
         }); // 解决 class java.util.LinkedHashMap cannot be cast to class com.salary.model.Bill
         for (Bill bill : bills) {
             bill.setDate(date);
+            bill = billService.calculateTax(bill); // 计算个税
             if (billService.getBillById(bill.getDate(), bill.getUserId()) != null) {
                 i = billService.updateBill(bill);
                 if (i <= 0) {

@@ -1,6 +1,7 @@
 package com.salary.mapper;
 
 import com.salary.model.Bill;
+import com.salary.model.BillMap;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,13 @@ public interface BillMapper {
      * @return 成功：1 失败：0
      */
     int insert(Bill record);
+
+    /**
+     * 获取最新账单列表
+     *
+     * @return bill列表
+     */
+    List<BillMap> selectLatest(String userId);
 
     /**
      * 查询账单
