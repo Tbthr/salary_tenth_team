@@ -1,0 +1,16 @@
+{
+    "data": {
+        "id": 500,
+        "rid": 0,
+        "userid": "2018110420",
+        "password": "123456",
+        "username": "廖晨玥",
+        "department": "计算机科学学院",
+        "email": "123@qq.com",
+        "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE1MTI1NDQyOTksImV4cCI6MTUxMjYzMDY5OX0.eGrsrvwHm-tPsO9r_pxHIQ5i5L1kX9RX444uwnRGaIM"
+    },
+    "meta": {
+        "msg": "登录成功",
+        "code": 200
+    }
+}

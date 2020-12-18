@@ -1,0 +1,4 @@
+/* 设置表格 表头和内容框线对齐 */
+body .el-table th.gutter {
+    display: table-cell !important;
+}
