@@ -1,0 +1,11 @@
+var Mock = require('../../node_modules/mockjs')
+
+Mock.mock('/login', 'post', require('./json/login.json'))
+Mock.mock('/forget', 'post', require('./json/forget.json'))
+Mock.mock('/menulist', 'get', require('./json/menulist.json'))
+Mock.mock('/menu', 'get', require('./json/menu.json'))
+Mock.mock('/role', 'get', require('./json/role.json'))
+Mock.mock('/deleteright', 'delete', require('./json/delete.json'))
+Mock.mock('/rights/tree', 'get', require('./json/righttree.json'))
+Mock.mock('/log', 'get', require('./json/log.json'))
+Mock.mock('/user', 'get', require('./json/user.json'))
