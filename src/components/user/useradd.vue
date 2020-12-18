@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
       <!-- 面包屑导航区 -->
     <my-bread level1='员工管理' level2='添加员工'></my-bread>
     <el-card class="card">

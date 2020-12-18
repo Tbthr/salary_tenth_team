@@ -8,12 +8,12 @@
   <div style="width:100%;height:680px;">
     <!-- 标题 -->
     <my-bread level1='账单信息' level2='查看账单'></my-bread>
-    <!-- 筛选框 -->
     <div class="demo_autocomplete"> 
     </div>
 
-    <!-- 表格1 -->
+    <!-- 级别1用户card -->
     <el-card class="card_p" v-if="this.level == 1">
+      <!-- 筛选框 -->
       <div class="div-ss">
           <label v-text="this.sname_1[0]" class="search_font"></label>
           <el-date-picker
@@ -42,7 +42,7 @@
         <el-button @click.native="rereas()" class="but">重置</el-button>
 
 
-
+      <!-- 表格 -->
       <div class="tabc">
         <el-table :data="tabledata1.slice(
                 (currentPage - 1) * PageSize,
@@ -116,8 +116,9 @@
           </download-excel>   
         </div>
     </el-card>
-<!-- 表格1 -->
+<!-- 级别2用户card -->
     <el-card class="card_p" v-if="this.level == 2">
+      <!-- 筛选框 -->
       <div class="div-ss">
           <label v-text="this.sname_2[0]" class="search_font"></label>
           <el-date-picker
@@ -174,7 +175,7 @@
         <el-button @click.native="rereas()" class="but">重置</el-button>
 
 
-
+<!-- 表格 -->
 
       <div class="tabc">
         <el-table :data="tabledata2.slice(
@@ -247,8 +248,9 @@
           </download-excel>   
         </div>
     </el-card>
-<!-- 表格1 -->
+<!-- 级别3,4用户card -->
     <el-card class="card_p" v-if="this.level == 3">
+      <!-- 筛选框 -->
       <div class="div-ss">
           <label v-text="this.sname_3[0]" class="search_font"></label>
           <el-date-picker
@@ -319,7 +321,7 @@
         <el-button type="primary" @click.native="find()" class="but">查找</el-button>
         <el-button @click.native="rereas()" class="but">重置</el-button>
 
-
+<!-- 表格 -->
 
       <div class="tabc">
         <el-table :data="tabledata3.slice(
@@ -577,7 +579,7 @@ export default {
         if(this.level == 3) this.tabledata3 = table
 
       },
-      rowclass({row, rowIndex}) {
+      rowclass({row, rowIndex}) {//斑马条纹
           if(rowIndex === 3) return 'background:red;color:#555' ;
 
       },
@@ -620,7 +622,7 @@ export default {
 
       },
 
-      tableRowClassName({row, rowIndex}) {
+      tableRowClassName({row, rowIndex}) {//斑马条纹
         if (rowIndex === 0) {
           return 'success-row';
         } else if (rowIndex === 2) {
@@ -641,7 +643,7 @@ export default {
           this.toggleSelection([table[i]]);
         }
       },
-      toggleSelection(rows) {
+      toggleSelection(rows) {//选中数据
         if (rows) {
           rows.forEach(row => {
             this.$refs.multipleTable.toggleRowSelection(row);
@@ -656,7 +658,7 @@ export default {
         return row.b_workid+row.b_year+row.b_moth;
       },
       
-      clearSelect() {
+      clearSelect() {//清除选中
         this.$refs.multipleTable.clearSelection();
       },
       
