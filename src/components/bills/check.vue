@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width:100%;height:680px;">
     <my-bread level1='账单审批' level2='已审核'></my-bread>
       <el-radio-group v-model="radioButton" @change="goto1pg()" size="medium" >
         <el-radio-button :label="true" >已审批</el-radio-button>
@@ -102,7 +102,8 @@
             :row-class-name="rowclass"
             @sort-change="sortChange"
             border
-            style="width: 100%;height:420px;margin-top: 20px;"
+            height="490"
+            style="margin-top:8px;"
           >
           <!--已审批表头-->
             <el-table-column label="基本信息" align="center" >
@@ -145,13 +146,13 @@
             </el-table-column>
 
             <el-table-column label="审核结果" align="center" fixed="right">
-              <el-table-column label="通过/未通过" align="center" >
+              <el-table-column label="是否通过" align="center" >
                 <template slot-scope="scope">
                   <div v-if="scope.row.checkStatus  == 1"> 
-                    <i class="el-icon-check"></i>
+                    <i class="el-icon-success" style="color:#83f347;font-size: 20px;"></i>
                   </div>
                   <div v-if="scope.row.checkStatus == -1"> 
-                    <i class="el-icon-close"></i>
+                    <i class="el-icon-error" style="color:grey;font-size: 20px;"></i>
                   </div>
                 </template>
               </el-table-column>
@@ -246,6 +247,11 @@
         <!-- table -->
         <div class="table">
             <el-table
+            stripe
+            border
+            :row-style="{ height: '40px' }"
+            :cell-style="{ padding: '0px' }"
+            :header-cell-style="{ background: '#f8f9fb' }"
             :data="
               tabledata2.slice(
                 (currentPage - 1) * PageSize,
@@ -256,7 +262,8 @@
             :row-key="getRowKeys"
             :row-class-name="rowclass"
             @sort-change="sortChange"
-            style="width: 100%;height:468px;">
+            height="490"
+            >
           <!--表头-->
             <el-table-column label="基本信息" align="center" >
               <el-table-column fixed type="selection" width="50"  reserve-selection ></el-table-column>
@@ -442,7 +449,7 @@ export default {
       totalCount: 1,
       // 个数选择器（可修改）
 
-      PageSize: 6,
+      PageSize: 8,
       tabledata2:[],
       // 表内数据
       tabledata1:[],
@@ -461,11 +468,13 @@ export default {
   // 方法
   methods: {
     rowclass({row, rowIndex}) {
-        if (rowIndex === 1) {
+        if (rowIndex === 0) {
           return 'success-row';
-        } else if (rowIndex === 3) {
+        } else if (rowIndex === 2) {
           return 'success-row';
-        }else if (rowIndex === 5) {
+        }else if (rowIndex === 4) {
+          return 'success-row';
+        }else if (rowIndex === 6) {
           return 'success-row';
         }
         return '';
@@ -1061,10 +1070,12 @@ export default {
 </script>
 
 <style scoped>
+.table{
+  width: 100%;
+  height: 493px;
+}
 .tabListPage {
-  margin-top:30px;
-  
-  float: right;
+  float: right; 
   margin: 10px;
 }
 
@@ -1085,7 +1096,7 @@ export default {
 .box-card {
   width: 100%;
   margin: 10px auto;
-  height: 100%;
+  height: 630px;
 }
 
 

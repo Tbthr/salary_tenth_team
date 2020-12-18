@@ -1,6 +1,6 @@
 <template>
     <div>
-    <el-card>
+    <el-card style="height:;">
       <!-- 面包屑导航区 -->
       <my-bread level1='系统工具' level2='查看日志'></my-bread>
       <el-row>
@@ -16,6 +16,8 @@
             <el-button type="danger" size="small" @click="clearLogs()">删除日志</el-button>
           </download-excel>
         </el-col>
+        <br>
+        <br>
         <el-col :span="18">
           <el-form label-width = "80px" :inline= 'true' :rules= "rules">
             <div class="block" style="display:inline">
@@ -25,7 +27,7 @@
                 align="left"
                 type="year"
                 placeholder="请选择"
-                style="width:120px;">
+                style="width:100px;">
               </el-date-picker>
             </div>
         <div class="block" style="display:inline">
@@ -62,10 +64,10 @@
                   <el-option label="通过" value="pass"></el-option>
                   <el-option label="不通过" value="nopass"></el-option>
                 </el-select>
-              </el-form-item>
+            </el-form-item>
               <!--职工号筛选-->
             <el-form-item label="关键词:" >
-                <el-input v-model="userid"  placeholder="请输入职工号或姓名" style="width:170px;" ></el-input>
+                <el-input v-model="userid"  placeholder="请输入职工号或姓名" style="width:160px;" ></el-input>
             </el-form-item>
               <el-button type="primary"  icon = "iconfont icon-sousuo" style="margin-left: 15px" @click="search1();">搜索</el-button>
           </el-form>

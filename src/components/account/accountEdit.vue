@@ -7,31 +7,34 @@
         <i class="el-icon-s-tools"></i><span>修改密码</span>
       </div>
       <div>
-        <el-form v-model="ManMsg" label-width="85px" :inline="true">
-          <el-form-item label="职工号:">
-            <el-input v-model="ManMsg.id" readonly="readonly"></el-input>
-          </el-form-item>
-          <el-form-item label="姓名:">
-            <el-input v-model="ManMsg.name" readonly="readonly"></el-input>
-          </el-form-item>
-          <el-form-item label="部门:">
-            <el-input v-model="ManMsg.department.departName" readonly="readonly"></el-input>
-          </el-form-item>
-          <el-form-item label="职位:">
-            <el-input v-model="ManMsg.position" readonly="readonly"></el-input>
-          </el-form-item>
-          <el-form-item label="旧密码:">
-            <el-input v-model="ManMsg.oldpsd" placeholder="请输入旧密码"></el-input>
-          </el-form-item>
-          <el-form-item label="新密码:">
-            <el-input v-model="ManMsg.newpsd" placeholder="请输入新密码"></el-input>
-          </el-form-item>
-          <el-form-item label="确认密码:">
-            <el-input v-model="ManMsg.confpsd" placeholder="请再次输入新密码"></el-input>
-          </el-form-item>
-        </el-form>
+        <center>
+          <el-form v-model="ManMsg" label-width="85px" :inline="true" style="height:450px">
+            <el-form-item label="职工号:" style="margin-top:10px">
+              <el-input v-model="ManMsg.id" readonly="readonly"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名:" style="margin-top:10px">
+              <el-input v-model="ManMsg.name" readonly="readonly"></el-input>
+            </el-form-item>
+            <el-form-item label="部门:" style="margin-top:10px">
+              <el-input v-model="ManMsg.department.departName" readonly="readonly"></el-input>
+            </el-form-item>
+            <el-form-item label="职位:" style="margin-top:10px">
+              <el-input v-model="ManMsg.position" readonly="readonly"></el-input>
+            </el-form-item>
+            <el-form-item label="旧密码:" style="margin-top:10px">
+              <el-input v-model="ManMsg.oldpsd" placeholder="请输入旧密码" type="password"></el-input>
+            </el-form-item>
+            <el-form-item label="新密码:" style="margin-top:10px">
+              <el-input v-model="ManMsg.newpsd" placeholder="请输入新密码" type="password"></el-input>
+            </el-form-item>
+            <el-form-item label="确认密码:" style="margin-top:10px">
+              <el-input v-model="ManMsg.confpsd" placeholder="请再次输入新密码" type="password"></el-input>
+            </el-form-item>
+          </el-form>
         <el-button type="primary" style="display:block;margin:0 auto" @click="changePsd">确认修改</el-button>
 
+        </center>
+        
       </div>
     </el-card>
   </div>
@@ -97,6 +100,7 @@ export default {
 
 .box-card {
   margin: 20px auto;
-  width: 100%;
+  width: 50%  ;
+  height: 620px;
 }
 </style>
