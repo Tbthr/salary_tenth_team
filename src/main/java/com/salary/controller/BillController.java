@@ -97,14 +97,20 @@ public class BillController {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//注意月份是MM
         Date date = simpleDateFormat.parse(s);
 //        System.out.println(date);   //Thu Feb 01 00:00:00 CST 2018
-//        System.out.println(simpleDateFormat.format(date));  //2018-02-01
+//        System.out.println(simpleDateFormat.format(date));  // 2018-02-01
         List<Bill> temp = (List<Bill>) map.get("bills");
         List<Bill> bills = objectMapper.convertValue(temp, new TypeReference<List<Bill>>() {
         }); // 解决 class java.util.LinkedHashMap cannot be cast to class com.salary.model.Bill
         for (Bill bill : bills) {
             bill.setDate(date);
+            String format = simpleDateFormat.format(date);
             bill = billService.calculateTax(bill); // 计算个税
-            if (billService.getBillById(bill.getDate(), bill.getUserId()) != null) {
+            if (billService.getBillById(format, bill.getUserId()) != null) {
+                // 如果是重新提交 修改状态
+                bill.setCheckStatus(0);
+                bill.setMark(null);
+                bill.setCheckTime(null);
+
                 i = billService.updateBill(bill);
                 if (i <= 0) {
                     return ApiResult.builder()

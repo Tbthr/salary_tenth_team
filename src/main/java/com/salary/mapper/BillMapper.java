@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,8 +41,8 @@ public interface BillMapper {
      * @param userId 工号
      * @return 账单信息
      */
-    @Select("select * from bill where date = #{date} and user_id = #{userId} limit 1")
-    Bill selectById(@Param("date") Date date, @Param("userId") String userId);
+    @Select("select * from bill where date like #{date} and user_id = #{userId} limit 1")
+    Bill selectById(@Param("date") String date, @Param("userId") String userId);
 
     /**
      * 更新账单

@@ -3,9 +3,11 @@ package com.salary.model;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @ApiModel("日志实体类")
 @Data
-public class Log {
+public class Log implements Serializable {
 
     private Integer id;
 

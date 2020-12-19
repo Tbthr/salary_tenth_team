@@ -8,12 +8,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
 @ApiModel("用户实体类")
 @Data
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
 
     /**
      * 工号

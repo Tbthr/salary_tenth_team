@@ -5,11 +5,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serializable;
 import java.util.List;
 
 @ApiModel("角色实体类")
 @Data
-public class Role implements GrantedAuthority {
+public class Role implements GrantedAuthority, Serializable {
 
     @ApiModelProperty("角色id")
     private Integer id;

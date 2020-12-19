@@ -9,12 +9,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @ApiModel("账单信息实体类")
 @Data
-public class Bill {
+public class Bill implements Serializable {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
