@@ -58,9 +58,7 @@
 </template>
 
 <script>
-import myBread from '../cuscom/myBread.vue'
 export default {
-  components: { myBread },
   data () {
     return {
       ManMsg: {},

@@ -50,6 +50,47 @@ export default {
   created () {
     this.getManMsg()
   },
+  mounted () {
+    // 1、数据首次加载完后 → 获取图片（或外层框）宽度，并设置其高度
+    this.$nextTick(() => {
+      // 获取图片（或外层框）
+      let test = this.$refs.test
+      // 获取其宽度
+      let wtest = test[0].getBoundingClientRect().width
+      // 设置其高度（以宽度的60%为例）
+      this.test.height = 0.6 * wtest + 'px'
+    })
+    // 2、挂载 reisze 事件 → 屏幕缩放时监听宽度变化
+    const that = this
+    window.onresize = () => {
+      return (() => {
+        window.screenWidth = document.body.clientWidth
+        that.screenWidth = window.screenWidth
+        console.log(that.screenWidth)
+        this.$nextTick(() => {
+          let test = this.$refs.test
+          let wtest = test[0].getBoundingClientRect().width
+          this.test.height = 0.6 * wtest + 'px'
+        })
+      })()
+    }
+  },
+  watch: {
+    screenWidth (val) {
+      // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
+      if (!this.timer) {
+        // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
+        this.screenWidth = val
+        this.timer = true
+        let that = this
+        setTimeout(function () {
+          // 打印screenWidth变化的值
+          console.log(that.screenWidth)
+          that.timer = false
+        }, 400)
+      }
+    }
+  },
   methods: {
     // ManMsg{} = JSON.parse(sessionStorage.getItem('manMsg')),
     getManMsg () {
@@ -97,7 +138,7 @@ export default {
 
 .box-card {
   margin: 20px auto;
-  width: 50%  ;
+  width: 50%;
   height: 100%;
 }
 .el-button{
