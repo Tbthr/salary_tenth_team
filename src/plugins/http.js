@@ -3,7 +3,6 @@ const MyHttpServer = {}
 
 MyHttpServer.install = (Vue) => {
 // 4. 添加实例方法
-  // axios.defaults.baseURL = 'http://salary.free.idcfengye.com/salary/'
   axios.defaults.baseURL = 'http://47.92.165.44:8080/salary/'
   Vue.prototype.$axios = axios
 }

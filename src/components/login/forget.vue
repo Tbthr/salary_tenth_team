@@ -55,11 +55,11 @@ export default {
       forgetFormRules: {
         userid: [
           { message: '请输入职工号', trigger: 'blur' },
-          { min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' }
+          { min: 10, max: 10, message: '长度为 10 个字符', trigger: 'blur' }
         ],
         password: [
           { message: '请输入新密码', trigger: 'blur' },
-          { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
+          { min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur' }
         ]
       }
     }

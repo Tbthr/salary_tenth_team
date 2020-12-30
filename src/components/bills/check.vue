@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width:100%;height:680px;">
     <my-bread level1='账单审批' level2='已审核'></my-bread>
       <el-radio-group v-model="radioButton" @change="goto1pg()" size="medium" >
         <el-radio-button :label="true" >已审批</el-radio-button>
@@ -36,6 +36,14 @@
             </el-option>
           </el-select>
         </div>
+            <!--<el-form-item label="筛选：">-->
+
+              <!--级联选择器-->
+              <!--<el-cascader
+                v-model = "value"
+                :options = "options"
+                @change = "handleChange" placeholder="请选择部门" :show-all-levels = "false" ></el-cascader>
+              </el-form-item>-->
             <el-form-item label="部门">
                 <!-- <el-input v-model="bumen" placeholder="请输入部门"></el-input> -->
                 <el-select v-model="position"
@@ -58,7 +66,7 @@
                            clearable
                            :options="checkselect">
                   <el-option label="通过" value="pass"></el-option>
-                  <el-option label="不通过" value="nopass"></el-option>
+                  <el-option label="未通过" value="nopass"></el-option>
 
                 </el-select>
               </el-form-item>
@@ -66,6 +74,11 @@
             <el-form-item label="关键词:" >
                 <el-input v-model="userid"  placeholder="请输入职工号或姓名" style="width:170px;" ></el-input>
             </el-form-item>
+
+            <!-- <el-form-item label="姓名:">
+                <el-input v-model="username"  placeholder="请输入姓名" style="width:130px;" ></el-input>
+            </el-form-item> -->
+              <!--审核结果筛选-->
 
               <el-button type="primary"  icon = "iconfont icon-sousuo" style="margin-left: 15px" @click="search1();">搜索</el-button>
 
@@ -84,9 +97,11 @@
             "
             @selection-change="handleSelectionChange"
             :row-key="getRowKeys"
+            :row-class-name="rowclass"
             @sort-change="sortChange"
             border
-            style="width: 100%"
+            height="490"
+            style="margin-top:8px;"
           >
           <!--已审批表头-->
             <el-table-column label="基本信息" align="center" >
@@ -124,14 +139,22 @@
               <el-table-column label="其他扣款" width="90" prop="otherCut"></el-table-column>
             </el-table-column >
 
-            <el-table-column label="应发工资" align="center" prop="shouldPay" >
+            <el-table-column label="应发工资" align="center" prop="shouldPay" width="110">
 
             </el-table-column>
 
             <el-table-column label="审核结果" align="center" fixed="right">
-              <el-table-column label="通过/不通过" align="center" prop="checkStatus"></el-table-column>
+              <el-table-column label="是否通过" align="center" >
+                <template slot-scope="scope">
+                  <div v-if="scope.row.checkStatus  == 1">
+                    <i class="el-icon-success" style="color:#83f347;font-size: 20px;"></i>
+                  </div>
+                  <div v-if="scope.row.checkStatus == -1">
+                    <i class="el-icon-error" style="color:grey;font-size: 20px;"></i>
+                  </div>
+                </template>
+              </el-table-column>
             </el-table-column>
-
           </el-table>
         </div>
         </div>
@@ -220,6 +243,11 @@
         <!-- table -->
         <div class="table">
             <el-table
+            stripe
+            border
+            :row-style="{ height: '40px' }"
+            :cell-style="{ padding: '0px' }"
+            :header-cell-style="{ background: '#f8f9fb' }"
             :data="
               tabledata2.slice(
                 (currentPage - 1) * PageSize,
@@ -228,9 +256,10 @@
             "
             @selection-change="handleSelectionChange"
             :row-key="getRowKeys"
-            border
+            :row-class-name="rowclass"
             @sort-change="sortChange"
-            style="width: 100%">
+            height="450"
+            >
           <!--表头-->
             <el-table-column label="基本信息" align="center" >
               <el-table-column fixed type="selection" width="50"  reserve-selection ></el-table-column>
@@ -267,7 +296,7 @@
               <el-table-column label="其他扣款" width="90" prop="otherCut"></el-table-column>
             </el-table-column >
             <el-table-column label="实发工资" align="center" >
-              <el-table-column label="总计" align="center" prop="shouldPay"></el-table-column>
+              <el-table-column label="总计" align="center" prop="shouldPay" width="110"></el-table-column>
             </el-table-column>
 
             <el-table-column label="审批操作" align="center" width="240" fixed="right">
@@ -276,7 +305,7 @@
                   type="primary"
                   size= "mini"
                   icon = "iconfont icon-gou"
-                  @click="handleEdit(scope.$index, scope.row);edit1();"
+                  @click="dgVisible1();handleEdit(scope.$index, scope.row);"
                   >通过</el-button
                 >
                 <el-button
@@ -292,7 +321,7 @@
           </el-table>
           </div>
 
-        <el-button class="btn btn-block1" type="primary" icon = "iconfont icon-dingdan" @click="edit2()">批量通过</el-button>
+        <el-button class="btn btn-block1" type="primary" icon = "iconfont icon-dingdan" @click="dgVisible3()">批量通过</el-button>
         <el-button class="btn btn-block2" type="danger" icon = "iconfont icon-dingdan" @click="dgVisible4()">批量不通过</el-button>
           <!--分页-->
           <div class="tabListPage" >
@@ -311,12 +340,12 @@
 
     </el-card>
     <!--对话框提示-->
-    <!-- <el-dialog title="提示" :visible.sync = "dialogVisible1" width="30%" >
+    <el-dialog title="提示" :visible.sync = "dialogVisible1" width="30%" >
       <span>审批通过成功</span>
       <span slot = "footer" class= "dialog-footer">
-        <el-button type="primary" @click= "dialogVisible1 = false">确 定</el-button>
+        <el-button type="primary" @click= "dialogVisible1 = false;edit1();">确 定</el-button>
       </span>
-    </el-dialog> -->
+    </el-dialog>
 
     <el-dialog title="提示" :visible.sync = "dialogVisible2" width="30%" >
       <el-form>
@@ -330,12 +359,12 @@
       </span>
     </el-dialog>
 
-    <!-- <el-dialog title="提示" :visible.sync = "dialogVisible3" width="30%" >
+    <el-dialog title="提示" :visible.sync = "dialogVisible3" width="30%" >
       <span>确定要审批通过吗？</span>
       <span slot = "footer" class= "dialog-footer">
-        <el-button type="primary" @click= "dialogVisible3 = false;dgVisible1() ; ok();">确 定</el-button>
+        <el-button type="primary" @click= "dialogVisible3 = false;edit2();">确 定</el-button>
       </span>
-    </el-dialog> -->
+    </el-dialog>
 
     <el-dialog title="提示" :visible.sync = "dialogVisible4" width="30%" >
       <el-form>
@@ -378,6 +407,7 @@ export default {
 
     }
     return {
+      passinfo:"<i class='el-icon-check'></i>",
       yearm:null,
       mothm:null,
       opmoth:['01','02','03','04','05','06','07','08','09','10','11','12'],
@@ -411,7 +441,7 @@ export default {
       totalCount: 1,
       // 个数选择器（可修改）
 
-      PageSize: 6,
+      PageSize: 8,
       tabledata2:[],
       // 表内数据
       tabledata1:[],
@@ -428,6 +458,19 @@ export default {
 
   // 方法
   methods: {
+    rowclass({row, rowIndex}) {
+        if (rowIndex === 0) {
+          return 'success-row';
+        } else if (rowIndex === 2) {
+          return 'success-row';
+        }else if (rowIndex === 4) {
+          return 'success-row';
+        }else if (rowIndex === 6) {
+          return 'success-row';
+        }
+        return '';
+
+      },
     goto1pg(){
       this.currentPage = 1
     },
@@ -528,15 +571,16 @@ export default {
       var date;
       var checkStatus = 1
       var checkTime = this.updateTime
+      var mu = this.multipleSelection
 
       var list =[]
-      for(var i=0;i<this.multipleSelection.length;i++){
+      for(var i=0;i<mu.length;i++){
 
-        userId = this.multipleSelection[i].userId
-        date = this.multipleSelection[i].date
+        userId =mu[i].userId
+        date =mu[i].date
         list.push({date,userId,checkTime,checkStatus})
-        this.tabledata1.push(this.multipleSelection[i])
-        data[i] = this.multipleSelection[i]
+        mu.push(mu[i])
+        data[i] =mu[i]
       }
       axios.post('bills/check', list)
         .then(function (res) {
@@ -545,18 +589,21 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-
-      console.log(this.tabledata2)
-      var table=this.tabledata2;
+      var tab=[]
+      var table=this.tabledata2
+      for(var i=0;i<mu.length;i++) if(mu[i]) this.tabledata1.push(mu[i])
       for(var i=0;i<table.length;i++){
         for(var j=0;j<data.length;j++){
           if(table[i] == data[j]){
-            table.splice(i,1)
+            delete table[i]
           }
         }
       }
+      for(var i =0;i<table.length;i++){
+        if(table[i]) tab.push(table[i])
+      }
 
-      this.tabledata2 = table
+      this.tabledata2 = tab
 
       this.reltable2 = this.tabledata2
       this.reltable1 = this.tabledata1
@@ -564,20 +611,19 @@ export default {
     delete2(){
       var mark = this.mark
       if(mark){
-      var data =[];
+      var data =[]
+      var mu = this.multipleSelection;;
       var userId;
       var date;
       var checkStatus = -1
       var checkTime = this.updateTime
 
       var list =[]
-      for(var i=0;i<this.multipleSelection.length;i++){
-
-        userId = this.multipleSelection[i].userId
-        date = this.multipleSelection[i].date
+      for(var i=0;i<mu.length;i++){
+        userId = mu[i].userId
+        date = mu[i].date
         list.push({date,userId,checkTime,checkStatus,mark})
-        this.tabledata1.push(this.multipleSelection[i])
-        data[i] = this.multipleSelection[i]
+        data[i] = mu[i]
       }
       axios.post('bills/check', list)
         .then(function (res) {
@@ -589,15 +635,21 @@ export default {
 
       console.log(this.tabledata2)
       var table=this.tabledata2;
+      var tab =[]
+      for(var i=0;i<mu.length;i++) if(mu[i]) this.tabledata1.push(mu[i])
       for(var i=0;i<table.length;i++){
         for(var j=0;j<data.length;j++){
           if(table[i] == data[j]){
-            table.splice(i,1)
+            delete table[i]
           }
         }
       }
 
-      this.tabledata2 = table
+      for(var i =0;i<table.length;i++){
+        if(table[i]) tab.push(table[i])
+      }
+
+      this.tabledata2 = tab
 
       this.reltable2 = this.tabledata2
       this.reltable1 = this.tabledata1
@@ -670,17 +722,6 @@ export default {
       }
     },
 
-    tableRowClassName({row, rowIndex}) {
-        if (rowIndex === 1) {
-          return 'warning-row';
-        } else if (rowIndex === 3) {
-          return 'success-row';
-        }else if (rowIndex === 5) {
-          return 'success-row';
-        }
-        return '';
-      },
-
       selectall(){  //选择全部数据
         var table;
         if(this.level == 1)  table =this.tabledata1;
@@ -747,6 +788,7 @@ export default {
       // 注意：在改变每页显示的条数时，要将页码显示到第一页
       this.currentPage = 1
     },
+
     // 显示第几页
     handleCurrentChange (val) {
       // 改变默认的页数
@@ -771,14 +813,14 @@ export default {
     },
     //页面切换
     tabChange:function(e){
-          let tabid = e.target.dataset.id
-          this.tab = tabid
+      let tabid = e.target.dataset.id
+      this.tab = tabid
           },
     //已审批的工号和姓名模糊搜索
     search1(){
           // 支持模糊查询
           // this.xmgcqkJsonsData：用于搜索的总数据
-         // toLowerCase():用于把字符串转为小写，让模糊查询更加清晰\
+          //　toLowerCase():用于把字符串转为小写，让模糊查询更加清晰\
         this.tabledata1 = this.reltable1
 
         let position = this.position;
@@ -858,7 +900,7 @@ export default {
         search2(){
           // 支持模糊查询
           // this.xmgcqkJsonsData：用于搜索的总数据
-         //toLowerCase():用于把字符串转为小写，让模糊查询更加清晰
+        　 //　toLowerCase():用于把字符串转为小写，让模糊查询更加清晰
         this.tabledata2 = this.reltable2
         console.log(this.reltable2)
           let _searchId = this.userid.toLowerCase();
@@ -915,8 +957,14 @@ export default {
         },
 
     //对话框
+    dgVisible1(){
+      this.dialogVisible1 = true;
+    },
     dgVisible2(){
       this.dialogVisible2 = true;
+    },
+    dgVisible3(){
+      this.dialogVisible3 = true;
     },
     dgVisible4(){
       this.dialogVisible4 = true;
@@ -963,9 +1011,6 @@ export default {
             }
           }
         }
-        for(var i=0;i<this.tabledata1.length;i++){
-
-        }
 
         this.reltable1= table3
         this.reltable2= table4
@@ -1010,18 +1055,15 @@ export default {
 </script>
 
 <style scoped>
+.table{
+  width: 100%;
+  height: 493px;
+}
 .tabListPage {
-  margin-top:30px;
-
   float: right;
   margin: 10px;
 }
 
-.table {
-  height: 450px;
-  margin-top: 20px;
-
-}
 .heard {
   display: flex;
   align-items: center;
@@ -1039,8 +1081,7 @@ export default {
 .box-card {
   width: 100%;
   margin: 10px auto;
-  height: 594px;
-
+  height: 630px;
 }
 
 .icon {
@@ -1055,5 +1096,13 @@ export default {
     position: fixed;
     bottom: 5px;
 }
+
+  .el-table .warning-row {
+    background: oldlace;
+  }
+
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
 
 </style>

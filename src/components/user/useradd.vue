@@ -1,79 +1,116 @@
 <template>
-<div>
+  <div >
       <!-- 面包屑导航区 -->
     <my-bread level1='员工管理' level2='添加员工'></my-bread>
-    <el-card>
+    <el-card class="card">
         <!-- 添加按钮 -->
         <div slot="header" class="clearfix">
           <i class="el-icon-user-solid"></i><span>新增用户</span>
-            <el-button  style="float: right" @click="resetForm('addsForm')">重置</el-button>
-            <el-button type="primary" @click="addUser('addsForm')" style="float: right">确认添加</el-button>
-            <el-select v-model="roleName" placeholder="请选择用户角色" style="float: right" >
+            <el-button  style="float: right" @click="resetForm('addsForm')" size="small" >重置</el-button>
+            <el-button type="primary" @click="addUser('addsForm')" size="small" style="float: right">确认添加</el-button>
+            <el-select v-model="roleName" placeholder="请选择用户角色" style="float: right" size="small" >
               <el-option label="普通用户" value="ROLE_normal"></el-option>
-              <el-option label="部门管理员" value="ROLE_departadmin" disabled></el-option>
-              <el-option label="财务管理员" value="ROLE_salaryadmin" disabled></el-option>
-              <el-option label="系统管理员" value="ROLE_sysadmin" disabled></el-option>
+              <el-option label="部门管理员" value="ROLE_departadmin"></el-option>
+              <el-option label="财务管理员" value="ROLE_salaryadmin"></el-option>
+              <el-option label="系统管理员" value="ROLE_sysadmin"></el-option>
             </el-select>
         </div>
         <!-- 添加用户表单 -->
-        <div>
-          <el-form ref="addsForm" :model="addsForm" :rules="rules" label-width="80px" :inline="true">
-            <el-form-item label="职工号"  prop="id">
-                <el-input  v-model="addsForm.id" maxlength="10"></el-input>
-            </el-form-item>
-            <el-form-item label="部门" prop="departId">
-            <el-select v-model="addsForm.departId" placeholder="请选择部门">
-                <el-option  v-for="item in Name"  :key="item.id" :label="item.departName" :value="item.id"></el-option>
-            </el-select>
-            </el-form-item>
-            <el-form-item label="职位" prop="position">
-                <el-select v-model="addsForm.position" placeholder="请选择职位">
-                <el-option label="教师" value="教师"></el-option>
-                <el-option label="教学秘书" value="教学秘书"></el-option>
-                <el-option label="财务处长" value="财务处长"></el-option>
-                <el-option label="人事财务总管" value="人事财务总管"></el-option>
-                <el-option label="院长" value="院长"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="姓名" prop="name">
-                <el-input v-model="addsForm.name" ></el-input>
-            </el-form-item>
-            <el-form-item label="年龄" prop="age">
-                <el-input v-model.number="addsForm.age"></el-input>
-            </el-form-item>
-            <el-form-item label="身份证号" prop="idCard">
-                <el-input v-model="addsForm.idCard" minlength="16"></el-input>
-            </el-form-item>
-            <el-form-item label="邮箱" prop="email">
-                <el-input v-model="addsForm.email"></el-input>
-            </el-form-item>
-            <el-form-item label="电话" prop="phone">
-                <el-input v-model="addsForm.phone"></el-input>
-            </el-form-item>
-            <el-form-item label="密码" prop="psd">
-                <el-input v-model="addsForm.psd"></el-input>
-            </el-form-item>
-            <el-form-item label="工龄" prop="workYear">
-                <el-input v-model="addsForm.workYear"></el-input>
-            </el-form-item>
-            <el-form-item label="用户类型" prop="userFlag">
-                <el-select v-model="addsForm.userFlag" placeholder="请选择用户类型">
-                <el-option label="普通用户" value="1"></el-option>
-                <el-option label="部门管理员" value="2" disabled></el-option>
-                <el-option label="财务管理员" value="3" disabled></el-option>
-                <el-option label="系统管理员" value="4" disabled></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="性别" prop="gender">
+        <div class="addForm">
+          <el-form size="" ref="addsForm" :model="addsForm" :rules="rules" label-width="80px" >
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="职工号"  prop="id">
+                  <el-input  v-model="addsForm.id" maxlength="10"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="姓名" prop="name">
+                  <el-input v-model="addsForm.name" ></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="部门" prop="departId">
+                  <el-select v-model="addsForm.departId" placeholder="请选择部门">
+                    <el-option  v-for="item in Name"  :key="item.id" :label="item.departName" :value="item.id"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="职位" prop="position">
+                  <el-select v-model="addsForm.position" placeholder="请选择职位">
+                  <el-option label="教师" value="教师"></el-option>
+                  <el-option label="教学秘书" value="教学秘书"></el-option>
+                  <el-option label="财务处长" value="财务处长"></el-option>
+                  <el-option label="人事财务总管" value="人事财务总管"></el-option>
+                  <el-option label="院长" value="院长"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="身份证号" prop="idCard">
+                 <el-input v-model="addsForm.idCard" ></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="年龄" prop="age">
+                  <el-input v-model.number="addsForm.age"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="性别" prop="gender">
                 <el-radio-group v-model="addsForm.gender">
-                <el-radio label="m" value="m"></el-radio>
-                <el-radio label="f" value="f"></el-radio>
+                <el-radio label="男" value="m"></el-radio>
+                <el-radio label="女" value="f"></el-radio>
                 </el-radio-group>
             </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="邮箱" prop="email">
+                  <el-input v-model="addsForm.email"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="电话" prop="phone">
+                  <el-input v-model="addsForm.phone"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="密码" prop="psd">
+                  <el-input v-model="addsForm.psd"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="工龄" prop="workYear">
+                  <el-input v-model="addsForm.workYear"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-form-item label="用户类型" prop="userFlag">
+                <el-select v-model="addsForm.userFlag" placeholder="请选择用户类型">
+                  <el-option label="普通用户" value="1"></el-option>
+                  <el-option label="部门管理员" value="2" disabled></el-option>
+                  <el-option label="财务管理员" value="3" disabled></el-option>
+                  <el-option label="系统管理员" value="4" disabled></el-option>
+                </el-select>
+              </el-form-item>
+            </el-row>
           </el-form>
         </div>
     </el-card>
-</div>
+  </div>
 </template>
 
 <script>
@@ -259,3 +296,16 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .card{
+    position: center;
+    margin: 20px auto;
+    width: 600px;
+    height: 100%;
+  }
+  .addForm{
+    width: 100% auto;
+    height: 100%;
+  }
+
+</style>

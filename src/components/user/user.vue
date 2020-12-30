@@ -1,30 +1,39 @@
 <template>
-  <div class="user">
+  <div style="width:100%;height:680px;">
       <!-- 面包屑导航区 -->
     <my-bread level1='员工管理' level2='查看员工'></my-bread>
-    <el-card>
+    <el-card class="el-card">
       <!-- 快速查找 -->
-      <div slot="header" class="searchUser">
+      <div slot="header">
         <span>快速查找</span>
-        <el-input placeholder="请输入..."  v-model="search" clearable class="input-with-select"></el-input>
+        <el-input placeholder="请输入..." size="small" v-model="search" clearable class="input-with-select"></el-input>
       </div>
       <!-- 员工表格 -->
-      <div class="userData1">
-        <el-table ref="userTable" border style="width: 100%"
+      <div class="table">
+        <el-table
+        ref="usertable"
+         :header-cell-style= "{background:'rgb(245,247,250)'}"
+        :row-class-name="rowclass"
+        border height="505"
+        style="width: 100%"
         :data="tables.slice((currentPage-1)*pagesize,currentPage*pagesize)" stripe tooltip-effect="dark">
           <el-table-column type="selection" width="40"></el-table-column>
-          <el-table-column prop="id" width="115" label="工号" sortable></el-table-column>
-          <el-table-column prop="name" width="90" label="姓名" sortable></el-table-column>
-          <el-table-column prop="gender" width="60" label="性别" ></el-table-column>
-          <el-table-column prop="position" width="115" label="职位"></el-table-column>
-          <el-table-column prop="age" width="80" label="年龄" sortable></el-table-column>
-          <el-table-column prop="idCard" width="180" label="身份证号"></el-table-column>
-          <el-table-column prop="email" width="180" label="邮箱"></el-table-column>
-          <el-table-column prop="phone" width="130" label="电话"></el-table-column>
-          <el-table-column prop="department.departName" width="150" label="部门"></el-table-column>
-          <el-table-column prop="workYear" width="60" label="工龄"></el-table-column>
-          <el-table-column prop="userFlag" width="60" label="用户类型"></el-table-column>
-          <el-table-column label="操作" width="150" fixed="right">
+          <el-table-column prop="id" width="115" label="工号" sortable align="center"></el-table-column>
+          <el-table-column prop="name" width="90" label="姓名" sortable align="center"></el-table-column>
+          <el-table-column prop="gender" label="性别" align="center">
+            <template slot-scope="scope">
+              {{ scope.row.gender === 'f' ? '女' : '男'}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="position" width="115" label="职位" align="center"></el-table-column>
+          <el-table-column prop="age" label="年龄" sortable align="center"></el-table-column>
+          <el-table-column prop="idCard" width="180" label="身份证号" align="center"></el-table-column>
+          <el-table-column prop="email" width="180" label="邮箱" align="center"></el-table-column>
+          <el-table-column prop="phone" width="130" label="电话" align="center"></el-table-column>
+          <el-table-column prop="department.departName" width="150" label="部门" align="center"></el-table-column>
+          <el-table-column prop="workYear" label="工龄" align="center"></el-table-column>
+          <el-table-column prop="userFlag" width="90" label="用户类型" align="center"></el-table-column>
+          <el-table-column label="操作" width="150" fixed="right" align="center">
               <template slot-scope="scope">
               <el-button type="primary" size="small" @click="userEdit(scope.$index, scope.row)">修改</el-button>
               <el-button type="danger" size="small" @click="userDelete(scope.$index)">删除</el-button>
@@ -34,68 +43,101 @@
       </div>
       <!-- 分页 -->
       <div class="page">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-        :page-sizes="[5, 10, 15, 20]" :page-size="pagesize" layout="total, sizes, prev, pager, next, jumper" :total="userData1.length">
+        <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[6, 12, 18]"
+        :page-size="pagesize"
+        layout="total, prev, pager, next, jumper"
+        :total="userData1.length">
         </el-pagination>
       </div>
     </el-card>
-
     <!-- 修改员工信息模态框 -->
     <el-dialog title="修改员工信息"  :visible="edituserForm" size="tiny" :modal-append-to-body='false' @close='closeDialog'>
       <el-form ref="editsForm" :rules="rules" :model="editsForm" label-width="80px">
-        <el-form-item label="工号" prop="id">
-            <el-input  v-model="editsForm.id" max-length="10" disabled="disabled"></el-input>
-        </el-form-item>
-        <el-form-item label="姓名" prop="name">
-            <el-input v-model="editsForm.name"></el-input>
-        </el-form-item>
-        <el-form-item label="年龄" prop="age" :rules="[
-                          { required: true, message: '年龄不能为空'},
-                          { type: Number, message: '年龄必须为数字值'}]">
-            <el-input v-model="editsForm.age"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-            <el-input v-model="editsForm.email"></el-input>
-        </el-form-item>
-        <el-form-item label="电话" prop="phone">
-            <el-input  v-model="editsForm.phone"></el-input>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="工号" prop="id">
+              <el-input  v-model="editsForm.id" max-length="10" disabled="disabled"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="姓名" prop="name">
+              <el-input v-model="editsForm.name"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item label="身份证号" prop="idCard">
             <el-input v-model="editsForm.idCard"></el-input>
         </el-form-item>
-        <el-form-item label="性别" prop="gender">
-            <el-radio-group v-model="editsForm.gender">
-            <el-radio label="m" value="m"></el-radio>
-            <el-radio label="f" value="f"></el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <el-form-item label="职位" prop="position">
-            <el-select v-model="editsForm.position">
-              <el-option label="教师" value="教师"></el-option>
-              <el-option label="教学秘书" value="教学秘书"></el-option>
-              <el-option label="财务处长" value="财务处长"></el-option>
-              <el-option label="人事财务总管" value="人事财务总管"></el-option>
-              <el-option label="院长" value="院长"></el-option>
-              <el-option label="管理" value="管理"></el-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="工龄">
-            <el-input v-model="editsForm.workYear"></el-input>
-        </el-form-item>
-        <el-form-item label="部门" prop="departId">
-            <el-select v-model="editsForm.departId" >
-                <el-option  v-for="item in Name"  :key="item.id" :label="item.departName" :value="item.id"></el-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="用户类型" prop="userFlag">
-            <el-select v-model="editsForm.userFlag">
-              <el-option label="普通用户" value="1"></el-option>
-              <el-option label="部门管理员" value="2" disabled></el-option>
-              <el-option label="财务管理员" value="3" disabled></el-option>
-              <el-option label="系统管理员" value="4" disabled></el-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="年龄" prop="age">
+                <el-input v-model="editsForm.age"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="性别" prop="gender">
+              <el-radio-group v-model="editsForm.gender">
+              <el-radio label="男" value="m"></el-radio>
+              <el-radio label="女" value="f"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="邮箱" prop="email">
+              <el-input v-model="editsForm.email"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="电话" prop="phone">
+                <el-input  v-model="editsForm.phone"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="职位" prop="position">
+              <el-select v-model="editsForm.position">
+                <el-option label="教师" value="教师"></el-option>
+                <el-option label="教学秘书" value="教学秘书"></el-option>
+                <el-option label="财务处长" value="财务处长"></el-option>
+                <el-option label="人事财务总管" value="人事财务总管"></el-option>
+                <el-option label="院长" value="院长"></el-option>
+                <el-option label="管理" value="管理"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="部门" prop="departId">
+              <el-select v-model="editsForm.departId" >
+                  <el-option  v-for="item in Name"  :key="item.id" :label="item.departName" :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="工龄">
+              <el-input v-model="editsForm.workYear"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="用户类型" prop="userFlag">
+              <el-select v-model="editsForm.userFlag">
+                <el-option label="普通用户" value="1"></el-option>
+                <el-option label="部门管理员" value="2" disabled></el-option>
+                <el-option label="财务管理员" value="3" disabled></el-option>
+                <el-option label="系统管理员" value="4" disabled></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item align="center">
             <el-button type="primary" @click="usercEdit()">确定</el-button>
             <el-button @click="edituserForm = false">取消</el-button>
         </el-form-item>
@@ -161,12 +203,13 @@ export default{
       }, 100)
     }
     return {
+      tableHeight: null,
       search: '',
       edituserForm: false,
       userData1: [],
       currentIndex: '',
       currentPage: 1, // 初始页
-      pagesize: 5, //    每页的数据
+      pagesize: 8, //    每页的数据
       Name: [{
         id: '',
         departName: ''
@@ -230,6 +273,19 @@ export default{
     this.getdepartName()
   },
   methods: {
+
+    rowclass ({row, rowIndex}) {
+      if (rowIndex === 0) {
+        return 'success-row'
+      } else if (rowIndex === 2) {
+        return 'success-row'
+      } else if (rowIndex === 4) {
+        return 'success-row'
+      } else if (rowIndex === 6) {
+        return 'success-row'
+      }
+      return ''
+    },
     // 获取部门
     async getdepartName () {
       const { data: res } = await this.$axios.get('user/add/departInfo')
@@ -239,7 +295,7 @@ export default{
       }
     },
     // 获取用户信息
-    async getUser () {
+    async getUser (val) {
       const { data: res } = await this.$axios.get('user/info')
       console.log(res)
       if (res.code === 200) {
@@ -252,7 +308,6 @@ export default{
       }
       sessionStorage.setItem('userData1', JSON.stringify(this.userData1))
     },
-
     // 分页
     handleSizeChange: function (size) {
       this.pagesize = size
@@ -291,6 +346,7 @@ export default{
     // 删除用户
     // 后台传id进行删除
     async userDelete (index) {
+      // eslint-disable-next-line no-unused-vars
       const confirmResult = await this.$confirm('此操作将永久删除员工是否继续?', '提示',
         {
           confirmButtonText: '确定',
@@ -314,14 +370,11 @@ export default{
             } else {
               this.$message.error(res.data.msg)
             }
+          }).catch((res) => {
+            console.log(res)
           })
-            .catch((res) => {
-              console.log(res)
-            })
-        })
-        .catch(err => err)
+        }).catch(err => err)
       if (confirmResult !== 'confirm') {
-        return this.$message.info('已取消删除')
       }
     },
     // 身份证号码验证
@@ -337,7 +390,7 @@ export default{
     },
     // 实现自动生成性别，年龄
     go (val) {
-      let iden = this.addsForm.idCard
+      let iden = this.editsForm.idCard
       let gender = null
       let myDate = new Date()
       let month = myDate.getMonth() + 1
@@ -356,14 +409,23 @@ export default{
         if (iden.substring(8, 10) < month | iden.substring(8, 10) === month & iden.substring(10, 12) <= day) age++
       }
       // 性别验证
-      if (gender % 2 === 0) { gender = 'f' } else { gender = 'm' }
-      this.addsForm.gender = gender
-      this.addsForm.age = age
+      if (gender % 2 === 0) { gender = '女' } else { gender = '男' }
+      this.editsForm.gender = gender
+      this.editsForm.age = age
     }
   }
 }
 </script>
 <style>
+  .el-card{
+    margin:20px auto;
+    width: 100% auto;
+    height: 650px;
+  }
+  .table{
+    width: 100%;
+    height: 508px;
+  }
   .input-with-select{
     width: 160px;
   }
@@ -384,4 +446,12 @@ export default{
     padding: 10px 0;
     background-color: #f9fafc;
   }
+
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+
 </style>

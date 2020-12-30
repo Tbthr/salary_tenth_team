@@ -1,10 +1,9 @@
 <template>
   <div>
+    <!-- 面包屑导航区 -->
+    <my-bread level1='权限管理' level2='权限列表'></my-bread>
     <!-- 卡片视图 -->
     <el-card>
-      <!-- 面包屑导航区 -->
-      <my-bread level1='权限管理' level2='权限列表'></my-bread>
-      <el-button class='sure' type="primary" @click="AddMenu = true" float-right>添加权限</el-button>
       <el-table :data="menuList" border stripe height="500">
         <el-table-column type="index" label="#"></el-table-column>
         <el-table-column label="权限名称" prop="name"></el-table-column>

@@ -5,36 +5,41 @@
       <div slot="header" class="clearfix">
         <i class="el-icon-s-grid"></i><span>修改其他个人信息</span>
       </div>
-      <div>
-        <el-form label-width="85px" :inline="true" :model ="ManMsg" :rules= "rules" ref= "ManMsg">
-          <el-form-item label="职工号:" >
-            <el-input v-model ="ManMsg.id" :disabled = "true"></el-input>
-          </el-form-item>
+      <div >
+        <center>
+          <el-form label-width="85px" :inline="true" :model ="ManMsg" :rules= "rules" ref= "ManMsg">
 
-          <el-form-item label = "姓名:">
-            <el-input v-model ="ManMsg.name" :disabled = "true"></el-input>
-          </el-form-item>
-
-          <el-form-item label = "部门:" >
-            <el-input v-model ="ManMsg.department.departName" :disabled = "true"></el-input>
-          </el-form-item>
-
-          <el-form-item label = "职位:" >
-            <el-input v-model ="ManMsg.position" :disabled= "true"></el-input>
-          </el-form-item>
-
-          <el-form-item label = "手机号:"  prop="Phone">
-            <el-input v-model ="ManMsg.Phone" placeholder="请输入新手机号" ></el-input>
-          </el-form-item>
-
-          <!--获取验证码-->
-          <el-form-item label="验证码" prop="confirm">
-                <el-input v-model="ManMsg.confirm" class="type1"></el-input>
-                <el-button class="confirm-btn" size="small" type="primary" :disabled="disable" :class="{ codeGeting:isGeting }" @click="getVerifyCode">{{getCode}}</el-button>
+            <el-form-item label="职工号:" style="margin-top:10px">
+              <el-input v-model ="ManMsg.id" readonly="readonly"></el-input>
             </el-form-item>
-        </el-form>
 
-        <el-button  type="primary"  @click = "dgVisible2(); changeMsg()"  style="display:block;margin:0 auto">确认修改</el-button>
+            <el-form-item label = "姓名:" style="margin-top:10px">
+              <el-input v-model ="ManMsg.name" readonly="readonly"></el-input>
+            </el-form-item>
+
+            <el-form-item label = "部门:" style="margin-top:10px">
+              <el-input v-model ="ManMsg.department.departName" readonly="readonly"></el-input>
+            </el-form-item>
+
+            <el-form-item label = "职位:" style="margin-top:10px">
+              <el-input v-model ="ManMsg.position" readonly="readonly"></el-input>
+            </el-form-item>
+
+            <el-form-item label = "手机号:"  prop="Phone" style="margin-top:10px">
+              <el-input v-model ="ManMsg.Phone" placeholder="请输入新手机号" ></el-input>
+            </el-form-item>
+
+            <el-form-item label="验证码:" prop="confirm" style="margin-top:10px">
+                  <el-input v-model="ManMsg.confirm" class="type1" placeholder="请输入验证码" style="width:100px"></el-input>
+            </el-form-item>
+
+            <el-from-item >
+              <el-button class="confirm-btn" size="small" style="margin-top:10px" type="primary" :disabled="disable" :class="{ codeGeting:isGeting }" @click="getVerifyCode" >{{getCode}}</el-button>
+            </el-from-item>
+        </el-form>
+        </center>
+
+        <el-button  type="primary"  @click = " changeMsg()"  style="display:block;margin:0 auto">确认修改</el-button>
       </div>
     </el-card>
     <el-dialog title = "提示" :visible.sync= "dialogVisible2" width="30%" :before-close="handleClose">
@@ -233,6 +238,10 @@ export default {
 
 .box-card {
   margin: 20px auto;
-  width: 100%;
+  width: 50%;
+  height: 100%;
+}
+.el-button {
+  margin-top: 10px;
 }
 </style>

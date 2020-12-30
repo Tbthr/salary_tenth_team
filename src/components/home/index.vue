@@ -1,21 +1,17 @@
 <template>
   <div>
-    <my-bread level1="公司信息统计" level2="员工信息统计"></my-bread>
-
-    <!--（全部职员信息统计）:男女比例：男、女（饼图：比例和具体人数）年龄分布及比例：20-30岁，30-40岁、40-50岁、50以上（饼图：比例和具体人数）政治面貌：党员、群众、共青团员、预备党员  （饼图：比例和具体人数）
-文化程度：小学、初中、高中、本科、硕士、博士、专科  （饼图：比例和具体人数）-->
-    <el-card>
+    <el-card class="el-card">
       <center>
         <el-form inline>
           <el-form-item>
             <div>
-              <span style="font-size: 28px;font-weight: bold;">年龄分布</span>
+              <span style="font-size: 28px;font-weight: bold;">性别分布</span>
             </div>
             <div id="myChart" style="width: 550px; height: 400px"></div>
           </el-form-item>
           <el-form-item>
             <div>
-                      <span style="font-size: 28px;font-weight: bold;">性别分布</span>
+                      <span style="font-size: 28px;font-weight: bold;">年龄分布</span>
             </div>
             <div id="myChart1" style="width: 550px; height: 400px"></div>
           </el-form-item>
@@ -75,7 +71,7 @@ export default {
         },
         series: [
           {
-            name: '访问来源',
+            name: '员工管理',
             type: 'pie',
             radius: ['50%', '70%'],
             avoidLabelOverlap: false,
@@ -135,7 +131,7 @@ export default {
         },
         series: [
           {
-            name: '访问来源',
+            name: '员工管理',
             type: 'pie',
             radius: ['50%', '70%'],
             avoidLabelOverlap: false,
@@ -172,7 +168,7 @@ export default {
         ]
       })
     },
-    // 政治面貌
+    // 部门比例
     drawLine2 () {
       let myChart2 = this.$echarts.init(document.getElementById('myChart2'))
       var data = []
@@ -195,7 +191,7 @@ export default {
         },
         series: [
           {
-            name: '访问来源',
+            name: '员工管理',
             type: 'pie',
             radius: ['50%', '70%'],
             avoidLabelOverlap: false,
@@ -226,7 +222,7 @@ export default {
         ]
       })
     },
-    // 文化程度
+    // 职位比例
     drawLine3 () {
       let myChart3 = this.$echarts.init(document.getElementById('myChart3'))
       var data = []
@@ -249,7 +245,7 @@ export default {
         },
         series: [
           {
-            name: '访问来源',
+            name: '员工管理',
             type: 'pie',
             radius: ['50%', '70%'],
             avoidLabelOverlap: false,
@@ -319,7 +315,7 @@ export default {
       }
       this.drawLine1(picList1)
     },
-    // 获取政治面貌
+    // 获取部门管理
     async getmyCharts2 () {
       var token = await localStorage.getItem('token')
       var res = await this.$axios.request(
@@ -338,11 +334,7 @@ export default {
       }
       this.drawLine2(picList2)
     },
-    /*
-     * 获取文化程度
-     *
-     *
-     * */
+    // 获取职位管理
     async getmyCharts3 () {
       var token = await localStorage.getItem('token')
       var res = await this.$axios.request(
@@ -364,6 +356,8 @@ export default {
   }
 }
 </script>
-
-<style>
+<style scoped>
+.el-card {
+  height: 100%;
+}
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-card>
       <!-- 面包屑导航区 -->
       <my-bread level1='权限管理' level2='角色列表'></my-bread>
+    <el-card>
       <!-- 添加角色按钮 -->
       <el-row>
           <el-col>

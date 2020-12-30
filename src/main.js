@@ -1,9 +1,9 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import ElementUI from 'element-ui'
 import App from './App'
 import router from './router'
-import ElementUI from 'element-ui'
 import axios from 'axios'
 import store from './store'
 import Validator from 'vue-validator'
@@ -14,6 +14,10 @@ import './assets/css/reset.css'
 import './assets/font/iconfont.css'
 import JsonExcel from 'vue-json-excel'
 import * as echarts from 'echarts'
+import 'xe-utils'
+import VXETable from 'vxe-table'
+import 'vxe-table/lib/style.css'
+Vue.use(VXETable)
 Vue.prototype.$echarts = echarts
 Vue.component('downloadExcel', JsonExcel)
 Vue.use(ElementUI)

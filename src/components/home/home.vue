@@ -97,19 +97,6 @@ export default {
       } else {
         this.$router.push({name: 'login'})
       }
-      // this.$axios.get('http://salary1.free.idcfengye.com/salary/index')
-      //   .then((res) => {
-      //     console.log(res)
-      //     if (res.data.meta.code !== 200) {
-      //       this.$message.error(res.data.meta.msg)
-      //       console.log(res.data)
-      //     } else {
-      //       this.menuList = res.data.data
-      //     }
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error)
-      //   })
     },
     // 菜单的折叠与展开
     togleCollapse () {

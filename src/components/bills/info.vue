@@ -1,17 +1,20 @@
-/* eslint-disable standard/object-curly-even-spacing */
+ /* eslint-disable standard/object-curly-even-spacing */
 
 <template>
- <!-- cd C:\Users\Administrator\Desktop\mayun\test\3\salary
+ <!-- cd C:\Users\Administrator\Desktop\salary\salary
  npm run dev
 
 -->
-  <div>
+  <div style="width:100%;height:680px;">
     <!-- 标题 -->
     <my-bread level1='账单信息' level2='查看账单'></my-bread>
-    <!-- 筛选框 -->
     <div class="demo_autocomplete">
-      <div v-if="this.level == 1">
-        <div class="div-ss">
+    </div>
+
+    <!-- 级别1用户card -->
+    <el-card class="card_p" v-if="this.level == 1">
+      <!-- 筛选框 -->
+      <div class="div-ss">
           <label v-text="this.sname_1[0]" class="search_font"></label>
           <el-date-picker
             v-model="state[0]"
@@ -37,10 +40,84 @@
 
         <el-button type="primary" @click.native="find()" class="but">查找</el-button>
         <el-button @click.native="rereas()" class="but">重置</el-button>
-      </div>
 
-      <div v-if="this.level == 2">
-        <div class="div-ss">
+      <!-- 表格 -->
+      <div class="tabc">
+        <el-table :data="tabledata1.slice(
+                (currentPage - 1) * PageSize,
+                currentPage * PageSize
+                )"
+
+                ref="multipleTable"
+                :row-key="getRowKeys"
+                tooltip-effect="dark"
+                height="440"
+                :row-class-name="tableRowClassName"
+                @selection-change="handleSelectionChange"
+                @sort-change="changeSort">
+
+          <el-table-column fixed type="selection" reserve-selection></el-table-column>
+          <el-table-column fixed label="年"  sortable align="center" prop="b_year" width="70px"></el-table-column>
+          <el-table-column fixed label="月"  sortable  align="center" prop="b_moth" width="60px"></el-table-column>
+          <el-table-column label="职工号" sortable align="center" prop="b_workid" width="110px"></el-table-column>
+          <el-table-column label="姓名"  align="center" prop="b_name" width="90px"></el-table-column>
+          <el-table-column label="部门"  align="center" prop="b_class" width="130px" show-overflow-tooltip></el-table-column>
+          <el-table-column label="职位"  align="center" prop="b_position" width="90px" show-overflow-tooltip></el-table-column>
+
+          <el-table-column label="基本工资" align="center">
+            <el-table-column label="基本工资"  prop="b_basem"></el-table-column>
+            <el-table-column label="工龄工资"  prop="b_agem"></el-table-column>
+            <el-table-column label="职位工资"  prop="b_cm"></el-table-column>
+          </el-table-column>
+
+          <el-table-column label="工资补贴" align="center">
+            <el-table-column label="餐饮补贴"  prop="b_eat"></el-table-column>
+            <el-table-column label="交通补贴"  prop="b_trasal"></el-table-column>
+            <el-table-column label="出差补贴"  prop="b_out"></el-table-column>
+            <el-table-column label="加班补贴"  prop="b_owsal"></el-table-column>
+            <el-table-column label="其他补贴"  prop="b_esal"></el-table-column>
+          </el-table-column>
+
+          <el-table-column label="扣款" align="center">
+            <el-table-column label="五险一金"  prop="b_x"></el-table-column>
+            <el-table-column label="个人税"  prop="b_t"></el-table-column>
+            <el-table-column label="缺勤扣款"  prop="b_on"></el-table-column>
+            <el-table-column label="其他扣款"  prop="b_e"></el-table-column>
+          </el-table-column >
+
+          <el-table-column label="应发工资" align="center" prop="b_realsal" width="110px"></el-table-column>
+        </el-table>
+      </div>
+      <!-- 分页 -->
+      <div class="tabListPage">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-size="PageSize"
+            layout="total, prev, pager, next, jumper"
+            :total="tabledata1.length"
+          >
+          </el-pagination>
+      </div>
+      <!-- 打印 -->
+      <div class="div-b">
+          <download-excel
+             :data   = "json_data"
+             :fields = "json_fields"
+             type    = "xls"
+             worksheet = "My Worksheet"
+             name    = "工资条.xls"
+            >
+            <el-button type="success" @click="printg()"> 打印工资条  </el-button>
+            <el-button @click="selectall()">选择全部数据</el-button>
+          </download-excel>
+        </div>
+    </el-card>
+<!-- 级别2用户card -->
+    <el-card class="card_p" v-if="this.level == 2">
+      <!-- 筛选框 -->
+      <div class="div-ss">
           <label v-text="this.sname_2[0]" class="search_font"></label>
           <el-date-picker
             v-model="state[0]"
@@ -94,10 +171,83 @@
 
         <el-button type="primary" @click.native="find()" class="but">查找</el-button>
         <el-button @click.native="rereas()" class="but">重置</el-button>
-      </div>
 
-      <div v-if="this.level == 3">
-        <div class="div-ss">
+<!-- 表格 -->
+
+      <div class="tabc">
+        <el-table :data="tabledata2.slice(
+                (currentPage - 1) * PageSize,
+                currentPage * PageSize
+                )"
+                height="440"
+                ref="multipleTable"
+                :row-key="getRowKeys"
+                :row-class-name="tableRowClassName"
+                tooltip-effect="dark"
+                @selection-change="handleSelectionChange"
+                @sort-change="changeSort">
+          <el-table-column fixed type="selection" reserve-selection></el-table-column>
+          <el-table-column fixed label="年"  sortable align="center" prop="b_year" width="70px"></el-table-column>
+          <el-table-column fixed label="月"  sortable align="center" prop="b_moth" width="60px"></el-table-column>
+          <el-table-column fixed label="职工号" sortable align="center" prop="b_workid" width="110px"></el-table-column>
+          <el-table-column fixed label="姓名"  align="center" prop="b_name" width="90px"></el-table-column>
+          <el-table-column label="部门"  align="center" prop="b_class" width="130px" show-overflow-tooltip></el-table-column>
+          <el-table-column label="职位"  align="center" prop="b_position" width="90px" show-overflow-tooltip></el-table-column>
+
+          <el-table-column label="基本工资" align="center">
+            <el-table-column label="基本工资"  prop="b_basem"></el-table-column>
+            <el-table-column label="工龄工资"  prop="b_agem"></el-table-column>
+            <el-table-column label="职位工资"  prop="b_cm"></el-table-column>
+          </el-table-column>
+
+          <el-table-column label="工资补贴" align="center">
+            <el-table-column label="餐饮补贴"  prop="b_eat"></el-table-column>
+            <el-table-column label="交通补贴"  prop="b_trasal"></el-table-column>
+            <el-table-column label="出差补贴"  prop="b_out"></el-table-column>
+            <el-table-column label="加班补贴"  prop="b_owsal"></el-table-column>
+            <el-table-column label="其他补贴"  prop="b_esal"></el-table-column>
+          </el-table-column>
+
+          <el-table-column label="扣款" align="center">
+            <el-table-column label="五险一金"  prop="b_x"></el-table-column>
+            <el-table-column label="个人税"  prop="b_t"></el-table-column>
+            <el-table-column label="缺勤扣款"  prop="b_on"></el-table-column>
+            <el-table-column label="其他扣款"  prop="b_e"></el-table-column>
+          </el-table-column >
+
+          <el-table-column label="应发工资" align="center" prop="b_realsal" width="110px"></el-table-column>
+        </el-table>
+      </div>
+      <!-- 分页 -->
+      <div class="tabListPage">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-size="PageSize"
+          layout="total, prev, pager, next, jumper"
+          :total="tabledata2.length"
+        >
+        </el-pagination>
+      </div>
+      <!-- 打印 -->
+      <div class="div-b">
+          <download-excel
+             :data   = "json_data"
+             :fields = "json_fields"
+             type    = "xls"
+             worksheet = "My Worksheet"
+             name    = "工资条.xls"
+            >
+            <el-button type="success" @click="printg()"> 打印工资条  </el-button>
+            <el-button @click="selectall()">选择全部数据</el-button>
+          </download-excel>
+        </div>
+    </el-card>
+<!-- 级别3,4用户card -->
+    <el-card class="card_p" v-if="this.level == 3">
+      <!-- 筛选框 -->
+      <div class="div-ss">
           <label v-text="this.sname_3[0]" class="search_font"></label>
           <el-date-picker
             v-model="state[0]"
@@ -166,171 +316,25 @@
 
         <el-button type="primary" @click.native="find()" class="but">查找</el-button>
         <el-button @click.native="rereas()" class="but">重置</el-button>
-      </div>
-    </div>
 
-    <!-- 表格1 -->
-    <el-card class="card_p" v-if="this.level == 1">
-      <div class="tabc">
-        <el-table :data="tabledata1.slice(
-                (currentPage - 1) * PageSize,
-                currentPage * PageSize
-                )"
-                ref="multipleTable"
-                :row-key="getRowKeys"
-                tooltip-effect="dark"
-                :row-class-name="tableRowClassName"
-                @selection-change="handleSelectionChange"
-                @sort-change="changeSort">
+<!-- 表格 -->
 
-          <el-table-column fixed type="selection" reserve-selection></el-table-column>
-          <el-table-column fixed label="年"  sortable align="center" prop="b_year" width="70px"></el-table-column>
-          <el-table-column fixed label="月"  sortable  align="center" prop="b_moth" width="60px"></el-table-column>
-          <el-table-column label="职工号" sortable align="center" prop="b_workid" width="110px"></el-table-column>
-          <el-table-column label="姓名"  align="center" prop="b_name" width="90px"></el-table-column>
-          <el-table-column label="部门"  align="center" prop="b_class" width="130px" show-overflow-tooltip></el-table-column>
-          <el-table-column label="职位"  align="center" prop="b_position" width="90px" show-overflow-tooltip></el-table-column>
-
-          <el-table-column label="基本工资" align="center">
-            <el-table-column label="基本工资"  prop="b_basem"></el-table-column>
-            <el-table-column label="工龄工资"  prop="b_agem"></el-table-column>
-            <el-table-column label="职位工资"  prop="b_cm"></el-table-column>
-          </el-table-column>
-
-          <el-table-column label="工资补贴" align="center">
-            <el-table-column label="餐饮补贴"  prop="b_eat"></el-table-column>
-            <el-table-column label="交通补贴"  prop="b_trasal"></el-table-column>
-            <el-table-column label="出差补贴"  prop="b_out"></el-table-column>
-            <el-table-column label="加班补贴"  prop="b_owsal"></el-table-column>
-            <el-table-column label="其他补贴"  prop="b_esal"></el-table-column>
-          </el-table-column>
-
-          <el-table-column label="扣款" align="center">
-            <el-table-column label="五险一金"  prop="b_x"></el-table-column>
-            <el-table-column label="个人税"  prop="b_t"></el-table-column>
-            <el-table-column label="缺勤扣款"  prop="b_on"></el-table-column>
-            <el-table-column label="其他扣款"  prop="b_e"></el-table-column>
-          </el-table-column >
-
-          <el-table-column label="应发工资" align="center" prop="b_realsal"></el-table-column>
-        </el-table>
-      </div>
-      <!-- 分页 -->
-      <div class="tabListPage">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-size="PageSize"
-            layout="total, prev, pager, next, jumper"
-            :total="tabledata1.length"
-          >
-          </el-pagination>
-      </div>
-      <!-- 打印 -->
-      <div class="div-b">
-          <download-excel
-             :data   = "json_data"
-             :fields = "json_fields"
-             type    = "xls"
-             worksheet = "My Worksheet"
-             name    = "工资条.xls"
-            >
-            <el-button type="success" @click="printg()"> 打印工资条  </el-button>
-            <el-button @click="selectall()">选择全部数据</el-button>
-          </download-excel>
-        </div>
-    </el-card>
-<!-- 表格1 -->
-    <el-card class="card_p" v-if="this.level == 2">
-      <div class="tabc">
-        <el-table :data="tabledata2.slice(
-                (currentPage - 1) * PageSize,
-                currentPage * PageSize
-                )"
-                ref="multipleTable"
-                :row-key="getRowKeys"
-                :row-class-name="tableRowClassName"
-                tooltip-effect="dark"
-                @selection-change="handleSelectionChange"
-                @sort-change="changeSort">
-          <el-table-column fixed type="selection" reserve-selection></el-table-column>
-          <el-table-column fixed label="年"  sortable align="center" prop="b_year" width="70px"></el-table-column>
-          <el-table-column fixed label="月"  sortable align="center" prop="b_moth" width="60px"></el-table-column>
-          <el-table-column fixed label="职工号" sortable align="center" prop="b_workid" width="110px"></el-table-column>
-          <el-table-column fixed label="姓名"  align="center" prop="b_name" width="90px"></el-table-column>
-          <el-table-column label="部门"  align="center" prop="b_class" width="130px" show-overflow-tooltip></el-table-column>
-          <el-table-column label="职位"  align="center" prop="b_position" width="90px" show-overflow-tooltip></el-table-column>
-
-          <el-table-column label="基本工资" align="center">
-            <el-table-column label="基本工资"  prop="b_basem"></el-table-column>
-            <el-table-column label="工龄工资"  prop="b_agem"></el-table-column>
-            <el-table-column label="职位工资"  prop="b_cm"></el-table-column>
-          </el-table-column>
-
-          <el-table-column label="工资补贴" align="center">
-            <el-table-column label="餐饮补贴"  prop="b_eat"></el-table-column>
-            <el-table-column label="交通补贴"  prop="b_trasal"></el-table-column>
-            <el-table-column label="出差补贴"  prop="b_out"></el-table-column>
-            <el-table-column label="加班补贴"  prop="b_owsal"></el-table-column>
-            <el-table-column label="其他补贴"  prop="b_esal"></el-table-column>
-          </el-table-column>
-
-          <el-table-column label="扣款" align="center">
-            <el-table-column label="五险一金"  prop="b_x"></el-table-column>
-            <el-table-column label="个人税"  prop="b_t"></el-table-column>
-            <el-table-column label="缺勤扣款"  prop="b_on"></el-table-column>
-            <el-table-column label="其他扣款"  prop="b_e"></el-table-column>
-          </el-table-column >
-
-          <el-table-column label="应发工资" align="center" prop="b_realsal"></el-table-column>
-        </el-table>
-      </div>
-      <!-- 分页 -->
-      <div class="tabListPage">
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-size="PageSize"
-          layout="total, prev, pager, next, jumper"
-          :total="tabledata2.length"
-        >
-        </el-pagination>
-      </div>
-      <!-- 打印 -->
-      <div class="div-b">
-          <download-excel
-             :data   = "json_data"
-             :fields = "json_fields"
-             type    = "xls"
-             worksheet = "My Worksheet"
-             name    = "工资条.xls"
-            >
-            <el-button type="success" @click="printg()"> 打印工资条  </el-button>
-            <el-button @click="selectall()">选择全部数据</el-button>
-          </download-excel>
-        </div>
-    </el-card>
-<!-- 表格1 -->
-    <el-card class="card_p" v-if="this.level == 3">
       <div class="tabc">
         <el-table :data="tabledata3.slice(
                 (currentPage - 1) * PageSize,
                 currentPage * PageSize
                 )"
+
                 ref="multipleTable"
                 :row-key="getRowKeys"
                 :row-class-name="tableRowClassName"
                 :header-cell-style="rowclass"
                 tooltip-effect="dark"
+                height="440"
                 @selection-change="handleSelectionChange"
                 style="width:100%;"
                 @sort-change="changeSort">
-<<<<<<< HEAD
-=======
 
->>>>>>> d377d02 (整合项目)
           <el-table-column fixed type="selection" reserve-selection></el-table-column>
           <el-table-column fixed label="年"  sortable prop="b_year" align="center" width="70px" style="background-color:red;"></el-table-column>
           <el-table-column fixed label="月"  sortable prop="b_moth" align="center" width="60px"></el-table-column>
@@ -360,7 +364,7 @@
             <el-table-column label="其他扣款"  prop="b_e"></el-table-column>
           </el-table-column >
 
-          <el-table-column label="应发工资" align="center" prop="b_realsal"></el-table-column>
+          <el-table-column label="应发工资" align="center" prop="b_realsal" width="110px"></el-table-column>
 
        </el-table>
       </div>
@@ -414,9 +418,9 @@ export default {
 
       tbd: [],
 
-      sname_1: ['筛选年', '筛选月'],
-      sname_2: ['筛选年', '筛选月', '查询职工号', '查询姓名'],
-      sname_3: ['筛选年', '筛选月', '查询职工号', '查询姓名', '筛选部门'],
+      sname_1: ['年', '月'],
+      sname_2: ['年', '月', '职工号', '姓名'],
+      sname_3: ['年', '月', '职工号', '姓名', '部门'],
       sname: [],
       snum: null,
 
@@ -448,7 +452,7 @@ export default {
       // 个数选择器（可修改）
       pageSizes: [5, 10, 15, 20],
       // 默认每页显示的条数（可修改）
-      PageSize: 6,
+      PageSize: 7,
 
       reltabledata: [],
       json_fields: {
@@ -566,7 +570,7 @@ export default {
       if (this.level == 2) this.tabledata2 = table
       if (this.level == 3) this.tabledata3 = table
     },
-    rowclass ({row, rowIndex}) {
+    rowclass ({row, rowIndex}) { // 斑马条纹
       if (rowIndex === 3) return 'background:red;color:#555'
     },
     clearJ () {
@@ -607,12 +611,14 @@ export default {
       }
     },
 
-    tableRowClassName ({row, rowIndex}) {
-      if (rowIndex === 1) {
-        return 'warning-row'
-      } else if (rowIndex === 3) {
+    tableRowClassName ({row, rowIndex}) { // 斑马条纹
+      if (rowIndex === 0) {
         return 'success-row'
-      } else if (rowIndex === 5) {
+      } else if (rowIndex === 2) {
+        return 'success-row'
+      } else if (rowIndex === 4) {
+        return 'success-row'
+      } else if (rowIndex === 6) {
         return 'success-row'
       }
       return ''
@@ -626,7 +632,7 @@ export default {
         this.toggleSelection([table[i]])
       }
     },
-    toggleSelection (rows) {
+    toggleSelection (rows) { // 选中数据
       if (rows) {
         rows.forEach(row => {
           this.$refs.multipleTable.toggleRowSelection(row)
@@ -640,7 +646,7 @@ export default {
       return row.b_workid + row.b_year + row.b_moth
     },
 
-    clearSelect () {
+    clearSelect () { // 清除选中
       this.$refs.multipleTable.clearSelection()
     },
 
@@ -959,7 +965,7 @@ export default {
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style >
+<style>
   .el-table .warning-row {
     background: #f0f9eb;
   }
@@ -1000,13 +1006,13 @@ export default {
     font-size: 14px;
   }
   .card_p{
-    margin: 50px auto;
-    height: 494px;
+    margin: 10px auto;
+    height: 630px;
     width: 100%;
 
   }
   .demo_autocomplete{
-    margin-top:30px;
+    margin-top:20px;
     margin-left:10px;
   }
   .font_title{
@@ -1017,13 +1023,15 @@ export default {
     border: solid;
   }
   .tabc{
-    height: 370px;
+    margin: 20px;
+    height: 460px;
   }
   body .el-table th.gutter{
     display: table-cell!important;
   }
   .tabListPage{
     margin-top:26px;
+    float: right;
   }
 
 </style>
