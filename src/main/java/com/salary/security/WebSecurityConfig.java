@@ -18,7 +18,6 @@ import org.springframework.web.cors.CorsUtils;
 
 import javax.annotation.Resource;
 
-
 /**
  * spring security 的配置
  */
